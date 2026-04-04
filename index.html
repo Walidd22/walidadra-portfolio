@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Walid Adra — Frontend Developer | WebRift</title>
+  <meta name="description" content="Walid Adra — Frontend Developer specializing in high-performance SaaS interfaces. Founder of WebRift, a web development agency based in Lebanon.">
+  <meta name="keywords" content="Walid Adra, frontend developer, web developer, Lebanon, WebRift, React, portfolio, SaaS">
+  <meta name="author" content="Walid Adra">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Walid Adra — Frontend Developer | WebRift">
+  <meta property="og:description" content="Frontend Developer building high-performance web experiences. Founder of WebRift.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Walid Adra — Frontend Developer">
+  <meta name="twitter:description" content="Building high-performance SaaS interfaces. Founder of WebRift.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Lenis Smooth Scroll -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader">
+    <span class="page-loader__text">loading</span>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">WA<span>.</span></a>
+      <div class="nav__links">
+        <a href="#about" class="nav__link" data-cursor="expand">About</a>
+        <a href="#experience" class="nav__link" data-cursor="expand">Experience</a>
+        <a href="#skills" class="nav__link" data-cursor="expand">Skills</a>
+        <a href="#contact" class="nav__link" data-cursor="expand">Contact</a>
+      </div>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__mobile" id="navMobile">
+    <a href="#about" class="nav__mobile-link" data-cursor="expand">About</a>
+    <a href="#experience" class="nav__mobile-link" data-cursor="expand">Experience</a>
+    <a href="#skills" class="nav__mobile-link" data-cursor="expand">Skills</a>
+    <a href="#contact" class="nav__mobile-link" data-cursor="expand">Contact</a>
+  </div>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero section" id="hero">
+      <div class="hero__grid"></div>
+      <div class="container hero__content">
+        <span class="label label--accent hero__label gs-reveal">Frontend Developer & Agency Founder</span>
+        <h1 class="hero__name gs-reveal" data-text="WALID ADRA">WALID ADRA</h1>
+        <div class="hero__divider gs-reveal"></div>
+        <div class="hero__info gs-reveal">
+          <p class="hero__title">Building high-performance interfaces<br>for products that matter.</p>
+          <span class="hero__agency">Founder — WebRift</span>
+        </div>
+      </div>
+      <div class="hero__scroll gs-reveal">
+        <span class="hero__scroll-text">Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about section" id="about">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">01</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">About</h2>
+        </div>
+
+        <div class="about__grid">
+          <div class="about__photo-wrap gs-reveal">
+            <img src="assets/images/profile.jpg" alt="Walid Adra — Frontend Developer" class="about__photo" loading="lazy">
+            <div class="about__photo-frame"></div>
+          </div>
+
+          <div class="about__text">
+            <p class="gs-reveal">Frontend Developer with hands-on experience building and shipping a full-scale AI-powered SaaS platform. I specialize in creating high-performance, responsive, and interactive interfaces for complex products — trading dashboards, AI-driven applications, and data-heavy systems.</p>
+
+            <p class="gs-reveal">I approach frontend as part of the full product, not just UI. From performance bottlenecks and mobile UX constraints to scalable architecture — I solve real product challenges and communicate technical decisions clearly.</p>
+
+            <p class="gs-reveal">I also run <strong style="color: var(--accent);">WebRift</strong> — a web development agency focused on delivering high-quality, performance-driven web experiences for businesses and startups.</p>
+
+            <div class="about__stats gs-reveal" style="visibility: hidden;">
+              <div class="stat">
+                <div class="stat__number" data-count="2">0</div>
+                <div class="stat__label">Years Exp.</div>
+              </div>
+              <div class="stat">
+                <div class="stat__number" data-count="15">0</div>
+                <div class="stat__label">Pages Built</div>
+              </div>
+              <div class="stat">
+                <div class="stat__number" data-count="1">0</div>
+                <div class="stat__label">SaaS Shipped</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section class="experience section" id="experience">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">02</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Experience</h2>
+        </div>
+
+        <div class="timeline">
+
+          <!-- Aris AI -->
+          <div class="timeline__item gs-reveal">
+            <div class="timeline__dot"></div>
+            <span class="timeline__date">Jan 2026 — Present</span>
+            <div class="timeline__card">
+              <h3 class="timeline__role">Frontend Developer</h3>
+              <span class="timeline__company">Aris AI — AI-Powered Trading Platform</span>
+              <ul class="timeline__highlights">
+                <li>Built ~80% of the frontend for a complex SaaS platform including trading dashboards, AI chat, and content systems</li>
+                <li>Designed UI architecture for a 15+ page application focused on scalability and performance</li>
+                <li>Engineered mobile-first trading experience with touch-optimized interactions</li>
+                <li>Solved performance bottlenecks using memoization and optimized component structure</li>
+              </ul>
+              <div class="timeline__tags">
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Zustand</span>
+                <span class="tag">TanStack Query</span>
+                <span class="tag">WebSockets</span>
+                <span class="tag">Tailwind</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telecloud -->
+          <div class="timeline__item gs-reveal">
+            <div class="timeline__dot"></div>
+            <span class="timeline__date">Summer 2025</span>
+            <div class="timeline__card">
+              <h3 class="timeline__role">Junior Frontend Developer</h3>
+              <span class="timeline__company">Telecloud Vision — Beirut, Lebanon</span>
+              <ul class="timeline__highlights">
+                <li>Built and improved UI components within a production React codebase</li>
+                <li>Applied clean architecture patterns and team workflows</li>
+                <li>Contributed to maintaining UI consistency and performance</li>
+              </ul>
+              <div class="timeline__tags">
+                <span class="tag">React</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">CSS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Freelance -->
+          <div class="timeline__item gs-reveal">
+            <div class="timeline__dot"></div>
+            <span class="timeline__date">2024 — 2025</span>
+            <div class="timeline__card">
+              <h3 class="timeline__role">Freelance Web Developer</h3>
+              <span class="timeline__company">Self-Employed / WebRift</span>
+              <ul class="timeline__highlights">
+                <li>Delivered complete websites from concept to deployment for multiple clients</li>
+                <li>Focused on responsive design, performance, and SEO</li>
+                <li>Managed communication, requirements, and delivery independently</li>
+              </ul>
+              <div class="timeline__tags">
+                <span class="tag">HTML/CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">React</span>
+                <span class="tag">SEO</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===== SKILLS ===== -->
+    <section class="skills section" id="skills">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">03</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Skills</h2>
+        </div>
+      </div>
+
+      <!-- Marquee Row 1 (left) -->
+      <div class="marquee" data-direction="left">
+        <div class="marquee__track">
+          <span class="marquee__item">React</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">TypeScript</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Next.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Vue.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Tailwind</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">GSAP</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Framer Motion</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">React Native</span>
+          <span class="marquee__separator">✦</span>
+          <!-- Duplicated for seamless loop -->
+          <span class="marquee__item">React</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">TypeScript</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Next.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Vue.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Tailwind</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">GSAP</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Framer Motion</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">React Native</span>
+          <span class="marquee__separator">✦</span>
+        </div>
+      </div>
+
+      <!-- Marquee Row 2 (right) -->
+      <div class="marquee" data-direction="right">
+        <div class="marquee__track">
+          <span class="marquee__item">Node.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">NestJS</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Prisma</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Docker</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">AWS</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Playwright</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">LangChain</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">WebSockets</span>
+          <span class="marquee__separator">✦</span>
+          <!-- Duplicated -->
+          <span class="marquee__item">Node.js</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">NestJS</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Prisma</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Docker</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">AWS</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">Playwright</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">LangChain</span>
+          <span class="marquee__separator">✦</span>
+          <span class="marquee__item">WebSockets</span>
+          <span class="marquee__separator">✦</span>
+        </div>
+      </div>
+
+      <!-- Skills Detail Grid -->
+      <div class="container">
+        <div class="skills__grid gs-reveal">
+          <div class="skills__cell">
+            <div class="skills__cell-label">Frontend</div>
+            <div class="skills__cell-name">React / Next.js</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Frontend</div>
+            <div class="skills__cell-name">Vue.js</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Language</div>
+            <div class="skills__cell-name">TypeScript</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Styling</div>
+            <div class="skills__cell-name">Tailwind CSS</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Animation</div>
+            <div class="skills__cell-name">GSAP / Framer</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">State</div>
+            <div class="skills__cell-name">Zustand / TanStack</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Mobile</div>
+            <div class="skills__cell-name">React Native</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Backend</div>
+            <div class="skills__cell-name">Node / NestJS</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Database</div>
+            <div class="skills__cell-name">Prisma ORM</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">DevOps</div>
+            <div class="skills__cell-name">Docker / AWS</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">AI / ML</div>
+            <div class="skills__cell-name">LangChain / RAG</div>
+          </div>
+          <div class="skills__cell">
+            <div class="skills__cell-label">Testing</div>
+            <div class="skills__cell-name">Playwright / Jest</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact section" id="contact">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">04</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Contact</h2>
+        </div>
+
+        <h3 class="contact__heading gs-reveal">
+          Let's build<br>something great.
+        </h3>
+
+        <div class="contact__grid">
+          <div class="contact__info gs-reveal">
+            <div class="contact__info-item">
+              <div class="contact__info-label">Email</div>
+              <div class="contact__info-value">
+                <a href="mailto:walid92.adra@gmail.com" data-cursor="expand">walid92.adra@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact__info-item">
+              <div class="contact__info-label">Phone</div>
+              <div class="contact__info-value">
+                <a href="tel:+96171467073" data-cursor="expand">+961 71 467 073</a>
+              </div>
+            </div>
+            <div class="contact__info-item">
+              <div class="contact__info-label">Location</div>
+              <div class="contact__info-value">Tripoli, Lebanon</div>
+            </div>
+            <div class="contact__info-item">
+              <div class="contact__info-label">Education</div>
+              <div class="contact__info-value">BSc Computing with Business — AOU</div>
+            </div>
+          </div>
+
+          <div class="contact__socials gs-reveal">
+            <a href="https://github.com/Walidd22" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
+              <span>GitHub</span>
+              <span class="contact__social-arrow">→</span>
+            </a>
+            <a href="https://www.linkedin.com/in/walid-adra-452363273/" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
+              <span>LinkedIn</span>
+              <span class="contact__social-arrow">→</span>
+            </a>
+            <a href="https://www.instagram.com/web_rift?igsh=MXNnMm05cWpqNmtsdg==" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
+              <span>WebRift — Instagram</span>
+              <span class="contact__social-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__copy">© 2026 Walid Adra / <span>WebRift</span></span>
+      <a href="#hero" class="footer__top" data-cursor="expand">Back to top ↑</a>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

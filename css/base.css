@@ -1,0 +1,150 @@
+/* ========================================
+   BASE — Global Styles
+   ======================================== */
+
+html {
+  background: var(--bg);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Noise Grain Overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Selection */
+::selection {
+  background: var(--blue);
+  color: var(--white);
+}
+
+::-moz-selection {
+  background: var(--blue);
+  color: var(--white);
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-700);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-600);
+}
+
+/* Typography Base */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+p {
+  line-height: var(--leading-normal);
+  color: var(--text-dim);
+}
+
+/* Links */
+a {
+  transition: color var(--duration-fast) ease;
+}
+a:hover {
+  color: var(--accent);
+}
+
+/* Monospace Labels */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--text-muted);
+}
+
+.label--accent {
+  color: var(--accent);
+}
+
+/* Custom Cursor */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-normal) var(--ease-out-expo),
+              height var(--duration-normal) var(--ease-out-expo),
+              background var(--duration-normal) var(--ease-out-expo),
+              border-color var(--duration-normal) var(--ease-out-expo);
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+.cursor.is-active {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--blue-bright);
+}
+
+.cursor.is-hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* Hide custom cursor on touch */
+@media (hover: none), (pointer: coarse) {
+  .cursor { display: none !important; }
+  body { cursor: auto; }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* GSAP visibility helper */
+.gs-reveal {
+  visibility: hidden;
+}

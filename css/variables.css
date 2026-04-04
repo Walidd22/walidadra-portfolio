@@ -1,0 +1,108 @@
+/* ========================================
+   DESIGN SYSTEM — Variables
+   ======================================== */
+
+:root {
+  /* === PALETTE === */
+  --black:        #050505;
+  --black-rich:   #0A0A0B;
+  --white:        #EDEDED;
+  --white-soft:   #D4D4D4;
+  --blue:         #0055FF;
+  --blue-bright:  #2979FF;
+  --blue-glow:    #4D94FF;
+  --blue-dark:    #003ECB;
+
+  /* Neutrals */
+  --gray-950:     #0E0E0F;
+  --gray-900:     #141415;
+  --gray-800:     #1C1C1E;
+  --gray-700:     #2C2C2E;
+  --gray-600:     #3A3A3C;
+  --gray-500:     #545456;
+  --gray-400:     #7C7C80;
+  --gray-300:     #A1A1A6;
+  --gray-200:     #C7C7CC;
+
+  /* Semantic */
+  --bg:           var(--black);
+  --bg-elevated:  var(--gray-950);
+  --bg-card:      var(--gray-900);
+  --text:         var(--white);
+  --text-dim:     var(--gray-300);
+  --text-muted:   var(--gray-500);
+  --accent:       var(--blue);
+  --accent-hover: var(--blue-bright);
+
+  /* Borders */
+  --border-hair:   1px solid rgba(255, 255, 255, 0.06);
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.10);
+  --border-medium: 1px solid rgba(255, 255, 255, 0.18);
+  --border-strong: 2px solid var(--white);
+
+  /* === TYPOGRAPHY === */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  /* Fluid Type Scale */
+  --text-xs:    clamp(0.6875rem, 0.65rem + 0.19vw, 0.8125rem);
+  --text-sm:    clamp(0.8125rem, 0.76rem + 0.26vw, 0.9375rem);
+  --text-base:  clamp(0.9375rem, 0.88rem + 0.31vw, 1.0625rem);
+  --text-lg:    clamp(1.0625rem, 0.96rem + 0.52vw, 1.3125rem);
+  --text-xl:    clamp(1.375rem, 1.15rem + 1.13vw, 1.875rem);
+  --text-2xl:   clamp(1.75rem, 1.35rem + 2vw, 2.75rem);
+  --text-3xl:   clamp(2.25rem, 1.6rem + 3.25vw, 4rem);
+  --text-4xl:   clamp(2.75rem, 1.8rem + 4.75vw, 5.5rem);
+  --text-hero:  clamp(3.25rem, 1.5rem + 8.75vw, 9rem);
+
+  /* Leading */
+  --leading-none:    0.95;
+  --leading-tight:   1.05;
+  --leading-snug:    1.25;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
+
+  /* Tracking */
+  --tracking-tighter: -0.04em;
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.06em;
+  --tracking-wider:   0.12em;
+  --tracking-widest:  0.2em;
+
+  /* === SPACING === */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-section: clamp(6rem, 4rem + 6vw, 12rem);
+
+  /* === LAYOUT === */
+  --container-max: 1360px;
+  --container-pad: clamp(1.25rem, 1rem + 2vw, 3rem);
+  --grid-gap:      clamp(1rem, 0.5rem + 1.5vw, 2rem);
+
+  /* === EFFECTS === */
+  --shadow-brutal:   4px 4px 0 var(--blue);
+  --shadow-brutal-lg: 6px 6px 0 var(--blue);
+  --glow:            0 0 30px rgba(0, 85, 255, 0.25);
+  --glow-strong:     0 0 60px rgba(0, 85, 255, 0.35);
+  --noise-opacity:   0.035;
+
+  /* === TRANSITIONS === */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 300ms;
+  --duration-slow:   600ms;
+}
