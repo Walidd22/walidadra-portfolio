@@ -54,7 +54,7 @@
   --text-2xl:   clamp(1.75rem, 1.35rem + 2vw, 2.75rem);
   --text-3xl:   clamp(2.25rem, 1.6rem + 3.25vw, 4rem);
   --text-4xl:   clamp(2.75rem, 1.8rem + 4.75vw, 5.5rem);
-  --text-hero:  clamp(3.25rem, 1.5rem + 8.75vw, 9rem);
+  --text-hero:  clamp(3.25rem, 1.5rem + 7vw, 7rem);
 
   /* Leading */
   --leading-none:    0.95;
