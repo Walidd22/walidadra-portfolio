@@ -62,13 +62,15 @@
   pointer-events: none;
 }
 
-.hero__name:hover::before {
+.hero__name:hover::before,
+.hero__name.is-glitching::before {
   opacity: 0.8;
   color: var(--blue-bright);
   animation: glitch-1 0.3s infinite linear alternate;
 }
 
-.hero__name:hover::after {
+.hero__name:hover::after,
+.hero__name.is-glitching::after {
   opacity: 0.6;
   color: var(--blue-glow);
   animation: glitch-2 0.3s infinite linear alternate-reverse;

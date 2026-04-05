@@ -134,6 +134,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- HERO GLITCH ON FIRST SCROLL (MOBILE) ----
+  if (window.matchMedia('(hover: none)').matches) {
+    const heroName = document.querySelector('.hero__name');
+    if (heroName) {
+      let glitched = false;
+      function triggerGlitch() {
+        if (glitched) return;
+        glitched = true;
+        heroName.classList.add('is-glitching');
+        setTimeout(() => heroName.classList.remove('is-glitching'), 1500);
+        window.removeEventListener('scroll', triggerGlitch);
+        window.removeEventListener('touchmove', triggerGlitch);
+      }
+      window.addEventListener('scroll', triggerGlitch, { passive: true });
+      window.addEventListener('touchmove', triggerGlitch, { passive: true });
+    }
+  }
+
   // ---- ACTIVE NAV LINK HIGHLIGHT ----
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav__link');

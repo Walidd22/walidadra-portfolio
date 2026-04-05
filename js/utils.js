@@ -47,10 +47,7 @@ function splitText(element, type = 'chars') {
       element.appendChild(wrapper);
 
       if (i < words.length - 1) {
-        const space = document.createElement('span');
-        space.innerHTML = '&nbsp;';
-        space.style.display = 'inline-block';
-        element.appendChild(space);
+        element.appendChild(document.createTextNode(' '));
       }
     });
     return element.querySelectorAll('.word-inner');
