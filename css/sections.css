@@ -479,7 +479,6 @@
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tighter);
   margin-bottom: var(--space-16);
-  overflow: hidden;
 }
 
 .contact__heading .word {
