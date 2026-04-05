@@ -56,6 +56,7 @@
 /* ---- Mobile adjustments (max-width) ---- */
 @media (max-width: 599px) {
   .hero__name {
+    white-space: normal;
     word-break: break-word;
   }
 
