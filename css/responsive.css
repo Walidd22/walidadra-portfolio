@@ -88,8 +88,12 @@
     left: -5px;
   }
 
+  .section__title {
+    font-size: var(--text-2xl);
+  }
+
   .contact__heading {
-    font-size: var(--text-3xl);
+    font-size: var(--text-2xl);
   }
 
   .footer__inner {
