@@ -361,4 +361,14 @@ function initAnimations() {
   animateSkillsGrid();
   animateContact();
   animateDividers();
+
+  // Generic catch-all for any gs-reveal not handled above (e.g. case study pages)
+  document.querySelectorAll('.gs-reveal').forEach(el => {
+    if (el.style.visibility === 'visible') return;
+    el.style.visibility = 'visible';
+    gsap.from(el, {
+      y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+  });
 }
