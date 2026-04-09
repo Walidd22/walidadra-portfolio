@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyPizza — Restaurant Ordering Platform | Walid Adra</title>
+  <meta name="description" content="My first full-stack product, built entirely solo. A complete restaurant ordering platform with gamification, admin dashboards, push notifications, and PWA.">
+  <meta name="author" content="Walid Adra">
+
+  <meta property="og:title" content="MyPizza — Restaurant Platform | Walid Adra">
+  <meta property="og:description" content="Built entirely solo — full-stack restaurant platform with 10+ integrated systems.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/sections.css">
+  <link rel="stylesheet" href="../css/case-study.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="page-loader" id="pageLoader">
+    <span class="page-loader__text">loading</span>
+  </div>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav class="nav is-scrolled" id="nav">
+    <div class="container nav__inner">
+      <a href="../" class="nav__logo">WA<span>.</span></a>
+      <div class="nav__links">
+        <a href="../#about" class="nav__link" data-cursor="expand">About</a>
+        <a href="../#projects" class="nav__link" data-cursor="expand">Projects</a>
+        <a href="../#experience" class="nav__link" data-cursor="expand">Experience</a>
+        <a href="../#skills" class="nav__link" data-cursor="expand">Skills</a>
+        <a href="../#contact" class="nav__link" data-cursor="expand">Contact</a>
+      </div>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" id="navMobile">
+    <a href="../#about" class="nav__mobile-link" data-cursor="expand">About</a>
+    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
+    <a href="../#experience" class="nav__mobile-link" data-cursor="expand">Experience</a>
+    <a href="../#skills" class="nav__mobile-link" data-cursor="expand">Skills</a>
+    <a href="../#contact" class="nav__mobile-link" data-cursor="expand">Contact</a>
+  </div>
+
+  <main>
+
+    <section class="case-hero">
+      <div class="case-hero__glow" style="background: radial-gradient(circle, rgba(139,26,26,0.1) 0%, transparent 70%);"></div>
+      <div class="container" style="position: relative; z-index: 2;">
+        <a href="../#projects" class="case-hero__back gs-reveal" data-cursor="expand">← Back to Projects</a>
+
+        <div class="case-hero__meta gs-reveal">
+          <span>Full-Stack Platform</span>
+          <span class="case-hero__meta-sep">/</span>
+          <span>Solo Build</span>
+        </div>
+
+        <h1 class="case-hero__title gs-reveal">MyPizza</h1>
+        <p class="case-hero__tagline gs-reveal">My first full-stack product, built entirely solo. I handled everything — database schema, API routes, frontend UI, admin dashboard, gamification systems, push notifications, and PWA setup. From zero to a production restaurant platform.</p>
+
+        <div class="case-hero__facts gs-reveal">
+          <div>
+            <div class="case-hero__fact-label">My Role</div>
+            <div class="case-hero__fact-value">Everything</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Team</div>
+            <div class="case-hero__fact-value">Just Me</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Portals</div>
+            <div class="case-hero__fact-value">3 (Customer, Admin, Staff)</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Systems</div>
+            <div class="case-hero__fact-value">10+</div>
+          </div>
+        </div>
+        <a href="https://myypizza.com" class="case-hero__live-link gs-reveal" target="_blank" rel="noopener" data-cursor="expand">View Live Site →</a>
+      </div>
+    </section>
+
+
+    <section class="case-img">
+      <div class="container">
+        <div class="case-img__wrap gs-reveal">
+          <div class="case-img__placeholder" style="background: #1a0a0a;">
+            <img src="../assets/projects/my-pizza/full-page.png" alt="MyPizza Homepage" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-overview">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">01</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Overview</h2>
+        </div>
+
+        <div class="case-overview__text">
+          <p class="gs-reveal">This was my proving ground as a full-stack developer. MyPizza is a production restaurant ordering platform I built for a wood-fired pizza place in Tripoli, Lebanon. Not a tutorial project — a real system with real users, handling real orders.</p>
+
+          <p class="gs-reveal">I designed the database schema in Supabase, wrote every API route, built the entire frontend with Next.js 16 and React 19, created a full admin dashboard with 7 management tabs, built a separate staff portal for kitchen and delivery teams, implemented a gamification layer with a spin wheel and loyalty points, and set up push notifications and PWA support.</p>
+
+          <p class="gs-reveal">Building this solo forced me to think about every layer of a product — not just the UI, but database design, authentication flows, notification infrastructure, analytics, and the business logic that connects it all. It's the project that made me a full-stack developer, not just a frontend developer.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-highlights">
+      <div class="container">
+        <div class="case-highlights__grid gs-reveal">
+          <div class="case-highlight">
+            <div class="case-highlight__number">10+</div>
+            <div class="case-highlight__label">Core Systems</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">1</div>
+            <div class="case-highlight__label">Developer (Me)</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">3</div>
+            <div class="case-highlight__label">User Portals</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">2</div>
+            <div class="case-highlight__label">Currencies</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-features">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">02</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">What I Built</h2>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: #1a0f0f;">
+              <img src="../assets/projects/my-pizza/menu.png" alt="MyPizza Menu" loading="lazy">
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">01</div>
+            <h3 class="case-feature__title">Menu, Cart & Checkout</h3>
+            <p class="case-feature__desc">Dynamic menu fetched from Supabase with category filtering. Customization modals with presets and paid extras. Persistent localStorage cart. Multi-step checkout with dual currency (USD/LBP), promo code validation, and loyalty point redemption. WhatsApp fallback ordering.</p>
+            <div class="case-feature__tech">Supabase, React Context, localStorage, Framer Motion transitions</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #15100a 0%, #2a1f10 100%);">
+              <span class="case-feature__img-text">Photos coming soon</span>
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">02</div>
+            <h3 class="case-feature__title">Gamification — Spin Wheel & Loyalty</h3>
+            <p class="case-feature__desc">This was the most fun to build. A canvas-rendered spin wheel with weighted probability — customers spend loyalty points to spin for discounts, free delivery, or free items. Real promo codes generated on win. Plus a loyalty system that tracks lifetime points and a flash promo engine for time-limited deals.</p>
+            <div class="case-feature__tech">Canvas API, probability engine, auto promo code generation, Supabase ledger</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: #0a0f15;">
+              <img src="../assets/projects/my-pizza/admin.png" alt="MyPizza Admin Dashboard" loading="lazy">
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">03</div>
+            <h3 class="case-feature__title">Admin Dashboard (7 Tabs)</h3>
+            <p class="case-feature__desc">The most complex part of the app. Real-time order management with a status pipeline. Analytics dashboard with KPIs (revenue, users, engagement). Menu CRUD with image uploads. Inventory tracking. Shift scheduling. Employee management. Gamification settings. All in one interface.</p>
+            <div class="case-feature__tech">Supabase real-time, multi-tab state, image uploads, analytics aggregation</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #0f0a15 0%, #1d152a 100%);">
+              <span class="case-feature__img-text">Photos coming soon</span>
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">04</div>
+            <h3 class="case-feature__title">PWA, Push Notifications & Analytics</h3>
+            <p class="case-feature__desc">Set up the full PWA infrastructure — manifest, service worker, install prompts. Web Push for order status updates and cart abandonment reminders (30-min timeout). PostHog for product analytics and Google Analytics for traffic. Every user interaction tracked.</p>
+            <div class="case-feature__tech">Web Push API, Service Worker, PostHog, Google Analytics, cart abandonment</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: #120a0a;">
+              <img src="../assets/projects/my-pizza/taste-quiz.png" alt="MyPizza Taste Quiz" loading="lazy">
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">05</div>
+            <h3 class="case-feature__title">Taste Quiz & Personalization</h3>
+            <p class="case-feature__desc">A 5-question quiz that builds a taste profile — spice preference, protein type, cheese level, sweet pizzas, adventurousness. Stored in Supabase, it powers a "Recommended for You" section on the menu page using tag-based matching against menu items.</p>
+            <div class="case-feature__tech">Multi-step form, tag-based scoring, Supabase profiles, recommendation engine</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-stack">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">03</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Stack</h2>
+        </div>
+
+        <div class="case-stack__grid gs-reveal">
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Framework</div>
+            <div class="case-stack__item-name">Next.js 16</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">UI</div>
+            <div class="case-stack__item-name">React 19</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Language</div>
+            <div class="case-stack__item-name">TypeScript</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Styling</div>
+            <div class="case-stack__item-name">Tailwind CSS 4</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Animation</div>
+            <div class="case-stack__item-name">Framer Motion</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Animation</div>
+            <div class="case-stack__item-name">GSAP</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Database</div>
+            <div class="case-stack__item-name">Supabase</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Auth</div>
+            <div class="case-stack__item-name">Supabase + OAuth</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Email</div>
+            <div class="case-stack__item-name">Resend</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Notifications</div>
+            <div class="case-stack__item-name">Web Push</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Analytics</div>
+            <div class="case-stack__item-name">PostHog + GA</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Messaging</div>
+            <div class="case-stack__item-name">WhatsApp API</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-next">
+      <div class="container">
+        <p class="case-next__label gs-reveal">Next Project</p>
+        <h2 class="case-next__title gs-reveal">
+          <a href="webrift.html" data-cursor="expand">WebRift — Agency Brand & Website →</a>
+        </h2>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__copy">&copy; 2026 Walid Adra / <span>WebRift</span></span>
+      <a href="#" class="footer__top" data-cursor="expand" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

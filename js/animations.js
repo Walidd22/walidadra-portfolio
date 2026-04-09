@@ -186,6 +186,18 @@ function initAnimations() {
     }
   }
 
+  // ---- PROJECTS ----
+  function animateProjects() {
+    document.querySelectorAll('.project-card.gs-reveal').forEach((card, i) => {
+      card.style.visibility = 'visible';
+      gsap.from(card, {
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        delay: i * 0.12,
+        scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' }
+      });
+    });
+  }
+
   // ---- EXPERIENCE TIMELINE ----
   function animateExperience() {
     const items = document.querySelectorAll('.timeline__item.gs-reveal');
@@ -343,6 +355,7 @@ function initAnimations() {
   animateHero();
   animateSectionHeaders();
   animateAbout();
+  animateProjects();
   animateExperience();
   animateMarquee();
   animateSkillsGrid();

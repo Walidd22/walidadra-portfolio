@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WebRift — Agency Brand & Website | Walid Adra</title>
+  <meta name="description" content="I designed and built my own agency site from scratch — no templates, no frameworks. Hand-written HTML, CSS, and vanilla JS with GSAP animations.">
+  <meta name="author" content="Walid Adra">
+
+  <meta property="og:title" content="WebRift — Agency Website | Walid Adra">
+  <meta property="og:description" content="Designed and hand-coded my agency website with GSAP animations and custom interactions.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/sections.css">
+  <link rel="stylesheet" href="../css/case-study.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="page-loader" id="pageLoader">
+    <span class="page-loader__text">loading</span>
+  </div>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav class="nav is-scrolled" id="nav">
+    <div class="container nav__inner">
+      <a href="../" class="nav__logo">WA<span>.</span></a>
+      <div class="nav__links">
+        <a href="../#about" class="nav__link" data-cursor="expand">About</a>
+        <a href="../#projects" class="nav__link" data-cursor="expand">Projects</a>
+        <a href="../#experience" class="nav__link" data-cursor="expand">Experience</a>
+        <a href="../#skills" class="nav__link" data-cursor="expand">Skills</a>
+        <a href="../#contact" class="nav__link" data-cursor="expand">Contact</a>
+      </div>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" id="navMobile">
+    <a href="../#about" class="nav__mobile-link" data-cursor="expand">About</a>
+    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
+    <a href="../#experience" class="nav__mobile-link" data-cursor="expand">Experience</a>
+    <a href="../#skills" class="nav__mobile-link" data-cursor="expand">Skills</a>
+    <a href="../#contact" class="nav__mobile-link" data-cursor="expand">Contact</a>
+  </div>
+
+  <main>
+
+    <section class="case-hero">
+      <div class="case-hero__glow" style="background: radial-gradient(circle, rgba(0,85,255,0.1) 0%, transparent 70%);"></div>
+      <div class="container" style="position: relative; z-index: 2;">
+        <a href="../#projects" class="case-hero__back gs-reveal" data-cursor="expand">← Back to Projects</a>
+
+        <div class="case-hero__meta gs-reveal">
+          <span>Agency Website</span>
+          <span class="case-hero__meta-sep">/</span>
+          <span>Design & Development</span>
+        </div>
+
+        <h1 class="case-hero__title gs-reveal">WebRift</h1>
+        <p class="case-hero__tagline gs-reveal">I designed both my agency site and personal portfolio from scratch — no templates, no frameworks. Hand-written HTML, CSS, and vanilla JavaScript with GSAP animations and custom interactions. Every pixel, every animation, every line of code is mine.</p>
+
+        <div class="case-hero__facts gs-reveal">
+          <div>
+            <div class="case-hero__fact-label">Role</div>
+            <div class="case-hero__fact-value">Design & Code</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Type</div>
+            <div class="case-hero__fact-value">Static Site</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Framework</div>
+            <div class="case-hero__fact-value">None</div>
+          </div>
+          <div>
+            <div class="case-hero__fact-label">Live</div>
+            <div class="case-hero__fact-value"><a href="https://webrift.dev" target="_blank" rel="noopener" style="color: var(--accent);" data-cursor="expand">webrift.dev</a></div>
+          </div>
+        </div>
+        <a href="https://webrift.dev" class="case-hero__live-link gs-reveal" target="_blank" rel="noopener" data-cursor="expand">View Live Site →</a>
+      </div>
+    </section>
+
+
+    <section class="case-img">
+      <div class="container">
+        <div class="case-img__wrap gs-reveal">
+          <div class="case-img__placeholder" style="background: #050508;">
+            <img src="../assets/projects/webrift/full-page.png" alt="WebRift Website" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-overview">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">01</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Overview</h2>
+        </div>
+
+        <div class="case-overview__text">
+          <p class="gs-reveal">WebRift is my web development agency. The site needed to communicate one thing clearly: I build professional, high-quality digital products. No template could do that — the site itself had to be the proof.</p>
+
+          <p class="gs-reveal">I designed the entire visual identity: a dark, minimal aesthetic with electric blue accents, brutalist typography using Syne for display and Space Mono for labels, and a hand-crafted design system with CSS custom properties for every token — colors, typography scale, spacing, borders, and effects.</p>
+
+          <p class="gs-reveal">Every animation is intentional. GSAP ScrollTrigger reveals sections as you scroll, a custom cursor tracks mouse movement with lerp smoothing, Lenis provides buttery-smooth scroll physics, and a tech marquee runs on an infinite GSAP timeline. No animation library beyond GSAP — every interaction is hand-wired.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-highlights">
+      <div class="container">
+        <div class="case-highlights__grid gs-reveal">
+          <div class="case-highlight">
+            <div class="case-highlight__number">0</div>
+            <div class="case-highlight__label">Frameworks Used</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">1</div>
+            <div class="case-highlight__label">CSS File (1,100+ lines)</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">100%</div>
+            <div class="case-highlight__label">Hand-Written</div>
+          </div>
+          <div class="case-highlight">
+            <div class="case-highlight__number">90+</div>
+            <div class="case-highlight__label">Lighthouse Score</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-features">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">02</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Details</h2>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: #050508;">
+              <img src="../assets/projects/webrift/hero.png" alt="WebRift Hero Section" loading="lazy">
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">01</div>
+            <h3 class="case-feature__title">Custom Design System</h3>
+            <p class="case-feature__desc">Built a complete design token system with CSS custom properties — a 9-level gray scale, semantic color aliases, fluid typography with clamp(), a spacing scale, border tokens, and effect tokens (shadows, glows, noise). Everything is consistent and maintainable without a framework.</p>
+            <div class="case-feature__tech">CSS custom properties, fluid clamp() typography, BEM methodology</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #060610 0%, #0d0d1a 100%);">
+              <span class="case-feature__img-text">Photos coming soon</span>
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">02</div>
+            <h3 class="case-feature__title">GSAP Animation System</h3>
+            <p class="case-feature__desc">Every section animates on scroll using GSAP ScrollTrigger. Hero lines slide in with staggered power4 easing, service cards fade up with delay offsets, stats count up when visible, and the about photo has parallax. All animations respect prefers-reduced-motion.</p>
+            <div class="case-feature__tech">GSAP, ScrollTrigger, requestAnimationFrame, prefers-reduced-motion</div>
+          </div>
+        </div>
+
+        <div class="case-feature gs-reveal">
+          <div class="case-feature__img">
+            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #080812 0%, #10101e 100%);">
+              <span class="case-feature__img-text">Photos coming soon</span>
+            </div>
+          </div>
+          <div class="case-feature__content">
+            <div class="case-feature__number">03</div>
+            <h3 class="case-feature__title">Custom Cursor & Smooth Scroll</h3>
+            <p class="case-feature__desc">A lerp-based custom cursor that expands on interactive elements using mix-blend-mode for a subtle inversion effect. Lenis smooth scroll integrated with the GSAP ticker for frame-perfect sync. Auto-hidden on touch devices. Character stagger on the hero name with a glitch effect.</p>
+            <div class="case-feature__tech">Custom cursor with lerp, Lenis, GSAP ticker sync, touch detection</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-stack">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">03</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Stack</h2>
+        </div>
+
+        <div class="case-stack__grid gs-reveal">
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Markup</div>
+            <div class="case-stack__item-name">HTML5</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Styling</div>
+            <div class="case-stack__item-name">CSS3</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Logic</div>
+            <div class="case-stack__item-name">Vanilla JavaScript</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Animation</div>
+            <div class="case-stack__item-name">GSAP + ScrollTrigger</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Scroll</div>
+            <div class="case-stack__item-name">Lenis</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Fonts</div>
+            <div class="case-stack__item-name">Google Fonts</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Methodology</div>
+            <div class="case-stack__item-name">BEM + CSS Variables</div>
+          </div>
+          <div class="case-stack__item">
+            <div class="case-stack__item-label">Responsive</div>
+            <div class="case-stack__item-name">Mobile-First</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-next">
+      <div class="container">
+        <p class="case-next__label gs-reveal">Next Project</p>
+        <h2 class="case-next__title gs-reveal">
+          <a href="aris-ai.html" data-cursor="expand">ArisAI — AI Trading Platform →</a>
+        </h2>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__copy">&copy; 2026 Walid Adra / <span>WebRift</span></span>
+      <a href="#" class="footer__top" data-cursor="expand" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
