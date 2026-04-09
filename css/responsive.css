@@ -31,8 +31,8 @@
 /* ---- Mobile adjustments (max-width) ---- */
 @media (max-width: 599px) {
   .hero__name {
-    white-space: normal;
-    word-break: break-word;
+    font-size: clamp(2rem, 1rem + 8vw, 3.5rem);
+    white-space: nowrap;
   }
 
   .hero__info {
@@ -90,5 +90,9 @@
 @media (max-width: 374px) {
   :root {
     --container-pad: 1rem;
+  }
+
+  .hero__name {
+    font-size: 1.8rem;
   }
 }
