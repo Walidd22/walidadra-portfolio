@@ -45,6 +45,19 @@
   100% { clip-path: inset(5% 0 80% 0);  transform: translate(-1px, 3px); }
 }
 
+/* Continuous subtle glitch flicker */
+.hero__name {
+  animation: nameFlicker 4s ease-in-out infinite;
+}
+
+@keyframes nameFlicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.85; transform: translate(-1px, 0); }
+  94% { opacity: 1; transform: translate(1px, 0); }
+  95% { opacity: 0.9; transform: translate(0, 0); }
+  96% { opacity: 1; }
+}
+
 .hero__name:hover .char {
   animation: none;
 }
@@ -65,14 +78,14 @@
 .hero__name:hover::before,
 .hero__name.is-glitching::before {
   opacity: 0.8;
-  color: var(--blue-bright);
+  color: var(--accent);
   animation: glitch-1 0.3s infinite linear alternate;
 }
 
 .hero__name:hover::after,
 .hero__name.is-glitching::after {
   opacity: 0.6;
-  color: var(--blue-glow);
+  color: var(--accent-glow);
   animation: glitch-2 0.3s infinite linear alternate-reverse;
 }
 

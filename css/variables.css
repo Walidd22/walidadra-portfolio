@@ -11,10 +11,8 @@
 
 @keyframes cycleAccent {
   0%   { --accent-hue: 220; } /* blue #0055FF */
-  20%  { --accent-hue: 258; } /* violet #8B5CF6 */
-  40%  { --accent-hue: 330; } /* pink #EC4899 */
-  60%  { --accent-hue: 38; }  /* amber #F59E0B */
-  80%  { --accent-hue: 160; } /* emerald #10B981 */
+  33%  { --accent-hue: 258; } /* violet #8B5CF6 */
+  66%  { --accent-hue: 160; } /* emerald #10B981 */
   100% { --accent-hue: 220; } /* back to blue */
 }
 
