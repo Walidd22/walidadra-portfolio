@@ -4,34 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Walid Adra — Frontend Developer | WebRift</title>
-  <meta name="description" content="Walid Adra — Frontend Developer specializing in high-performance SaaS interfaces. Founder of WebRift, a web development agency based in Lebanon.">
-  <meta name="keywords" content="Walid Adra, frontend developer, web developer, Lebanon, WebRift, React, portfolio, SaaS">
+  <title>Walid Adra — Developer. Creator. Builder.</title>
+  <meta name="description" content="Walid Adra — Full-stack developer building courses, tutorials, and open-source projects. Follow my journey in React, Next.js, AI, and modern web development.">
+  <meta name="keywords" content="Walid Adra, developer, creator, courses, tutorials, React, Next.js, TypeScript, web development">
   <meta name="author" content="Walid Adra">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Walid Adra — Frontend Developer | WebRift">
-  <meta property="og:description" content="Frontend Developer building high-performance web experiences. Founder of WebRift.">
+  <meta property="og:title" content="Walid Adra — Developer. Creator. Builder.">
+  <meta property="og:description" content="Courses, tutorials, projects, and streams. Follow the journey.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/images/og-image.jpg">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Walid Adra — Frontend Developer">
-  <meta name="twitter:description" content="Building high-performance SaaS interfaces. Founder of WebRift.">
+  <meta name="twitter:title" content="Walid Adra — Developer. Creator. Builder.">
 
-  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- Lenis Smooth Scroll -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
-
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
@@ -56,11 +48,14 @@
     <div class="container nav__inner">
       <a href="#" class="nav__logo">WA<span>.</span></a>
       <div class="nav__links">
-        <a href="#about" class="nav__link" data-cursor="expand">About</a>
         <a href="#projects" class="nav__link" data-cursor="expand">Projects</a>
-        <a href="#experience" class="nav__link" data-cursor="expand">Experience</a>
-        <a href="#skills" class="nav__link" data-cursor="expand">Skills</a>
-        <a href="#contact" class="nav__link" data-cursor="expand">Contact</a>
+        <a href="#courses" class="nav__link" data-cursor="expand">Courses</a>
+        <a href="#tutorials" class="nav__link" data-cursor="expand">Tutorials</a>
+        <a href="#youtube" class="nav__link" data-cursor="expand">YouTube</a>
+        <a href="#connect" class="nav__link" data-cursor="expand">Connect</a>
+        <button class="theme-toggle" id="themeToggle" data-cursor="expand" aria-label="Toggle theme">
+          <span id="themeIcon">☽</span>
+        </button>
       </div>
       <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
         <span></span><span></span><span></span>
@@ -70,11 +65,11 @@
 
   <!-- Mobile Menu -->
   <div class="nav__mobile" id="navMobile">
-    <a href="#about" class="nav__mobile-link" data-cursor="expand">About</a>
     <a href="#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
-    <a href="#experience" class="nav__mobile-link" data-cursor="expand">Experience</a>
-    <a href="#skills" class="nav__mobile-link" data-cursor="expand">Skills</a>
-    <a href="#contact" class="nav__mobile-link" data-cursor="expand">Contact</a>
+    <a href="#courses" class="nav__mobile-link" data-cursor="expand">Courses</a>
+    <a href="#tutorials" class="nav__mobile-link" data-cursor="expand">Tutorials</a>
+    <a href="#youtube" class="nav__mobile-link" data-cursor="expand">YouTube</a>
+    <a href="#connect" class="nav__mobile-link" data-cursor="expand">Connect</a>
   </div>
 
   <main>
@@ -82,13 +77,16 @@
     <!-- ===== HERO ===== -->
     <section class="hero section" id="hero">
       <div class="hero__grid"></div>
+      <div class="floating-icons" id="floatingIcons"></div>
       <div class="container hero__content">
-        <span class="label label--accent hero__label gs-reveal">Frontend Developer & Founder of webrift.dev</span>
+        <span class="label label--accent hero__label gs-reveal">Developer. Creator. Builder.</span>
         <h1 class="hero__name gs-reveal" data-text="WALID ADRA">WALID ADRA</h1>
         <div class="hero__divider gs-reveal"></div>
         <div class="hero__info gs-reveal">
-          <p class="hero__title">Building high-performance interfaces<br>for products that matter.</p>
-          <a href="https://webrift.dev" class="hero__agency" target="_blank" rel="noopener" data-cursor="expand">webrift.dev</a>
+          <p class="hero__title">Building things, sharing what I learn,<br>and helping others level up.</p>
+          <div class="hero__cta-group">
+            <a href="#connect" class="hero__subscribe" data-cursor="expand">Join the Journey →</a>
+          </div>
         </div>
       </div>
       <div class="hero__scroll gs-reveal">
@@ -98,55 +96,13 @@
     </section>
 
 
-    <!-- ===== ABOUT ===== -->
-    <section class="about section" id="about">
+    <!-- ===== WHAT I'VE BUILT ===== -->
+    <section class="projects section" id="projects">
       <div class="container">
         <div class="section__header gs-reveal">
           <span class="section__number">01</span>
           <span class="section__line"></span>
-          <h2 class="section__title">About</h2>
-        </div>
-
-        <div class="about__grid">
-          <div class="about__photo-wrap gs-reveal">
-            <img src="assets/images/profile.jpg" alt="Walid Adra — Frontend Developer" class="about__photo" loading="lazy">
-            <div class="about__photo-frame"></div>
-          </div>
-
-          <div class="about__text">
-            <p class="gs-reveal">Frontend Developer with hands-on experience building and shipping a full-scale AI-powered SaaS platform. I specialize in creating high-performance, responsive, and interactive interfaces for complex products — trading dashboards, AI-driven applications, and data-heavy systems.</p>
-
-            <p class="gs-reveal">I approach frontend as part of the full product, not just UI. From performance bottlenecks and mobile UX constraints to scalable architecture — I solve real product challenges and communicate technical decisions clearly.</p>
-
-            <p class="gs-reveal">I also run <strong style="color: var(--accent);">WebRift</strong> — a web development agency focused on delivering high-quality, performance-driven web experiences for businesses and startups.</p>
-
-            <div class="about__stats gs-reveal" style="visibility: hidden;">
-              <div class="stat">
-                <div class="stat__number" data-count="2">0</div>
-                <div class="stat__label">Years Exp.</div>
-              </div>
-              <div class="stat">
-                <div class="stat__number" data-count="15">0</div>
-                <div class="stat__label">Pages Built</div>
-              </div>
-              <div class="stat">
-                <div class="stat__number" data-count="1">0</div>
-                <div class="stat__label">SaaS Shipped</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ===== PROJECTS ===== -->
-    <section class="projects section" id="projects">
-      <div class="container">
-        <div class="section__header gs-reveal">
-          <span class="section__number">02</span>
-          <span class="section__line"></span>
-          <h2 class="section__title">Projects</h2>
+          <h2 class="section__title">What I've Built</h2>
         </div>
 
         <div class="projects__grid">
@@ -165,7 +121,7 @@
                 <span>~6 Months</span>
               </div>
               <h3 class="project-card__title">ArisAI — AI-Powered Trading Platform</h3>
-              <p class="project-card__desc">Built ~80% of the frontend for a complex SaaS platform. Joined 3 months in after my internship. 15+ pages including AI chat, trading dashboards, real-time signal rooms, and content engine.</p>
+              <p class="project-card__desc">Built ~80% of the frontend for a complex SaaS platform. 15+ pages including AI chat, trading dashboards, real-time signal rooms, and content engine.</p>
               <div class="project-card__role">Frontend Developer — with Ghadi</div>
               <ul class="project-card__tags">
                 <li>React</li>
@@ -173,7 +129,6 @@
                 <li>Tailwind</li>
                 <li>Socket.io</li>
                 <li>NestJS</li>
-                <li>Zustand</li>
               </ul>
               <span class="project-card__link">View Project <span class="project-card__arrow">→</span></span>
             </div>
@@ -193,7 +148,7 @@
                 <span>Solo Build</span>
               </div>
               <h3 class="project-card__title">MyPizza — Restaurant Ordering Platform</h3>
-              <p class="project-card__desc">My first full-stack product, built entirely solo. Everything from database schema to admin dashboard to push notifications. Gamification, dual currency, PWA, and 10+ integrated systems.</p>
+              <p class="project-card__desc">My first full-stack product, built entirely solo. Gamification, dual currency, admin dashboard, push notifications, PWA, and 10+ integrated systems.</p>
               <div class="project-card__role">Solo Developer — Everything</div>
               <ul class="project-card__tags">
                 <li>Next.js 16</li>
@@ -220,7 +175,7 @@
                 <span>Solo Design & Build</span>
               </div>
               <h3 class="project-card__title">WebRift — Agency Brand & Website</h3>
-              <p class="project-card__desc">Designed and built my own agency site from scratch. No templates, no frameworks — hand-written HTML, CSS, and vanilla JS with GSAP animations, custom cursor, and smooth scroll.</p>
+              <p class="project-card__desc">Designed and built my own agency site from scratch. No templates, no frameworks — hand-written HTML, CSS, and vanilla JS with GSAP animations.</p>
               <div class="project-card__role">Solo — Design & Development</div>
               <ul class="project-card__tags">
                 <li>HTML5</li>
@@ -238,280 +193,202 @@
     </section>
 
 
-    <!-- ===== EXPERIENCE ===== -->
-    <section class="experience section" id="experience">
+    <!-- ===== COURSES ===== -->
+    <section class="courses section" id="courses">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">02</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">Courses</h2>
+        </div>
+
+        <div class="courses__grid">
+
+          <div class="course-card gs-reveal">
+            <div class="course-card__img" style="background: linear-gradient(135deg, #0a1628 0%, #0d2847 60%, #0055FF 100%);">
+              <span class="course-card__badge">Coming Soon</span>
+              <span class="course-card__icon">&lt;/&gt;</span>
+            </div>
+            <div class="course-card__body">
+              <h3 class="course-card__title">Full-Stack with Next.js</h3>
+              <p class="course-card__desc">Build a production app from zero — database, auth, API routes, admin dashboard, deployment. Everything I learned building MyPizza.</p>
+              <button class="course-card__cta" data-cursor="expand">Notify Me →</button>
+            </div>
+          </div>
+
+          <div class="course-card gs-reveal">
+            <div class="course-card__img" style="background: linear-gradient(135deg, #120820 0%, #2d1060 60%, #8B5CF6 100%);">
+              <span class="course-card__badge">Coming Soon</span>
+              <span class="course-card__icon">{ }</span>
+            </div>
+            <div class="course-card__body">
+              <h3 class="course-card__title">Building SaaS from Zero</h3>
+              <p class="course-card__desc">Architecture, real-time systems, payments, auth, and deployment. Lessons from building a full SaaS trading platform.</p>
+              <button class="course-card__cta" data-cursor="expand">Notify Me →</button>
+            </div>
+          </div>
+
+          <div class="course-card gs-reveal">
+            <div class="course-card__img" style="background: linear-gradient(135deg, #0a1510 0%, #0d3020 60%, #10B981 100%);">
+              <span class="course-card__badge">Coming Soon</span>
+              <span class="course-card__icon">~</span>
+            </div>
+            <div class="course-card__body">
+              <h3 class="course-card__title">GSAP Animation Masterclass</h3>
+              <p class="course-card__desc">ScrollTrigger, timelines, custom cursors, page transitions. How to make websites feel alive without frameworks.</p>
+              <button class="course-card__cta" data-cursor="expand">Notify Me →</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===== TUTORIALS ===== -->
+    <section class="tutorials section" id="tutorials">
       <div class="container">
         <div class="section__header gs-reveal">
           <span class="section__number">03</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Experience</h2>
+          <h2 class="section__title">Tutorials</h2>
         </div>
 
-        <div class="timeline">
-
-          <!-- Aris AI -->
-          <div class="timeline__item gs-reveal">
-            <div class="timeline__dot"></div>
-            <span class="timeline__date">Jan 2026 — Present</span>
-            <div class="timeline__card">
-              <h3 class="timeline__role">Frontend Developer</h3>
-              <span class="timeline__company">Aris AI — AI-Powered Trading Platform</span>
-              <ul class="timeline__highlights">
-                <li>Built ~80% of the frontend for a complex SaaS platform including trading dashboards, AI chat, and content systems</li>
-                <li>Designed UI architecture for a 15+ page application focused on scalability and performance</li>
-                <li>Engineered mobile-first trading experience with touch-optimized interactions</li>
-                <li>Solved performance bottlenecks using memoization and optimized component structure</li>
-              </ul>
-              <div class="timeline__tags">
-                <span class="tag">React</span>
-                <span class="tag">TypeScript</span>
-                <span class="tag">Zustand</span>
-                <span class="tag">TanStack Query</span>
-                <span class="tag">WebSockets</span>
-                <span class="tag">Tailwind</span>
-              </div>
+        <div class="tutorials__list gs-reveal">
+          <div class="tutorial-card">
+            <div class="tutorial-card__info">
+              <span class="tutorial-card__category">Next.js</span>
+              <span class="tutorial-card__title">Building a Gamification System with Supabase</span>
             </div>
+            <span class="tutorial-card__badge">Coming Soon</span>
           </div>
-
-          <!-- Telecloud -->
-          <div class="timeline__item gs-reveal">
-            <div class="timeline__dot"></div>
-            <span class="timeline__date">Summer 2025</span>
-            <div class="timeline__card">
-              <h3 class="timeline__role">Junior Frontend Developer</h3>
-              <span class="timeline__company">Telecloud Vision — Beirut, Lebanon</span>
-              <ul class="timeline__highlights">
-                <li>Built and improved UI components within a production React codebase</li>
-                <li>Applied clean architecture patterns and team workflows</li>
-                <li>Contributed to maintaining UI consistency and performance</li>
-              </ul>
-              <div class="timeline__tags">
-                <span class="tag">React</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">CSS</span>
-              </div>
+          <div class="tutorial-card">
+            <div class="tutorial-card__info">
+              <span class="tutorial-card__category">React</span>
+              <span class="tutorial-card__title">Real-Time WebSocket Rooms from Scratch</span>
             </div>
+            <span class="tutorial-card__badge">Coming Soon</span>
           </div>
-
-          <!-- Freelance -->
-          <div class="timeline__item gs-reveal">
-            <div class="timeline__dot"></div>
-            <span class="timeline__date">2024 — 2025</span>
-            <div class="timeline__card">
-              <h3 class="timeline__role">Freelance Web Developer</h3>
-              <span class="timeline__company">Self-Employed / WebRift</span>
-              <ul class="timeline__highlights">
-                <li>Delivered complete websites from concept to deployment for multiple clients</li>
-                <li>Focused on responsive design, performance, and SEO</li>
-                <li>Managed communication, requirements, and delivery independently</li>
-              </ul>
-              <div class="timeline__tags">
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">React</span>
-                <span class="tag">SEO</span>
-              </div>
+          <div class="tutorial-card">
+            <div class="tutorial-card__info">
+              <span class="tutorial-card__category">GSAP</span>
+              <span class="tutorial-card__title">Custom Cursor + ScrollTrigger: The Complete Guide</span>
             </div>
+            <span class="tutorial-card__badge">Coming Soon</span>
           </div>
-
+          <div class="tutorial-card">
+            <div class="tutorial-card__info">
+              <span class="tutorial-card__category">TypeScript</span>
+              <span class="tutorial-card__title">Type-Safe API Routes in Next.js 16</span>
+            </div>
+            <span class="tutorial-card__badge">Coming Soon</span>
+          </div>
+          <div class="tutorial-card">
+            <div class="tutorial-card__info">
+              <span class="tutorial-card__category">Supabase</span>
+              <span class="tutorial-card__title">Auth + Row-Level Security: Production Patterns</span>
+            </div>
+            <span class="tutorial-card__badge">Coming Soon</span>
+          </div>
         </div>
       </div>
     </section>
 
 
-    <!-- ===== SKILLS ===== -->
-    <section class="skills section" id="skills">
+    <!-- ===== YOUTUBE / STREAMS ===== -->
+    <section class="youtube section" id="youtube">
       <div class="container">
         <div class="section__header gs-reveal">
           <span class="section__number">04</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Skills</h2>
+          <h2 class="section__title">YouTube</h2>
         </div>
-      </div>
 
-      <!-- Marquee Row 1 (left) -->
-      <div class="marquee" data-direction="left">
-        <div class="marquee__track">
-          <span class="marquee__item">React</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">TypeScript</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Next.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Vue.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Tailwind</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">GSAP</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Framer Motion</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">React Native</span>
-          <span class="marquee__separator">✦</span>
-          <!-- Duplicated for seamless loop -->
-          <span class="marquee__item">React</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">TypeScript</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Next.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Vue.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Tailwind</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">GSAP</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Framer Motion</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">React Native</span>
-          <span class="marquee__separator">✦</span>
+        <div class="youtube__grid gs-reveal">
+          <div class="video-card">
+            <div class="video-card__thumb" style="background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 100%);">
+              <div class="video-card__play">▶</div>
+            </div>
+            <div class="video-card__body">
+              <div class="video-card__title">How I Built a Full SaaS in 3 Months</div>
+              <div class="video-card__meta">Coming Soon</div>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-card__thumb" style="background: linear-gradient(135deg, #120820 0%, #251545 100%);">
+              <div class="video-card__play">▶</div>
+            </div>
+            <div class="video-card__body">
+              <div class="video-card__title">My Dev Setup & Workflow (2026)</div>
+              <div class="video-card__meta">Coming Soon</div>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-card__thumb" style="background: linear-gradient(135deg, #0a1510 0%, #152a20 100%);">
+              <div class="video-card__play">▶</div>
+            </div>
+            <div class="video-card__body">
+              <div class="video-card__title">Building MyPizza: Full Walkthrough</div>
+              <div class="video-card__meta">Coming Soon</div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Marquee Row 2 (right) -->
-      <div class="marquee" data-direction="right">
-        <div class="marquee__track">
-          <span class="marquee__item">Node.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">NestJS</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Prisma</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Docker</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">AWS</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Playwright</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">LangChain</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">WebSockets</span>
-          <span class="marquee__separator">✦</span>
-          <!-- Duplicated -->
-          <span class="marquee__item">Node.js</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">NestJS</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Prisma</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Docker</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">AWS</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">Playwright</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">LangChain</span>
-          <span class="marquee__separator">✦</span>
-          <span class="marquee__item">WebSockets</span>
-          <span class="marquee__separator">✦</span>
-        </div>
-      </div>
-
-      <!-- Skills Detail Grid -->
-      <div class="container">
-        <div class="skills__grid gs-reveal">
-          <div class="skills__cell">
-            <div class="skills__cell-label">Frontend</div>
-            <div class="skills__cell-name">React / Next.js</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Frontend</div>
-            <div class="skills__cell-name">Vue.js</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Language</div>
-            <div class="skills__cell-name">TypeScript</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Styling</div>
-            <div class="skills__cell-name">Tailwind CSS</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Animation</div>
-            <div class="skills__cell-name">GSAP / Framer</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">State</div>
-            <div class="skills__cell-name">Zustand / TanStack</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Mobile</div>
-            <div class="skills__cell-name">React Native</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Backend</div>
-            <div class="skills__cell-name">Node / NestJS</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Database</div>
-            <div class="skills__cell-name">Prisma ORM</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">DevOps</div>
-            <div class="skills__cell-name">Docker / AWS</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">AI / ML</div>
-            <div class="skills__cell-name">LangChain / RAG</div>
-          </div>
-          <div class="skills__cell">
-            <div class="skills__cell-label">Testing</div>
-            <div class="skills__cell-name">Playwright / Jest</div>
-          </div>
+        <div class="youtube__cta gs-reveal">
+          <a href="#" class="btn" data-cursor="expand">
+            <span>Subscribe on YouTube</span>
+            <span class="btn__arrow">→</span>
+          </a>
         </div>
       </div>
     </section>
 
 
-    <!-- ===== CONTACT ===== -->
-    <section class="contact section" id="contact">
+    <!-- ===== CONNECT ===== -->
+    <section class="connect section" id="connect">
       <div class="container">
         <div class="section__header gs-reveal">
           <span class="section__number">05</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Contact</h2>
+          <h2 class="section__title">Connect</h2>
         </div>
 
-        <h3 class="contact__heading gs-reveal">
+        <h3 class="connect__heading gs-reveal">
           Let's build<br>something great.
         </h3>
 
-        <div class="contact__grid">
-          <div class="contact__info gs-reveal">
-            <div class="contact__info-item">
-              <div class="contact__info-label">Email</div>
-              <div class="contact__info-value">
-                <a href="mailto:walid92.adra@gmail.com" data-cursor="expand">walid92.adra@gmail.com</a>
-              </div>
+        <div class="connect__grid">
+
+          <div class="connect__email-cta gs-reveal">
+            <span class="connect__email-label">Stay in the loop</span>
+            <p class="connect__email-desc">Get notified when I drop new courses, tutorials, or start a live stream. No spam — just the good stuff.</p>
+            <div class="connect__email-input">
+              <input type="email" placeholder="your@email.com" aria-label="Email address">
+              <button data-cursor="expand">Subscribe</button>
             </div>
-            <div class="contact__info-item">
-              <div class="contact__info-label">Phone</div>
-              <div class="contact__info-value">
-                <a href="tel:+96171467073" data-cursor="expand">+961 71 467 073</a>
-              </div>
-            </div>
-            <div class="contact__info-item">
-              <div class="contact__info-label">Location</div>
-              <div class="contact__info-value">Tripoli, Lebanon</div>
-            </div>
-            <div class="contact__info-item">
-              <div class="contact__info-label">Education</div>
-              <div class="contact__info-value">BSc Computing with Business — AOU</div>
+
+            <div class="connect__webrift">
+              <p>Need a developer for your project?</p>
+              <a href="https://webrift.dev" target="_blank" rel="noopener" data-cursor="expand">Hire me at WebRift →</a>
             </div>
           </div>
 
-          <div class="contact__socials gs-reveal">
-            <a href="https://github.com/Walidd22" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
+          <div class="connect__socials gs-reveal">
+            <a href="https://github.com/Walidd22" class="connect__social-link" data-cursor="expand" target="_blank" rel="noopener">
               <span>GitHub</span>
-              <span class="contact__social-arrow">→</span>
+              <span class="connect__social-arrow">→</span>
             </a>
-            <a href="https://www.linkedin.com/in/walid-adra-452363273/" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
+            <a href="https://www.linkedin.com/in/walid-adra-452363273/" class="connect__social-link" data-cursor="expand" target="_blank" rel="noopener">
               <span>LinkedIn</span>
-              <span class="contact__social-arrow">→</span>
+              <span class="connect__social-arrow">→</span>
             </a>
-            <a href="https://www.instagram.com/web_rift?igsh=MXNnMm05cWpqNmtsdg==" class="contact__social-link" data-cursor="expand" target="_blank" rel="noopener">
-              <span>WebRift — Instagram</span>
-              <span class="contact__social-arrow">→</span>
+            <a href="#" class="connect__social-link" data-cursor="expand" target="_blank" rel="noopener">
+              <span>YouTube</span>
+              <span class="connect__social-arrow">→</span>
+            </a>
+            <a href="https://www.instagram.com/web_rift" class="connect__social-link" data-cursor="expand" target="_blank" rel="noopener">
+              <span>Instagram</span>
+              <span class="connect__social-arrow">→</span>
             </a>
           </div>
         </div>
@@ -520,15 +397,13 @@
 
   </main>
 
-
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer__inner">
-      <span class="footer__copy">© 2026 Walid Adra / <span>WebRift</span></span>
+      <span class="footer__copy">&copy; 2026 Walid Adra / <span>WebRift</span></span>
       <a href="#hero" class="footer__top" data-cursor="expand">Back to top ↑</a>
     </div>
   </footer>
-
 
   <!-- Scripts -->
   <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>

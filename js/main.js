@@ -5,6 +5,53 @@
 document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = prefersReducedMotion();
 
+  // ---- THEME TOGGLE ----
+  (function initTheme() {
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    if (!toggle) return;
+
+    // Check saved preference or system preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'light');
+      if (icon) icon.textContent = '☀';
+    }
+
+    toggle.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        if (icon) icon.textContent = '☽';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        if (icon) icon.textContent = '☀';
+      }
+    });
+  })();
+
+  // ---- FLOATING ICONS ----
+  (function initFloatingIcons() {
+    const container = document.getElementById('floatingIcons');
+    if (!container || reducedMotion) return;
+
+    const icons = ['</>', '{ }', 'λ', '⚡', '◈', '▲', '$_', '~/','fn', '::',  '[ ]', '0x', '>>'];
+    const count = 15;
+
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'floating-icon';
+      el.textContent = icons[i % icons.length];
+      el.style.left = Math.random() * 90 + 5 + '%';
+      el.style.top = Math.random() * 80 + 10 + '%';
+      el.style.animationDelay = (Math.random() * 12) + 's';
+      el.style.animationDuration = (10 + Math.random() * 8) + 's';
+      container.appendChild(el);
+    }
+  })();
+
   // ---- PAGE LOADER ----
   const loader = document.getElementById('pageLoader');
 
@@ -28,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       touchMultiplier: 1.5
     });
 
-    // Connect Lenis to GSAP
     lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
@@ -37,20 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gsap.ticker.lagSmoothing(0);
 
-    // Handle anchor links with Lenis
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
         const target = document.querySelector(anchor.getAttribute('href'));
         if (target) {
           lenis.scrollTo(target, { offset: -60 });
-          // Close mobile menu if open
           closeMobileMenu();
         }
       });
     });
   } else {
-    // Fallback: basic smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
@@ -65,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- NAV SCROLL EFFECT ----
   const nav = document.getElementById('nav');
-  let lastScroll = 0;
 
   function handleNavScroll() {
     const scrollY = window.scrollY || document.documentElement.scrollTop;
@@ -74,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       nav.classList.remove('is-scrolled');
     }
-    lastScroll = scrollY;
   }
 
   window.addEventListener('scroll', handleNavScroll, { passive: true });
@@ -84,35 +125,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMobile = document.getElementById('navMobile');
 
   function closeMobileMenu() {
+    if (!navToggle || !navMobile) return;
     navToggle.classList.remove('is-open');
     navMobile.classList.remove('is-open');
     document.body.style.overflow = '';
     if (lenis) lenis.start();
   }
 
-  navToggle.addEventListener('click', () => {
-    const isOpen = navToggle.classList.toggle('is-open');
-    navMobile.classList.toggle('is-open');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navToggle.classList.toggle('is-open');
+      navMobile.classList.toggle('is-open');
 
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      if (lenis) lenis.stop();
-    } else {
-      document.body.style.overflow = '';
-      if (lenis) lenis.start();
-    }
-  });
-
-  // Close on mobile link click
-  navMobile.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMobileMenu();
+      if (isOpen) {
+        document.body.style.overflow = 'hidden';
+        if (lenis) lenis.stop();
+      } else {
+        document.body.style.overflow = '';
+        if (lenis) lenis.start();
+      }
     });
-  });
+  }
+
+  if (navMobile) {
+    navMobile.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+  }
 
   // ---- INIT ANIMATIONS ----
   if (!reducedMotion) {
-    // Wait a moment then start everything
     window.addEventListener('load', () => {
       setTimeout(() => {
         hideLoader();
@@ -122,34 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 800);
     });
   } else {
-    // No animations — just show content immediately
     document.querySelectorAll('.gs-reveal').forEach(el => {
       el.style.visibility = 'visible';
     });
     hideLoader();
 
-    // Still set counter values
     document.querySelectorAll('.stat__number[data-count]').forEach(stat => {
       stat.textContent = stat.getAttribute('data-count') + '+';
     });
-  }
-
-  // ---- HERO GLITCH ON FIRST SCROLL (MOBILE) ----
-  if (window.matchMedia('(hover: none)').matches) {
-    const heroName = document.querySelector('.hero__name');
-    if (heroName) {
-      let glitched = false;
-      function triggerGlitch() {
-        if (glitched) return;
-        glitched = true;
-        heroName.classList.add('is-glitching');
-        setTimeout(() => heroName.classList.remove('is-glitching'), 1500);
-        window.removeEventListener('scroll', triggerGlitch);
-        window.removeEventListener('touchmove', triggerGlitch);
-      }
-      window.addEventListener('scroll', triggerGlitch, { passive: true });
-      window.addEventListener('touchmove', triggerGlitch, { passive: true });
-    }
   }
 
   // ---- ACTIVE NAV LINK HIGHLIGHT ----
