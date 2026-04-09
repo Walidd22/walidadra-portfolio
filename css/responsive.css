@@ -31,7 +31,7 @@
 /* ---- Mobile adjustments (max-width) ---- */
 @media (max-width: 599px) {
   .hero__name {
-    font-size: 8.5vw;
+    font-size: 8vw;
     white-space: nowrap;
   }
 
@@ -93,6 +93,6 @@
   }
 
   .hero__name {
-    font-size: 8.5vw;
+    font-size: 8vw;
   }
 }
