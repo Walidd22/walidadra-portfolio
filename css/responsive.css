@@ -31,7 +31,7 @@
 /* ---- Mobile adjustments (max-width) ---- */
 @media (max-width: 599px) {
   .hero__name {
-    font-size: clamp(2rem, 1rem + 8vw, 3.5rem);
+    font-size: 8.5vw;
     white-space: nowrap;
   }
 
@@ -93,6 +93,6 @@
   }
 
   .hero__name {
-    font-size: 1.8rem;
+    font-size: 8.5vw;
   }
 }
