@@ -217,4 +217,113 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('scroll', highlightNav, { passive: true });
+
+  // ---- SUBSCRIPTION HANDLER ----
+  const subscribeForm = document.getElementById('subscribeForm');
+  const subscribeSuccess = document.getElementById('subscribeSuccess');
+  const subscribeError = document.getElementById('subscribeError');
+  const courseInterest = document.getElementById('courseInterest');
+
+  function showToast(message, type) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast toast--' + (type || 'info');
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      toast.classList.add('is-visible');
+    });
+
+    setTimeout(() => {
+      toast.classList.remove('is-visible');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  // Check if already subscribed
+  if (localStorage.getItem('wa_subscribed') === 'true' && subscribeForm && subscribeSuccess) {
+    subscribeForm.style.display = 'none';
+    subscribeSuccess.style.display = 'flex';
+  }
+
+  if (subscribeForm) {
+    subscribeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const emailInput = subscribeForm.querySelector('input[name="email"]');
+      const email = emailInput.value.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast('Please enter a valid email address.', 'error');
+        emailInput.focus();
+        return;
+      }
+
+      const submitBtn = subscribeForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        // TODO: Replace with your email service endpoint
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            course_interest: courseInterest ? courseInterest.value : ''
+          })
+        });
+
+        if (!res.ok) throw new Error('Request failed');
+
+        localStorage.setItem('wa_subscribed', 'true');
+        subscribeForm.style.display = 'none';
+        subscribeSuccess.style.display = 'flex';
+        if (subscribeError) subscribeError.style.display = 'none';
+        showToast('Subscribed! Welcome aboard.', 'success');
+      } catch (err) {
+        if (subscribeError) subscribeError.style.display = 'flex';
+        showToast('Failed to subscribe. Please try again.', 'error');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // "Notify Me" button clicks on course cards
+  document.querySelectorAll('.course-card__cta').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const card = btn.closest('.course-card');
+      const courseName = card ? card.querySelector('.course-card__title').textContent : '';
+
+      if (courseInterest) courseInterest.value = courseName;
+
+      if (localStorage.getItem('wa_subscribed') === 'true') {
+        showToast('You\'re already subscribed! We\'ll notify you about "' + courseName + '".', 'success');
+        return;
+      }
+
+      showToast('Interested in "' + courseName + '"? Subscribe below!', 'info');
+
+      const connectSection = document.querySelector('#connect');
+      if (connectSection) {
+        if (lenis) {
+          lenis.scrollTo(connectSection, { offset: -60 });
+        } else {
+          connectSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+      setTimeout(() => {
+        const emailInput = subscribeForm ? subscribeForm.querySelector('input[name="email"]') : null;
+        if (emailInput) emailInput.focus();
+      }, 800);
+    });
+  });
 });

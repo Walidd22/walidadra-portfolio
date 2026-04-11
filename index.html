@@ -17,6 +17,19 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Walid Adra — Developer. Creator. Builder.">
 
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Walid Adra",
+    "jobTitle": "Full-Stack Developer",
+    "url": "https://walidadra.dev",
+    "worksFor": {"@type": "Organization", "name": "WebRift", "url": "https://webrift.dev"},
+    "sameAs": ["https://github.com/Walidd22", "https://www.linkedin.com/in/walid-adra-452363273/", "https://www.instagram.com/web_rift"]
+  }
+  </script>
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +66,7 @@
         <a href="#tutorials" class="nav__link" data-cursor="expand">Tutorials</a>
         <a href="#youtube" class="nav__link" data-cursor="expand">YouTube</a>
         <a href="#connect" class="nav__link" data-cursor="expand">Connect</a>
+        <a href="https://webrift.dev" class="nav__link" data-cursor="expand" target="_blank" rel="noopener">Hire Me</a>
         <button class="theme-toggle" id="themeToggle" data-cursor="expand" aria-label="Toggle theme">
           <span id="themeIcon">☽</span>
         </button>
@@ -70,6 +84,7 @@
     <a href="#tutorials" class="nav__mobile-link" data-cursor="expand">Tutorials</a>
     <a href="#youtube" class="nav__mobile-link" data-cursor="expand">YouTube</a>
     <a href="#connect" class="nav__mobile-link" data-cursor="expand">Connect</a>
+    <a href="https://webrift.dev" class="nav__mobile-link" data-cursor="expand" target="_blank" rel="noopener">Hire Me</a>
   </div>
 
   <main>
@@ -451,9 +466,17 @@
           <div class="connect__email-cta gs-reveal">
             <span class="connect__email-label">Stay in the loop</span>
             <p class="connect__email-desc">Get notified when I drop new courses, tutorials, or start a live stream. No spam — just the good stuff.</p>
-            <div class="connect__email-input">
-              <input type="email" placeholder="your@email.com" aria-label="Email address">
-              <button data-cursor="expand">Subscribe</button>
+            <form class="connect__email-input" id="subscribeForm">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <input type="hidden" name="course_interest" id="courseInterest" value="">
+              <button type="submit" data-cursor="expand">Subscribe</button>
+            </form>
+            <div class="connect__subscribe-success" id="subscribeSuccess" style="display: none;">
+              <span class="connect__subscribe-icon">&#10003;</span>
+              <span>You're in! We'll keep you posted.</span>
+            </div>
+            <div class="connect__subscribe-error" id="subscribeError" style="display: none;">
+              <span>Something went wrong. Please try again.</span>
             </div>
 
             <div class="connect__webrift">
@@ -493,6 +516,9 @@
       <a href="#hero" class="footer__top" data-cursor="expand">Back to top ↑</a>
     </div>
   </footer>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
