@@ -2,6 +2,38 @@
    MAIN — Entry Point & Orchestration
    ======================================== */
 
+// Read UTM parameters from the URL so email capture can attribute later campaigns.
+function readUtmParams() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const utm = {};
+    for (const key of ['source', 'medium', 'campaign']) {
+      const v = params.get('utm_' + key);
+      if (v) utm[key] = v;
+    }
+    return Object.keys(utm).length ? utm : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+// Shared POST helper — every subscribe form on any page in this site uses it.
+const SUBSCRIBE_ENDPOINT = 'https://api.walidadra.dev/api/subscribe';
+async function postSubscribe(payload) {
+  const res = await fetch(SUBSCRIBE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...payload, utm: readUtmParams() }),
+  });
+  const data = await res.json().catch(() => ({ ok: false }));
+  if (!res.ok || !data.ok) {
+    const err = new Error(data.reason || 'Request failed');
+    err.reason = data.reason;
+    throw err;
+  }
+  return data;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = prefersReducedMotion();
 
@@ -268,17 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
 
       try {
-        // TODO: Replace with your email service endpoint
-        const res = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            course_interest: courseInterest ? courseInterest.value : ''
-          })
+        const interest = courseInterest ? courseInterest.value.trim() : '';
+        await postSubscribe({
+          email,
+          source: interest ? 'portfolio-course-interest' : 'portfolio',
+          interest: interest || undefined,
         });
-
-        if (!res.ok) throw new Error('Request failed');
 
         localStorage.setItem('wa_subscribed', 'true');
         subscribeForm.style.display = 'none';
@@ -294,6 +321,41 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Generic handler — any <form data-subscribe-source="..."> with an email input.
+  // Used by the case-study page CTA and any future lightweight signup forms.
+  document.querySelectorAll('form[data-subscribe-source]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const source = form.getAttribute('data-subscribe-source') || 'portfolio';
+      const emailInput = form.querySelector('input[type="email"], input[name="email"]');
+      if (!emailInput) return;
+      const email = emailInput.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast('Please enter a valid email address.', 'error');
+        emailInput.focus();
+        return;
+      }
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) {
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+      }
+      try {
+        await postSubscribe({ email, source });
+        form.reset();
+        showToast('Subscribed! Check your inbox.', 'success');
+      } catch (err) {
+        showToast('Failed to subscribe. Please try again.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      }
+    });
+  });
 
   // "Notify Me" button clicks on course cards
   document.querySelectorAll('.course-card__cta').forEach(btn => {
