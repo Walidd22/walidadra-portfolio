@@ -61,6 +61,7 @@
     <div class="container nav__inner">
       <a href="#" class="nav__logo">WA<span>.</span></a>
       <div class="nav__links">
+        <a href="#story" class="nav__link" data-cursor="expand">Story</a>
         <a href="#projects" class="nav__link" data-cursor="expand">Projects</a>
         <a href="#courses" class="nav__link" data-cursor="expand">Courses</a>
         <a href="#tutorials" class="nav__link" data-cursor="expand">Tutorials</a>
@@ -79,6 +80,7 @@
 
   <!-- Mobile Menu -->
   <div class="nav__mobile" id="navMobile">
+    <a href="#story" class="nav__mobile-link" data-cursor="expand">Story</a>
     <a href="#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
     <a href="#courses" class="nav__mobile-link" data-cursor="expand">Courses</a>
     <a href="#tutorials" class="nav__mobile-link" data-cursor="expand">Tutorials</a>
@@ -111,11 +113,123 @@
     </section>
 
 
+    <!-- ===== MY STORY ===== -->
+    <section class="story section section--story" id="story">
+      <div class="container">
+        <div class="section__header gs-reveal">
+          <span class="section__number">01</span>
+          <span class="section__line"></span>
+          <h2 class="section__title">My Story</h2>
+        </div>
+
+        <p class="story__lede gs-reveal">
+          I'm a full-stack developer from Tripoli, Lebanon. I didn't take a traditional path —
+          I built one. Here's how I got from no internet tutorials in Arabic to shipping real
+          products for real people.
+        </p>
+
+        <ol class="story__timeline">
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">Origin</span>
+              <span class="story__place">Tripoli, Lebanon</span>
+            </div>
+            <h3 class="story__title">Where it started</h3>
+            <p class="story__body">
+              Grew up in Tripoli. No bootcamps, no visible path into software. Picked up a
+              laptop, opened YouTube, and started typing HTML into a file to see what happened.
+              That first <code>&lt;h1&gt;</code> showing up in a browser was the hook.
+            </p>
+          </li>
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">Self-taught</span>
+              <span class="story__place">1,000+ hours</span>
+            </div>
+            <h3 class="story__title">Learning by breaking things</h3>
+            <p class="story__body">
+              HTML → CSS → JavaScript → React. Built things, broke them, read the errors,
+              googled the errors, built them again. No instructor, no curriculum — just docs,
+              open-source repos, and a lot of stubbornness. That muscle is the one I rely on
+              most today.
+            </p>
+          </li>
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">First role</span>
+              <span class="story__place">Telecloud internship</span>
+            </div>
+            <h3 class="story__title">First production code</h3>
+            <p class="story__body">
+              Joined Telecloud as an intern. First time seeing how software actually ships —
+              code review, git flow, deploy pipelines, real users on the other end of a bug.
+              The gap between "works on my machine" and "works in production" became the
+              thing I cared most about closing.
+            </p>
+          </li>
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">3 months</span>
+              <span class="story__place">ArisAI — with Ghadi</span>
+            </div>
+            <h3 class="story__title">Shipping at real scale</h3>
+            <p class="story__body">
+              Joined an AI trading platform mid-build and shipped ~80% of the frontend in three
+              months — 15+ pages including real-time chat, signal rooms, trading dashboards,
+              and the content engine. React, TypeScript, Socket.io against a NestJS backend.
+              First time I owned product-critical surfaces under deadline pressure.
+            </p>
+          </li>
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">Solo build</span>
+              <span class="story__place">MyPizza — myypizza.com</span>
+            </div>
+            <h3 class="story__title">End-to-end, alone</h3>
+            <p class="story__body">
+              Built a full restaurant ordering platform solo — auth, menus, cart, payments,
+              admin dashboard, push notifications, gamification, dual currency, PWA, Redis
+              caching. Next.js 16 + Supabase + 10+ integrated systems. The project that made
+              me confident I could ship anything end-to-end.
+            </p>
+          </li>
+
+          <li class="story__item gs-reveal">
+            <span class="story__marker" aria-hidden="true"></span>
+            <div class="story__meta">
+              <span class="story__year">Now</span>
+              <span class="story__place">WebRift + AI Content Studio</span>
+            </div>
+            <h3 class="story__title">Building, teaching, compounding</h3>
+            <p class="story__body">
+              Turned the work into <a href="https://webrift.dev" target="_blank" rel="noopener">WebRift</a>
+              — a small agency where I build production apps for founders. In parallel I'm
+              running an AI Content Studio I built from scratch (16 dashboards, 14 APIs,
+              81-node knowledge graph, Neo4j + n8n) to document the craft. The whole site
+              you're on right now is part of that loop: <em>build, ship, teach, repeat.</em>
+            </p>
+          </li>
+
+        </ol>
+      </div>
+    </section>
+
+
     <!-- ===== WHAT I'VE BUILT ===== -->
     <section class="projects section" id="projects">
       <div class="container">
         <div class="section__header gs-reveal">
-          <span class="section__number">01</span>
+          <span class="section__number">02</span>
           <span class="section__line"></span>
           <h2 class="section__title">What I've Built</h2>
         </div>
@@ -203,6 +317,34 @@
             </div>
           </a>
 
+          <!-- AI Content Studio -->
+          <a href="#" class="project-card gs-reveal" data-cursor="expand">
+            <div class="project-card__img">
+              <div class="project-card__img-placeholder" style="background: #0a0f1a;">
+                <img src="assets/projects/content-studio/hero.png" alt="AI Content Studio Dashboard" loading="lazy" onerror="this.style.display='none'">
+              </div>
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__meta">
+                <span>AI Platform — In Development</span>
+                <span class="project-card__sep">/</span>
+                <span>Solo Build</span>
+              </div>
+              <h3 class="project-card__title">AI Content Studio — Automated Production</h3>
+              <p class="project-card__desc">The private studio I built to run my content engine. 16 dashboards, 14 API endpoints, an 81-node knowledge graph, 3D graph visualization, and n8n + Neo4j orchestrating the whole pipeline.</p>
+              <div class="project-card__role">Solo Developer — Design to Deploy</div>
+              <ul class="project-card__tags">
+                <li>Next.js 16</li>
+                <li>React 19</li>
+                <li>Neo4j</li>
+                <li>n8n</li>
+                <li>Three.js</li>
+                <li>Claude API</li>
+              </ul>
+              <span class="project-card__link">Deep-dive coming soon <span class="project-card__arrow">→</span></span>
+            </div>
+          </a>
+
         </div>
       </div>
     </section>
@@ -212,7 +354,7 @@
     <section class="courses section" id="courses">
       <div class="container">
         <div class="section__header gs-reveal">
-          <span class="section__number">02</span>
+          <span class="section__number">03</span>
           <span class="section__line"></span>
           <h2 class="section__title">Courses</h2>
         </div>
@@ -368,7 +510,7 @@
     <section class="tutorials section" id="tutorials">
       <div class="container">
         <div class="section__header gs-reveal">
-          <span class="section__number">03</span>
+          <span class="section__number">04</span>
           <span class="section__line"></span>
           <h2 class="section__title">Tutorials</h2>
         </div>
@@ -403,7 +545,7 @@
     <section class="youtube section" id="youtube">
       <div class="container">
         <div class="section__header gs-reveal">
-          <span class="section__number">04</span>
+          <span class="section__number">05</span>
           <span class="section__line"></span>
           <h2 class="section__title">YouTube</h2>
         </div>
@@ -452,7 +594,7 @@
     <section class="connect section" id="connect">
       <div class="container">
         <div class="section__header gs-reveal">
-          <span class="section__number">05</span>
+          <span class="section__number">06</span>
           <span class="section__line"></span>
           <h2 class="section__title">Connect</h2>
         </div>
