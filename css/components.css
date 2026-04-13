@@ -38,9 +38,10 @@
   color: var(--accent);
 }
 
-/* Desktop: hide WA — the hero name itself acts as the brand mark */
+/* Desktop: hide WA — the hero name itself acts as the brand mark; push nav links right */
 @media (min-width: 900px) {
   .nav__logo { display: none; }
+  .nav__inner { justify-content: flex-end; }
 }
 
 .nav__links {

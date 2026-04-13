@@ -83,16 +83,22 @@
   background: rgba(15, 25, 55, 0.75);
 }
 
-/* Desktop: stacked — text top-left (under nav), graph full-width below */
+/* Desktop: top-left kicker+name align with top-right nav links (shared top strip) */
 @media (min-width: 900px) {
   .hero {
     justify-content: flex-start;
-    padding-top: clamp(5.5rem, 9vh, 7rem);
+    padding-top: var(--space-5);
+  }
+  .hero__label {
+    margin-bottom: var(--space-2);
   }
   .hero__info {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-5);
+  }
+  .hero__divider {
+    margin: var(--space-6) 0;
   }
   .hero__graph,
   .hero__graph-labels {
