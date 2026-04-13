@@ -28,6 +28,20 @@
   }
 }
 
+/* ---- Hero graph mobile vignette (stronger mask over text area) ---- */
+@media (max-width: 599px) {
+  .hero::after {
+    background: radial-gradient(
+      ellipse 82% 55% at center,
+      rgba(8, 8, 12, 0.94) 0%,
+      rgba(8, 8, 12, 0.75) 42%,
+      rgba(8, 8, 12, 0.3) 72%,
+      transparent 95%
+    );
+  }
+  .hero__graph-label { font-size: 9px; }
+}
+
 /* ---- Mobile adjustments (max-width) ---- */
 @media (max-width: 599px) {
   .hero__name {

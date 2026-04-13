@@ -93,6 +93,8 @@
     <!-- ===== HERO ===== -->
     <section class="hero section" id="hero">
       <div class="hero__grid"></div>
+      <div class="hero__graph" id="heroGraph"></div>
+      <div class="hero__graph-labels" id="heroGraphLabels" aria-hidden="true"></div>
       <div class="floating-icons" id="floatingIcons"></div>
       <div class="container hero__content">
         <span class="label label--accent hero__label gs-reveal">Full-stack · Available for contract work · Remote</span>
@@ -510,6 +512,14 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
   <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
@@ -517,5 +527,6 @@
   <script src="js/cursor.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/main.js"></script>
+  <script type="module" src="js/hero-graph.js"></script>
 </body>
 </html>
