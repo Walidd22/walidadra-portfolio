@@ -12,39 +12,61 @@ const HUES = {
   data: 0x22c55e,
 };
 
-// 12 nodes. Positions are hand-picked on a spherical shell with slight jitter
-// so clusters read (frontend-left, backend-middle, data-right).
+// 23 nodes spanning Walid's real stack. Positions hand-picked on a spherical
+// shell, clustered by domain: frontend (-x), backend (center), data (+x).
 const TECH = [
-  { name: 'TS',          cluster: 'frontend', pos: [-3.4,  1.8,  0.4] },
-  { name: 'React',       cluster: 'frontend', pos: [-2.2,  0.6,  1.6] },
-  { name: 'React Native',cluster: 'frontend', pos: [-3.0, -1.2,  0.8] },
-  { name: 'Next.js',     cluster: 'frontend', pos: [-1.2,  2.2, -0.6] },
-  { name: 'GSAP',        cluster: 'frontend', pos: [-3.6, -0.4, -1.2] },
+  // 0-9: frontend cluster
+  { name: 'TS',            cluster: 'frontend', pos: [-3.6,  2.0,  0.5] },
+  { name: 'JS',            cluster: 'frontend', pos: [-3.4, -2.0,  0.9] },
+  { name: 'React',         cluster: 'frontend', pos: [-2.2,  0.8,  1.8] },
+  { name: 'React Native',  cluster: 'frontend', pos: [-3.0, -0.9,  1.3] },
+  { name: 'Expo',          cluster: 'frontend', pos: [-4.0, -1.6, -0.2] },
+  { name: 'Next.js',       cluster: 'frontend', pos: [-1.0,  2.4, -0.2] },
+  { name: 'Tailwind',      cluster: 'frontend', pos: [-2.6,  1.5, -1.6] },
+  { name: 'GSAP',          cluster: 'frontend', pos: [-3.8,  0.3, -1.2] },
+  { name: 'Framer Motion', cluster: 'frontend', pos: [-2.8, -0.5, -1.8] },
+  { name: 'Three.js',      cluster: 'frontend', pos: [-1.8, -1.9, -1.4] },
 
-  { name: 'Node.js',     cluster: 'backend',  pos: [ 0.4,  1.3, -0.8] },
-  { name: 'Docker',      cluster: 'backend',  pos: [ 1.4, -1.8,  1.0] },
-  { name: 'Redis',       cluster: 'backend',  pos: [ 0.2, -2.0, -1.4] },
+  // 10-16: backend / infra cluster
+  { name: 'Node.js',       cluster: 'backend',  pos: [ 0.2,  1.7, -0.6] },
+  { name: 'NestJS',        cluster: 'backend',  pos: [ 1.2,  0.8, -1.4] },
+  { name: 'Prisma',        cluster: 'backend',  pos: [ 0.6, -0.8,  1.5] },
+  { name: 'n8n',           cluster: 'backend',  pos: [-0.4, -2.2, -0.4] },
+  { name: 'Docker',        cluster: 'backend',  pos: [ 1.4, -2.0,  0.6] },
+  { name: 'Vercel',        cluster: 'backend',  pos: [ 0.8,  2.4,  1.0] },
+  { name: 'Resend',        cluster: 'backend',  pos: [ 1.8, -0.6, -2.0] },
 
-  { name: 'Postgres',    cluster: 'data',     pos: [ 2.4,  0.4,  1.8] },
-  { name: 'Supabase',    cluster: 'data',     pos: [ 3.2,  1.6,  0.2] },
-  { name: 'Neo4j',       cluster: 'data',     pos: [ 3.4, -0.6, -0.8] },
-  { name: 'Claude',      cluster: 'data',     pos: [ 2.0,  2.4, -1.6] },
+  // 17-22: data / AI / analytics cluster
+  { name: 'Postgres',      cluster: 'data',     pos: [ 2.6,  0.4,  1.6] },
+  { name: 'Supabase',      cluster: 'data',     pos: [ 3.4,  1.6,  0.2] },
+  { name: 'Neo4j',         cluster: 'data',     pos: [ 3.6, -0.4, -0.6] },
+  { name: 'Redis',         cluster: 'data',     pos: [ 2.0, -1.8, -1.0] },
+  { name: 'Claude',        cluster: 'data',     pos: [ 2.2,  2.4, -1.2] },
+  { name: 'Google Analytics', cluster: 'data',  pos: [ 4.0,  2.0, -0.4] },
 ];
 
-// Edges by index pair. Reflects real stack relationships.
+// Edges — real stack relationships, curated so the graph reads without spaghetti.
 const EDGES = [
-  [0, 1], [0, 3], [0, 5],             // TS <-> React, Next.js, Node.js
-  [1, 2], [1, 3], [1, 4],             // React <-> RN, Next.js, GSAP
-  [3, 5],                              // Next.js <-> Node.js
-  [5, 6], [5, 7], [5, 8],             // Node.js <-> Docker, Redis, Postgres
-  [6, 7],                              // Docker <-> Redis
-  [8, 9], [8, 10],                    // Postgres <-> Supabase, Neo4j
-  [9, 10],                            // Supabase <-> Neo4j
-  [10, 11],                           // Neo4j <-> Claude
-  [7, 8],                             // Redis <-> Postgres
-  [2, 4],                             // RN <-> GSAP (animation stack)
-  [11, 5],                            // Claude <-> Node.js (API usage)
-  [9, 5],                             // Supabase <-> Node.js
+  // TypeScript / JavaScript roots
+  [0, 2], [0, 5], [0, 11],                  // TS <-> React, Next, NestJS
+  [1, 2],                                    // JS <-> React
+  // React ecosystem
+  [2, 3], [2, 5], [2, 6], [2, 7], [2, 8], [2, 9],
+  // Mobile
+  [3, 4],                                    // RN <-> Expo
+  // Next.js neighborhood
+  [5, 10], [5, 15], [5, 22],                // Next <-> Node, Vercel, GA
+  // Animation stack
+  [7, 8], [7, 9],                            // GSAP <-> Framer, Three
+  // Node ecosystem
+  [10, 11], [10, 12], [10, 13], [10, 14], [10, 16], [10, 20], [10, 21],
+  [11, 12],                                  // NestJS <-> Prisma
+  [12, 17],                                  // Prisma <-> Postgres
+  [13, 21],                                  // n8n <-> Claude
+  [14, 20],                                  // Docker <-> Redis
+  [15, 22],                                  // Vercel <-> GA
+  // Data layer
+  [17, 18], [18, 19], [19, 21],              // Postgres-Supabase-Neo4j-Claude
 ];
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -116,7 +138,7 @@ function init() {
       depthWrite: false,
     });
     const sprite = new THREE.Sprite(spriteMat);
-    sprite.scale.set(1.4, 1.4, 1);
+    sprite.scale.set(1.15, 1.15, 1);
     sprite.position.copy(finalPos);
     graph.add(sprite);
     glowSprites.push(sprite);
@@ -148,7 +170,7 @@ function init() {
     const mat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.28,
+      opacity: 0.22,
     });
     const line = new THREE.Line(geo, mat);
     line.userData.a = a;
@@ -254,7 +276,7 @@ function init() {
     edgeLines.forEach((line, i) => {
       line.material.opacity = 0;
       gsap.to(line.material, {
-        opacity: 0.28,
+        opacity: 0.22,
         duration: 0.6,
         delay: 1.0 + i * 0.02,
       });
