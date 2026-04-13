@@ -89,9 +89,15 @@
     justify-content: flex-start;
     padding-top: var(--space-5);
   }
+  .hero__name-link {
+    margin-right: var(--space-6);
+    vertical-align: baseline;
+  }
   .hero__label {
-    margin-top: var(--space-2);
+    margin-top: 0;
     margin-bottom: var(--space-2);
+    margin-left: var(--space-5);
+    vertical-align: baseline;
   }
   .hero__info {
     flex-direction: column;
@@ -108,8 +114,8 @@
     top: auto;
     bottom: 0;
     width: auto;
-    height: 55vh;
-    min-height: 420px;
+    height: 62vh;
+    min-height: 460px;
   }
   .hero::after { display: none; }
 }
