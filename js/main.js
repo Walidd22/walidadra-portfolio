@@ -119,10 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
         const target = document.querySelector(anchor.getAttribute('href'));
-        if (target) {
+        if (!target) return;
+        closeMobileMenu();
+        requestAnimationFrame(() => {
           lenis.scrollTo(target, { offset: -60 });
-          closeMobileMenu();
-        }
+        });
       });
     });
   } else {
@@ -130,10 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
         const target = document.querySelector(anchor.getAttribute('href'));
-        if (target) {
+        if (!target) return;
+        closeMobileMenu();
+        requestAnimationFrame(() => {
           target.scrollIntoView({ behavior: 'smooth' });
-          closeMobileMenu();
-        }
+        });
       });
     });
   }
