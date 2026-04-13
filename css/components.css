@@ -38,10 +38,14 @@
   color: var(--accent);
 }
 
-/* Desktop: hide WA — the hero name itself acts as the brand mark; push nav links right */
+/* Desktop: initial state — no visible top bar, logo hidden, links floating top-right.
+   On scroll — sticky bar materializes with WALID ADRA logo left + links right. */
 @media (min-width: 900px) {
   .nav__logo { display: none; }
   .nav__inner { justify-content: flex-end; }
+
+  .nav.is-scrolled .nav__logo { display: inline-block; }
+  .nav.is-scrolled .nav__inner { justify-content: space-between; }
 }
 
 .nav__links {
