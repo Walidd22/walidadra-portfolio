@@ -110,6 +110,25 @@
   margin-bottom: var(--space-6);
 }
 
+/* Mobile: kicker + text sit over the graph — give them backdrop + shadow */
+@media (max-width: 899px) {
+  .hero__label {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(8, 8, 12, 0.55);
+    border: 1px solid rgba(77, 148, 255, 0.32);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    text-shadow: 0 0 12px rgba(8, 8, 12, 0.9);
+  }
+  .hero__name {
+    text-shadow: 0 0 18px rgba(8, 8, 12, 0.8);
+  }
+  .hero__title {
+    text-shadow: 0 0 10px rgba(8, 8, 12, 0.75);
+  }
+}
+
 .hero__name {
   font-family: var(--font-display);
   font-size: var(--text-hero);
