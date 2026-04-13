@@ -96,3 +96,28 @@
     font-size: 8vw;
   }
 }
+
+/* ---- Tablet breakpoint (720-899px) ---- */
+@media (min-width: 720px) and (max-width: 899px) {
+  .hero__name {
+    font-size: clamp(3rem, 1.5rem + 5vw, 5.5rem);
+  }
+
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card__img,
+  .project-card__img-placeholder {
+    min-height: 180px;
+  }
+
+  .about__stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+
+  .section__header {
+    gap: 1rem;
+  }
+}
