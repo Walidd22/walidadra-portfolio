@@ -43,6 +43,7 @@ const TECH = [
   { name: 'Redis',         cluster: 'data',     pos: [ 2.0, -1.8, -1.0] },
   { name: 'Claude',        cluster: 'data',     pos: [ 2.2,  2.4, -1.2] },
   { name: 'Google Analytics', cluster: 'data',  pos: [ 4.0,  2.0, -0.4] },
+  { name: 'PostHog',       cluster: 'data',     pos: [ 3.8,  0.8,  1.8] },
 ];
 
 // Edges — real stack relationships, curated so the graph reads without spaghetti.
@@ -67,6 +68,8 @@ const EDGES = [
   [15, 22],                                  // Vercel <-> GA
   // Data layer
   [17, 18], [18, 19], [19, 21],              // Postgres-Supabase-Neo4j-Claude
+  // PostHog (product analytics)
+  [5, 23], [15, 23], [22, 23],               // Next-PostHog, Vercel-PostHog, GA-PostHog
 ];
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
