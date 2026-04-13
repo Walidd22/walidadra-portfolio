@@ -44,6 +44,20 @@ const TECH = [
   { name: 'Claude',        cluster: 'data',     pos: [ 2.2,  2.4, -1.2] },
   { name: 'Google Analytics', cluster: 'data',  pos: [ 4.0,  2.0, -0.4] },
   { name: 'PostHog',       cluster: 'data',     pos: [ 3.8,  0.8,  1.8] },
+
+  // 24-33: fullstack keywords + React/RN ecosystem
+  { name: 'SQL',            cluster: 'data',     pos: [ 3.2, -0.4,  2.2] },
+
+  { name: 'GraphQL',        cluster: 'backend',  pos: [ 1.2,  2.2, -2.2] },
+  { name: 'Socket.io',      cluster: 'backend',  pos: [ 2.0,  1.0, -1.8] },
+  { name: 'AWS',            cluster: 'backend',  pos: [ 2.8, -1.4,  1.4] },
+  { name: 'Stripe',         cluster: 'backend',  pos: [ 1.0, -2.4,  1.8] },
+  { name: 'GitHub',         cluster: 'backend',  pos: [-0.6,  2.6,  1.4] },
+
+  { name: 'Zustand',        cluster: 'frontend', pos: [-1.8,  0.2,  2.4] },
+  { name: 'TanStack Query', cluster: 'frontend', pos: [-1.2, -1.4,  2.2] },
+  { name: 'Zod',            cluster: 'frontend', pos: [-2.2,  2.4, -0.4] },
+  { name: 'Reanimated',     cluster: 'frontend', pos: [-3.8, -0.2,  1.8] },
 ];
 
 // Edges — real stack relationships, curated so the graph reads without spaghetti.
@@ -70,6 +84,21 @@ const EDGES = [
   [17, 18], [18, 19], [19, 21],              // Postgres-Supabase-Neo4j-Claude
   // PostHog (product analytics)
   [5, 23], [15, 23], [22, 23],               // Next-PostHog, Vercel-PostHog, GA-PostHog
+  // SQL + query
+  [17, 24], [18, 24],                        // Postgres-SQL, Supabase-SQL
+  // GraphQL + real-time
+  [10, 25], [11, 25],                        // Node-GraphQL, NestJS-GraphQL
+  [10, 26],                                   // Node-Socket.io
+  // Cloud + deploy
+  [14, 27], [10, 27],                        // Docker-AWS, Node-AWS
+  [5, 28], [10, 28],                         // Next-Stripe, Node-Stripe
+  [15, 29], [14, 29],                        // Vercel-GitHub, Docker-GitHub
+  // React ecosystem
+  [2, 30], [2, 31],                          // React-Zustand, React-TanStack
+  [18, 31],                                   // Supabase-TanStack (data fetching)
+  [0, 32], [2, 32], [11, 32],                // TS-Zod, React-Zod, NestJS-Zod
+  // React Native ecosystem
+  [3, 33], [7, 33],                          // RN-Reanimated, GSAP-Reanimated
 ];
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
