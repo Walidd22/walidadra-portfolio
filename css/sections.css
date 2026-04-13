@@ -99,23 +99,43 @@
     margin-left: var(--space-5);
     vertical-align: baseline;
   }
-  .hero__info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-5);
-  }
   .hero__divider {
     margin: var(--space-6) 0;
   }
+  /* Graph sits between the top block (name+kicker+divider) and the info row */
   .hero__graph,
   .hero__graph-labels {
     left: 0;
     right: 0;
-    top: auto;
-    bottom: 0;
+    top: 140px;
+    bottom: 180px;
     width: auto;
-    height: 62vh;
-    min-height: 460px;
+    height: auto;
+    min-height: 380px;
+  }
+  /* Description + CTA pulled below graph, above scroll indicator */
+  .hero__info {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--container-max);
+    padding-inline: var(--container-pad);
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    z-index: 5;
+  }
+  .hero__title {
+    font-size: var(--text-sm);
+    max-width: 640px;
+    line-height: 1.55;
+  }
+  .hero__subscribe {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-5);
   }
   .hero::after { display: none; }
 }
