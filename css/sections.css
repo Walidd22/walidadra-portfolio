@@ -83,19 +83,37 @@
   background: rgba(15, 25, 55, 0.75);
 }
 
-/* Desktop: graph on top, text below — drop vignette */
+/* Desktop: 2-col — text left 55%, graph right 45% */
 @media (min-width: 900px) {
   .hero {
-    justify-content: flex-start;
-    padding-top: 60vh;
+    justify-content: center;
+  }
+  .hero__content {
+    max-width: none;
+    width: 55%;
+    margin: 0;
+    padding-left: var(--container-pad);
+    padding-right: var(--space-6);
   }
   .hero__graph,
   .hero__graph-labels {
-    bottom: auto;
-    height: 55vh;
-    min-height: 380px;
+    left: 50%;
+    right: 0;
+    top: 80px;
+    bottom: 80px;
+    width: auto;
+    height: auto;
+    min-height: 420px;
   }
   .hero::after { display: none; }
+}
+
+/* Extra-wide: cap content to align with site container */
+@media (min-width: 1400px) {
+  .hero__content {
+    width: 50%;
+    padding-left: calc((100vw - var(--container-max)) / 2 + var(--container-pad));
+  }
 }
 
 /* Mobile: graph stays full-bleed behind text; disable interaction */
