@@ -78,7 +78,9 @@
   }
 
   .connect__heading {
-    font-size: var(--text-2xl);
+    font-size: clamp(1.25rem, 5vw + 0.25rem, 1.75rem);
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .connect__email-input {
@@ -108,6 +110,11 @@
 
   .hero__name {
     font-size: 8vw;
+  }
+
+  .connect__heading {
+    font-size: 1.1rem;
+    line-height: 1.15;
   }
 }
 
