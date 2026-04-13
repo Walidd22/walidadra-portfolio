@@ -38,6 +38,11 @@
   color: var(--accent);
 }
 
+/* Desktop: hide WA — the hero name itself acts as the brand mark */
+@media (min-width: 900px) {
+  .nav__logo { display: none; }
+}
+
 .nav__links {
   display: flex;
   gap: var(--space-8);
