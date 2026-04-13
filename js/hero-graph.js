@@ -198,10 +198,13 @@ function init() {
     drag.active = false;
   }
 
+  const isInteractive = window.matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)').matches;
   const canvasEl = renderer.domElement;
-  canvasEl.addEventListener('pointerdown', onPointerDown);
-  window.addEventListener('pointermove', onPointerMove);
-  window.addEventListener('pointerup', onPointerUp);
+  if (isInteractive) {
+    canvasEl.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+  }
 
   // Scroll dolly — plain scroll listener, works whether Lenis is active or not
   let scrollProgress = 0;
@@ -326,8 +329,8 @@ function init() {
 
     updateEdgePositions();
 
-    // Hover raycast
-    if (!drag.active) {
+    // Hover raycast (desktop only)
+    if (isInteractive && !drag.active) {
       raycaster.setFromCamera(mouse, camera);
       const hits = raycaster.intersectObjects(nodeMeshes, false);
       const newHover = hits.length ? hits[0].object.userData.index : -1;

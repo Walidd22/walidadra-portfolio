@@ -83,6 +83,29 @@
   background: rgba(15, 25, 55, 0.75);
 }
 
+/* Desktop: graph on top, text below — drop vignette */
+@media (min-width: 900px) {
+  .hero {
+    justify-content: flex-start;
+    padding-top: 60vh;
+  }
+  .hero__graph,
+  .hero__graph-labels {
+    bottom: auto;
+    height: 55vh;
+    min-height: 380px;
+  }
+  .hero::after { display: none; }
+}
+
+/* Mobile: graph stays full-bleed behind text; disable interaction */
+@media (max-width: 899px) {
+  .hero__graph {
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
 .hero__label {
   margin-bottom: var(--space-6);
 }
