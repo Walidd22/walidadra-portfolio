@@ -83,20 +83,11 @@
   background: rgba(15, 25, 55, 0.75);
 }
 
-/* Desktop: 2-col — text left 58%, graph right 42% */
+/* Desktop: stacked — text top-left (under nav), graph full-width below */
 @media (min-width: 900px) {
   .hero {
-    justify-content: center;
-  }
-  .hero__content {
-    max-width: none;
-    width: 58%;
-    margin: 0;
-    padding-left: var(--container-pad);
-    padding-right: var(--space-6);
-  }
-  .hero__name {
-    font-size: clamp(2.75rem, 2.5vw + 2rem, 5rem);
+    justify-content: flex-start;
+    padding-top: clamp(5.5rem, 9vh, 7rem);
   }
   .hero__info {
     flex-direction: column;
@@ -105,23 +96,15 @@
   }
   .hero__graph,
   .hero__graph-labels {
-    left: 55%;
+    left: 0;
     right: 0;
-    top: 0;
-    bottom: 80px;
+    top: auto;
+    bottom: 0;
     width: auto;
-    height: auto;
+    height: 55vh;
     min-height: 420px;
   }
   .hero::after { display: none; }
-}
-
-/* Extra-wide: cap content to align with site container */
-@media (min-width: 1400px) {
-  .hero__content {
-    width: 50%;
-    padding-left: calc((100vw - var(--container-max)) / 2 + var(--container-pad));
-  }
 }
 
 /* Mobile: graph stays full-bleed behind text; disable interaction */
