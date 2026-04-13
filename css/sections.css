@@ -129,6 +129,17 @@
 
 /* Mobile: kicker + text sit over the graph — give them backdrop + shadow */
 @media (max-width: 899px) {
+  /* Hide the big hero H1 — the nav logo now carries "WALID ADRA" on mobile. Keep it in DOM for SEO/screen readers. */
+  .hero__name-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
   .hero__label {
     display: inline-block;
     padding: 4px 10px;
@@ -137,9 +148,7 @@
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     text-shadow: 0 0 12px rgba(8, 8, 12, 0.9);
-  }
-  .hero__name {
-    text-shadow: 0 0 18px rgba(8, 8, 12, 0.8);
+    margin-top: 0;
   }
   .hero__title {
     text-shadow: 0 0 10px rgba(8, 8, 12, 0.75);
