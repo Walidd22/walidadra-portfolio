@@ -113,10 +113,10 @@
     height: auto;
     min-height: 380px;
   }
-  /* Description + CTA pulled below graph, above scroll indicator */
+  /* Description + CTA pulled below graph, centered above scroll indicator */
   .hero__info {
     position: absolute;
-    bottom: 110px;
+    bottom: clamp(80px, 10vh, 120px);
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -124,14 +124,18 @@
     padding-inline: var(--container-pad);
     box-sizing: border-box;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-3);
+    align-items: center;
+    gap: var(--space-4);
     z-index: 5;
   }
   .hero__title {
     font-size: var(--text-sm);
-    max-width: 640px;
+    max-width: 720px;
+    text-align: center;
     line-height: 1.55;
+  }
+  .hero__cta-group {
+    justify-content: center;
   }
   .hero__subscribe {
     font-size: var(--text-xs);
@@ -176,8 +180,30 @@
     text-shadow: 0 0 12px rgba(8, 8, 12, 0.9);
     margin-top: 0;
   }
+  /* Mobile: .hero__info is now a direct child of .hero (post O.12) — re-apply container constraints */
+  .hero__info {
+    width: 100%;
+    margin: 0;
+    padding: 0 var(--container-pad) var(--space-8);
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    text-align: left;
+  }
   .hero__title {
+    font-size: var(--text-sm);
+    max-width: none;
+    line-height: 1.55;
     text-shadow: 0 0 10px rgba(8, 8, 12, 0.75);
+  }
+  .hero__cta-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .hero__subscribe {
+    align-self: flex-start;
+    width: auto;
   }
 }
 
