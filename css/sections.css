@@ -130,7 +130,9 @@
   }
   .hero__title {
     font-size: var(--text-sm);
-    max-width: 720px;
+    max-width: 860px;
+    width: 100%;
+    margin-inline: auto;
     text-align: center;
     line-height: 1.55;
   }
