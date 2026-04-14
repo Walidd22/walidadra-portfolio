@@ -180,8 +180,10 @@
     text-shadow: 0 0 12px rgba(8, 8, 12, 0.9);
     margin-top: 0;
   }
-  /* Mobile: .hero__info is now a direct child of .hero (post O.12) — re-apply container constraints */
+  /* Mobile: .hero__info is now a direct child of .hero (post O.12) — re-apply container constraints + stack above graph */
   .hero__info {
+    position: relative;
+    z-index: 3;
     width: 100%;
     margin: 0;
     padding: 0 var(--container-pad) var(--space-8);
