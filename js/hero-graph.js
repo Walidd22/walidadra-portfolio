@@ -248,9 +248,13 @@ function init() {
 
   // Scroll dolly — plain scroll listener, works whether Lenis is active or not
   let scrollProgress = 0;
+  let lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  let scrollVelocity = 0; // px delta accumulated between frames
   function onScroll() {
     const scrolled = window.scrollY || document.documentElement.scrollTop;
     scrollProgress = Math.min(1, Math.max(0, scrolled / Math.max(1, window.innerHeight)));
+    scrollVelocity += scrolled - lastScrollY;
+    lastScrollY = scrolled;
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -335,15 +339,22 @@ function init() {
     const dt = Math.min(0.05, clock.getDelta());
     const t = clock.elapsedTime;
 
-    // Idle rotation around the helix X-axis (spine) — spins like DNA
+    // Idle rotation around the helix X-axis (spine) — spins like DNA.
+    // On desktop, scroll velocity drives additional rotation so the helix
+    // spins while the user scrolls and idles back to slow when they stop.
     if (!drag.active) {
-      graph.rotation.x += idleRotSpeed * dt * (1 + scrollProgress * 1.4);
+      graph.rotation.x += idleRotSpeed * dt;
+      if (isInteractive) {
+        graph.rotation.x += scrollVelocity * 0.0018;
+      }
       graph.rotation.x += drag.velX * 0.92;
       drag.velX *= 0.92;
       drag.velY *= 0.92;
     } else {
       graph.rotation.x = drag.rotX;
     }
+    // Consume scroll velocity with exponential decay so it bleeds off when user stops scrolling
+    scrollVelocity *= 0.85;
 
     // Camera dolly on scroll
     camera.position.z = 11 - scrollProgress * 3;
