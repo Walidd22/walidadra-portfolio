@@ -132,17 +132,26 @@ const CLUSTER_EDGES = [
   [3, 33], [7, 33],
 ];
 
-const TECH = IS_MOBILE ? CLUSTER_TECH : HELIX_TECH;
-const EDGES = IS_MOBILE ? CLUSTER_EDGES : HELIX_EDGES;
-const ROT_AXIS = IS_MOBILE ? 'y' : 'x';
-
+const MOBILE_MQL = window.matchMedia('(max-width: 899px)');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function init() {
   const mount = document.getElementById('heroGraph');
   const labelMount = document.getElementById('heroGraphLabels');
   const hero = document.getElementById('hero');
-  if (!mount || !labelMount || !hero) return;
+  if (!mount || !labelMount || !hero) return () => {};
+
+  const isMobile = MOBILE_MQL.matches;
+  const TECH = isMobile ? CLUSTER_TECH : HELIX_TECH;
+  const EDGES = isMobile ? CLUSTER_EDGES : HELIX_EDGES;
+  const ROT_AXIS = isMobile ? 'y' : 'x';
+
+  // Track cleanup hooks for hot-swap when viewport crosses the breakpoint.
+  const cleanups = [];
+  const addListener = (target, ev, handler, opts) => {
+    target.addEventListener(ev, handler, opts);
+    cleanups.push(() => target.removeEventListener(ev, handler, opts));
+  };
 
   const { clientWidth: W, clientHeight: H } = mount;
   const scene = new THREE.Scene();
@@ -290,9 +299,9 @@ function init() {
   const isInteractive = window.matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)').matches;
   const canvasEl = renderer.domElement;
   if (isInteractive) {
-    canvasEl.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
+    addListener(canvasEl, 'pointerdown', onPointerDown);
+    addListener(window, 'pointermove', onPointerMove);
+    addListener(window, 'pointerup', onPointerUp);
   }
 
   // Scroll dolly — plain scroll listener, works whether Lenis is active or not
@@ -305,7 +314,7 @@ function init() {
     scrollVelocity += scrolled - lastScrollY;
     lastScrollY = scrolled;
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
+  addListener(window, 'scroll', onScroll, { passive: true });
 
   // ---- Entrance animation ----
   const gsap = window.gsap;
@@ -480,10 +489,28 @@ function init() {
       labelRenderer.render(scene, camera);
     });
   }
-  window.addEventListener('resize', onResize, { passive: true });
+  addListener(window, 'resize', onResize, { passive: true });
 
   // Expose a tiny handle for debugging / verify scripts
-  window.__heroGraph = { scene, renderer, camera, nodes: nodeMeshes, edges: edgeLines };
+  window.__heroGraph = { scene, renderer, camera, nodes: nodeMeshes, edges: edgeLines, layout: isMobile ? 'cluster' : 'helix' };
+
+  // Return destroy hook — tears down scene + listeners for hot-swap on viewport change
+  return () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    io.disconnect();
+    cleanups.forEach(fn => fn());
+    // Dispose Three.js resources
+    nodeMeshes.forEach(m => m.material.dispose());
+    glowSprites.forEach(s => s.material.dispose());
+    edgeLines.forEach(l => { l.geometry.dispose(); l.material.dispose(); });
+    nodeGeo.dispose();
+    glowTex.dispose();
+    renderer.dispose();
+    // Clear DOM mounts
+    renderer.domElement.remove();
+    labelMount.innerHTML = '';
+    window.__heroGraph = null;
+  };
 }
 
 function makeGlowTexture() {
@@ -503,8 +530,22 @@ function makeGlowTexture() {
   return tex;
 }
 
+let _destroy = null;
+function boot() {
+  if (_destroy) _destroy();
+  _destroy = init() || null;
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init, { once: true });
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
 } else {
-  init();
+  boot();
+}
+
+// Hot-swap layout when viewport crosses the 900px breakpoint
+const _onBreakpointChange = () => boot();
+if (MOBILE_MQL.addEventListener) {
+  MOBILE_MQL.addEventListener('change', _onBreakpointChange);
+} else if (MOBILE_MQL.addListener) {
+  MOBILE_MQL.addListener(_onBreakpointChange);  // old Safari fallback
 }
