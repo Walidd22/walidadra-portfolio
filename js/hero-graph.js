@@ -53,7 +53,7 @@ const HELIX_TECH_NAMES = [
   { name: 'SQL',             cluster: 'data'     },
 ];
 
-const HELIX = { xSpan: 6.5, radius: 0.85, turns: 1.75 };
+const HELIX = { xSpan: 8.0, radius: 1.2, turns: 1.5 };
 
 const HELIX_TECH = HELIX_TECH_NAMES.map((t, i) => {
   const pairIndex = Math.floor(i / 2);
