@@ -5,6 +5,7 @@
 
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { Timer } from 'three/addons/misc/Timer.js';
 
 const HUES = {
   frontend: 0x4d94ff,
@@ -366,13 +367,12 @@ function init() {
   // ---- Render loop with IntersectionObserver pause ----
   let rafId = 0;
   let isVisible = true;
-  const clock = new THREE.Clock();
+  const timer = new Timer();
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       isVisible = e.isIntersecting;
       if (isVisible && !rafId && !prefersReducedMotion) {
-        clock.start();
         tick();
       }
     });
@@ -394,8 +394,9 @@ function init() {
     if (!isVisible || prefersReducedMotion) { rafId = 0; return; }
     rafId = requestAnimationFrame(tick);
 
-    const dt = Math.min(0.05, clock.getDelta());
-    const t = clock.elapsedTime;
+    timer.update();
+    const dt = Math.min(0.05, timer.getDelta());
+    const t = timer.getElapsed();
 
     // Idle rotation on the layout's natural axis:
     //   desktop (helix) → X-axis (spine)
@@ -470,7 +471,6 @@ function init() {
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera);
   } else {
-    clock.start();
     tick();
   }
 
