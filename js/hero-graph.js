@@ -497,8 +497,20 @@ function init() {
   // Return destroy hook — tears down scene + listeners for hot-swap on viewport change
   return () => {
     if (rafId) cancelAnimationFrame(rafId);
+    if (resizeRaf) cancelAnimationFrame(resizeRaf);  // cancel pending resize render
     io.disconnect();
     cleanups.forEach(fn => fn());
+
+    // Remove CSS2DObjects from the scene graph so any stray render() call has nothing to re-append
+    labelObjs.forEach(l => {
+      if (l.parent) l.parent.remove(l);
+      const el = l.userData.el;
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+
+    // Defensive: clear anything left behind in labelMount
+    while (labelMount.firstChild) labelMount.removeChild(labelMount.firstChild);
+
     // Dispose Three.js resources
     nodeMeshes.forEach(m => m.material.dispose());
     glowSprites.forEach(s => s.material.dispose());
@@ -506,9 +518,9 @@ function init() {
     nodeGeo.dispose();
     glowTex.dispose();
     renderer.dispose();
-    // Clear DOM mounts
-    renderer.domElement.remove();
-    labelMount.innerHTML = '';
+
+    if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+
     window.__heroGraph = null;
   };
 }
@@ -547,5 +559,5 @@ const _onBreakpointChange = () => boot();
 if (MOBILE_MQL.addEventListener) {
   MOBILE_MQL.addEventListener('change', _onBreakpointChange);
 } else if (MOBILE_MQL.addListener) {
-  MOBILE_MQL.addListener(_onBreakpointChange);  // old Safari fallback
+  MOBILE_MQL.addListener(_onBreakpointChange);
 }
