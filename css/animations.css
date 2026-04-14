@@ -89,6 +89,35 @@
   animation: glitch-2 0.3s infinite linear alternate-reverse;
 }
 
+/* Mobile: nav logo WALID ADRA flickers + glitches on hero tap (mirrors desktop hero name) */
+@media (max-width: 899px) {
+  .nav__logo {
+    position: relative;
+    animation: nameFlicker 4s ease-in-out infinite;
+  }
+  .nav__logo[data-text]::before,
+  .nav__logo[data-text]::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nav__logo.is-glitching::before {
+    opacity: 0.8;
+    color: var(--accent);
+    animation: glitch-1 0.3s infinite linear alternate;
+  }
+  .nav__logo.is-glitching::after {
+    opacity: 0.6;
+    color: var(--accent-glow);
+    animation: glitch-2 0.3s infinite linear alternate-reverse;
+  }
+}
+
 /* Page load fade */
 .page-loader {
   position: fixed;

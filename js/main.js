@@ -189,6 +189,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- MOBILE: glitch nav logo on any hero tap ----
+  const navLogo = document.querySelector('.nav__logo');
+  const heroSection = document.getElementById('hero');
+  if (navLogo && heroSection && window.matchMedia('(max-width: 899px)').matches) {
+    let glitchTimer = 0;
+    heroSection.addEventListener('pointerdown', () => {
+      navLogo.classList.add('is-glitching');
+      clearTimeout(glitchTimer);
+      glitchTimer = setTimeout(() => navLogo.classList.remove('is-glitching'), 700);
+    }, { passive: true });
+  }
+
   // ---- INIT ANIMATIONS ----
   if (!reducedMotion) {
     window.addEventListener('load', () => {
