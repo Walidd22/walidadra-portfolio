@@ -12,12 +12,11 @@ const HUES = {
   data: 0x22c55e,
 };
 
-// 34 techs laid out as a DNA double helix along the X-axis. Each pair of nodes
-// (strand A + strand B) sits at the same X position, winding π out of phase.
-// Y amplitude kept small (0.85) so the helix stays in the graph's vertical band
-// and never bleeds into the description text below.
-const TECH_NAMES = [
-  // Strand A (even indices 0, 2, 4, ...) — 17 nodes
+// Viewport detection — picks the graph layout at init time.
+const IS_MOBILE = window.matchMedia('(max-width: 899px)').matches;
+
+// --- DESKTOP: DNA double helix along X-axis ---
+const HELIX_TECH_NAMES = [
   { name: 'TS',              cluster: 'frontend' },
   { name: 'n8n',             cluster: 'backend'  },
   { name: 'JS',              cluster: 'frontend' },
@@ -54,17 +53,13 @@ const TECH_NAMES = [
   { name: 'SQL',             cluster: 'data'     },
 ];
 
-const HELIX = {
-  xSpan: 6.5,      // -xSpan .. +xSpan along the spine
-  radius: 0.85,    // helix vertical radius (stays clear of text)
-  turns: 1.75,     // number of full twists across the spine
-};
+const HELIX = { xSpan: 6.5, radius: 0.85, turns: 1.75 };
 
-const TECH = TECH_NAMES.map((t, i) => {
+const HELIX_TECH = HELIX_TECH_NAMES.map((t, i) => {
   const pairIndex = Math.floor(i / 2);
-  const strand = i % 2;                                  // 0 or 1
-  const pairCount = Math.ceil(TECH_NAMES.length / 2);    // 17
-  const tt = pairIndex / (pairCount - 1);                // 0..1
+  const strand = i % 2;
+  const pairCount = Math.ceil(HELIX_TECH_NAMES.length / 2);
+  const tt = pairIndex / (pairCount - 1);
   const x = -HELIX.xSpan + tt * HELIX.xSpan * 2;
   const theta = tt * Math.PI * 2 * HELIX.turns + strand * Math.PI;
   const y = Math.sin(theta) * HELIX.radius;
@@ -72,20 +67,74 @@ const TECH = TECH_NAMES.map((t, i) => {
   return { ...t, pos: [x, y, z] };
 });
 
-// Edges auto-generated from DNA structure:
-// - Backbone of each strand (consecutive nodes on the same strand)
-// - Base pairs (node i ↔ node i+1 where i is even) connecting the two strands
-const EDGES = (() => {
+const HELIX_EDGES = (() => {
   const edges = [];
-  const n = TECH_NAMES.length;
-  // Strand A backbone: 0-2, 2-4, ..., (n-4)-(n-2)
+  const n = HELIX_TECH_NAMES.length;
   for (let i = 0; i < n - 2; i += 2) edges.push([i, i + 2]);
-  // Strand B backbone: 1-3, 3-5, ..., (n-3)-(n-1)
   for (let i = 1; i < n - 2; i += 2) edges.push([i, i + 2]);
-  // Base pairs: 0-1, 2-3, 4-5, ...
   for (let i = 0; i < n; i += 2) edges.push([i, i + 1]);
   return edges;
 })();
+
+// --- MOBILE: original hand-picked cluster/spherical-shell layout ---
+const CLUSTER_TECH = [
+  { name: 'TS',            cluster: 'frontend', pos: [-3.6,  2.0,  0.5] },
+  { name: 'JS',            cluster: 'frontend', pos: [-3.4, -2.0,  0.9] },
+  { name: 'React',         cluster: 'frontend', pos: [-2.2,  0.8,  1.8] },
+  { name: 'React Native',  cluster: 'frontend', pos: [-3.0, -0.9,  1.3] },
+  { name: 'Expo',          cluster: 'frontend', pos: [-4.0, -1.6, -0.2] },
+  { name: 'Next.js',       cluster: 'frontend', pos: [-1.0,  2.4, -0.2] },
+  { name: 'Tailwind',      cluster: 'frontend', pos: [-2.6,  1.5, -1.6] },
+  { name: 'GSAP',          cluster: 'frontend', pos: [-3.8,  0.3, -1.2] },
+  { name: 'Framer Motion', cluster: 'frontend', pos: [-2.8, -0.5, -1.8] },
+  { name: 'Three.js',      cluster: 'frontend', pos: [-1.8, -1.9, -1.4] },
+  { name: 'Node.js',       cluster: 'backend',  pos: [ 0.2,  1.7, -0.6] },
+  { name: 'NestJS',        cluster: 'backend',  pos: [ 1.2,  0.8, -1.4] },
+  { name: 'Prisma',        cluster: 'backend',  pos: [ 0.6, -0.8,  1.5] },
+  { name: 'n8n',           cluster: 'backend',  pos: [-0.4, -2.2, -0.4] },
+  { name: 'Docker',        cluster: 'backend',  pos: [ 1.4, -2.0,  0.6] },
+  { name: 'Vercel',        cluster: 'backend',  pos: [ 0.8,  2.4,  1.0] },
+  { name: 'Resend',        cluster: 'backend',  pos: [ 1.8, -0.6, -2.0] },
+  { name: 'Postgres',      cluster: 'data',     pos: [ 2.6,  0.4,  1.6] },
+  { name: 'Supabase',      cluster: 'data',     pos: [ 3.4,  1.6,  0.2] },
+  { name: 'Neo4j',         cluster: 'data',     pos: [ 3.6, -0.4, -0.6] },
+  { name: 'Redis',         cluster: 'data',     pos: [ 2.0, -1.8, -1.0] },
+  { name: 'Claude',        cluster: 'data',     pos: [ 2.2,  2.4, -1.2] },
+  { name: 'Google Analytics', cluster: 'data',  pos: [ 4.0,  2.0, -0.4] },
+  { name: 'PostHog',       cluster: 'data',     pos: [ 3.8,  0.8,  1.8] },
+  { name: 'SQL',           cluster: 'data',     pos: [ 3.2, -0.4,  2.2] },
+  { name: 'GraphQL',       cluster: 'backend',  pos: [ 1.2,  2.2, -2.2] },
+  { name: 'Socket.io',     cluster: 'backend',  pos: [ 2.0,  1.0, -1.8] },
+  { name: 'AWS',           cluster: 'backend',  pos: [ 2.8, -1.4,  1.4] },
+  { name: 'Stripe',        cluster: 'backend',  pos: [ 1.0, -2.4,  1.8] },
+  { name: 'GitHub',        cluster: 'backend',  pos: [-0.6,  2.6,  1.4] },
+  { name: 'Zustand',       cluster: 'frontend', pos: [-1.8,  0.2,  2.4] },
+  { name: 'TanStack Query',cluster: 'frontend', pos: [-1.2, -1.4,  2.2] },
+  { name: 'Zod',           cluster: 'frontend', pos: [-2.2,  2.4, -0.4] },
+  { name: 'Reanimated',    cluster: 'frontend', pos: [-3.8, -0.2,  1.8] },
+];
+
+const CLUSTER_EDGES = [
+  [0, 2], [0, 5], [0, 11], [1, 2],
+  [2, 3], [2, 5], [2, 6], [2, 7], [2, 8], [2, 9],
+  [3, 4],
+  [5, 10], [5, 15], [5, 22],
+  [7, 8], [7, 9],
+  [10, 11], [10, 12], [10, 13], [10, 14], [10, 16], [10, 20], [10, 21],
+  [11, 12], [12, 17], [13, 21], [14, 20], [15, 22],
+  [17, 18], [18, 19], [19, 21],
+  [5, 23], [15, 23], [22, 23],
+  [17, 24], [18, 24],
+  [10, 25], [11, 25], [10, 26],
+  [14, 27], [10, 27], [5, 28], [10, 28], [15, 29], [14, 29],
+  [2, 30], [2, 31], [18, 31],
+  [0, 32], [2, 32], [11, 32],
+  [3, 33], [7, 33],
+];
+
+const TECH = IS_MOBILE ? CLUSTER_TECH : HELIX_TECH;
+const EDGES = IS_MOBILE ? CLUSTER_EDGES : HELIX_EDGES;
+const ROT_AXIS = IS_MOBILE ? 'y' : 'x';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -339,19 +388,20 @@ function init() {
     const dt = Math.min(0.05, clock.getDelta());
     const t = clock.elapsedTime;
 
-    // Idle rotation around the helix X-axis (spine) — spins like DNA.
-    // On desktop, scroll velocity drives additional rotation so the helix
-    // spins while the user scrolls and idles back to slow when they stop.
+    // Idle rotation on the layout's natural axis:
+    //   desktop (helix) → X-axis (spine)
+    //   mobile (cluster) → Y-axis (turntable)
+    // On desktop, scroll velocity feeds into rotation so helix spins during scroll.
     if (!drag.active) {
-      graph.rotation.x += idleRotSpeed * dt;
+      graph.rotation[ROT_AXIS] += idleRotSpeed * dt;
       if (isInteractive) {
-        graph.rotation.x += scrollVelocity * 0.0018;
+        graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;
       }
-      graph.rotation.x += drag.velX * 0.92;
+      graph.rotation[ROT_AXIS] += drag.velX * 0.92;
       drag.velX *= 0.92;
       drag.velY *= 0.92;
     } else {
-      graph.rotation.x = drag.rotX;
+      graph.rotation[ROT_AXIS] = drag.rotX;
     }
     // Consume scroll velocity with exponential decay so it bleeds off when user stops scrolling
     scrollVelocity *= 0.85;
