@@ -439,19 +439,21 @@ function init() {
 
     // Mobile morph phases (all zero on desktop since morphProgress stays 0).
     //   transformT: cluster → helix corkscrew
-    //   dropT:      helix swirls and translates down (spread across 65% of progress
-    //               so the fall reads as deliberate, not abrupt)
+    //   spinT:      helix holds position and spins in place, building rotation
+    //   dropT:      helix spirals down and off-screen
     //   fadeT:      opacity fade-out
-    const transformT = smoothstep(0.0, 0.4, morphProgress);
-    const dropT      = smoothstep(0.35, 1.0, morphProgress);
-    const fadeT      = smoothstep(0.7, 1.0, morphProgress);
+    const transformT = smoothstep(0.0, 0.35, morphProgress);
+    const spinT      = smoothstep(0.35, 0.6, morphProgress);
+    const dropT      = smoothstep(0.6, 1.0, morphProgress);
+    const fadeT      = smoothstep(0.75, 1.0, morphProgress);
     const notTransform = 1 - transformT;
 
-    // Rotation: idle spin + swirl boost during morph.
-    // Mobile rotates on Y (vertical spine of the helix), desktop on X.
-    // Drop phase gets a heavy swirl multiplier so the helix spins fast while falling.
+    // Rotation: idle spin + swirl boost across each phase.
+    //   transform:  modest boost as nodes corkscrew into the helix
+    //   spin:       ramps up hard while the helix sits in place (anticipation)
+    //   drop:       carries the high rotation down with the falling group
     if (!drag.active) {
-      const swirlBoost = 1 + transformT * 5 + dropT * 22;
+      const swirlBoost = 1 + transformT * 4 + spinT * 14 + dropT * 10;
       graph.rotation[ROT_AXIS] += idleRotSpeed * dt * swirlBoost;
       if (isInteractive) {
         graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;

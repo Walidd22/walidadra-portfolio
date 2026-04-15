@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const remaining = 1 - state.v;
       morphTween = window.gsap.to(state, {
         v: 1,
-        duration: Math.max(0.3, 4.5 * remaining),
+        duration: Math.max(0.3, 5.5 * remaining),
         ease: 'power1.out',
         onUpdate: () => g.setMorphProgress(state.v),
       });
