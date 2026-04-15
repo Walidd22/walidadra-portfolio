@@ -204,6 +204,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  // ---- MOBILE: press-and-hold the hero graph to morph into a vertical DNA helix
+  //              that swirls and drops away. Releasing reverses it back to the cluster.
+  if (heroSection && window.matchMedia('(max-width: 899px)').matches) {
+    let morphTween = null;
+    let isPressed = false;
+
+    const getGraph = () => {
+      const g = window.__heroGraph;
+      return g && g.setMorphProgress && g.getMorphProgress ? g : null;
+    };
+
+    function startMorph(e) {
+      // Ignore taps on the info card, CTA, name-link, nav — they have their own UI.
+      if (e.target.closest && e.target.closest('.hero__info, .hero__content, .nav')) return;
+      const g = getGraph();
+      if (!g) return;
+      if (morphTween) morphTween.kill();
+      isPressed = true;
+      const state = { v: g.getMorphProgress() };
+      const remaining = 1 - state.v;
+      morphTween = window.gsap.to(state, {
+        v: 1,
+        duration: Math.max(0.25, 2.4 * remaining),
+        ease: 'power2.inOut',
+        onUpdate: () => g.setMorphProgress(state.v),
+      });
+    }
+
+    function endMorph() {
+      if (!isPressed) return;
+      isPressed = false;
+      const g = getGraph();
+      if (!g) return;
+      if (morphTween) morphTween.kill();
+      const state = { v: g.getMorphProgress() };
+      morphTween = window.gsap.to(state, {
+        v: 0,
+        duration: Math.max(0.25, 1.4 * state.v),
+        ease: 'power2.out',
+        onUpdate: () => g.setMorphProgress(state.v),
+      });
+    }
+
+    heroSection.addEventListener('pointerdown', startMorph, { passive: true });
+    // Release can happen anywhere — bind on window to catch fingers that slide off.
+    window.addEventListener('pointerup', endMorph, { passive: true });
+    window.addEventListener('pointercancel', endMorph, { passive: true });
+  }
+
   // ---- INIT ANIMATIONS ----
   if (!reducedMotion) {
     window.addEventListener('load', () => {

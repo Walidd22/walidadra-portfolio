@@ -142,33 +142,23 @@ function smoothstep(edge0, edge1, x) {
 }
 
 /**
- * Sample `count` points evenly along the 4-stroke path of a capital W,
- * centered at origin in XY, z=0. Uses cumulative arc-length so nodes
- * distribute proportionally across strokes of unequal length.
+ * Build a vertical DNA double-helix (spine = Y-axis) with `count` nodes.
+ * Used on mobile as the transformer target — nodes spiral from the
+ * scattered cluster layout into this tall, narrow shape before the whole
+ * thing swirls and drops off-screen.
  */
-function buildWPath(count, w, h) {
-  const P = [
-    [-w / 2,  h / 2, 0],
-    [-w / 4, -h / 2, 0],
-    [ 0,      h / 4, 0],
-    [ w / 4, -h / 2, 0],
-    [ w / 2,  h / 2, 0],
-  ];
-  const segLens = [];
-  let total = 0;
-  for (let i = 0; i < 4; i++) {
-    const d = Math.hypot(P[i + 1][0] - P[i][0], P[i + 1][1] - P[i][1]);
-    segLens.push(d);
-    total += d;
-  }
+function buildVerticalHelix(count, ySpan = 4.0, radius = 0.9, turns = 2.0) {
   const out = [];
+  const pairCount = Math.max(1, Math.ceil(count / 2));
   for (let i = 0; i < count; i++) {
-    const target = (i / (count - 1)) * total;
-    let seg = 0, acc = 0;
-    while (seg < 3 && acc + segLens[seg] < target) { acc += segLens[seg]; seg++; }
-    const lt = segLens[seg] > 0 ? (target - acc) / segLens[seg] : 0;
-    const a = P[seg], b = P[seg + 1];
-    out.push([a[0] + (b[0] - a[0]) * lt, a[1] + (b[1] - a[1]) * lt, 0]);
+    const pairIndex = Math.floor(i / 2);
+    const strand = i % 2;
+    const tt = pairCount > 1 ? pairIndex / (pairCount - 1) : 0;
+    const y = -ySpan + tt * ySpan * 2;
+    const theta = tt * Math.PI * 2 * turns + strand * Math.PI;
+    const x = Math.sin(theta) * radius;
+    const z = Math.cos(theta) * radius;
+    out.push([x, y, z]);
   }
   return out;
 }
@@ -268,12 +258,12 @@ function init() {
     labelObjs.push(labelObj);
   });
 
-  // Mobile-only: pre-compute W-shape target positions (one per node)
-  // Used by the scroll-driven morph effect. Desktop layout has no wPos.
+  // Mobile-only: pre-compute vertical DNA helix target positions (one per node).
+  // Used by the press-and-hold transformer effect on the hero section.
   if (isMobile) {
-    const wPoints = buildWPath(nodeMeshes.length, 3.0, 2.4);
+    const hPoints = buildVerticalHelix(nodeMeshes.length, 3.6, 0.85, 2.0);
     nodeMeshes.forEach((m, i) => {
-      m.userData.wPos = new THREE.Vector3(...wPoints[i]);
+      m.userData.helixPos = new THREE.Vector3(...hPoints[i]);
     });
   }
 
@@ -446,30 +436,32 @@ function init() {
     const dt = Math.min(0.05, timer.getDelta());
     const t = timer.getElapsed();
 
-    // Morph easing curves (mobile-only; both zero on desktop since morphProgress stays 0)
-    const morphT = smoothstep(0.5, 0.85, morphProgress);
-    const fadeT  = smoothstep(0.85, 1.0, morphProgress);
-    const notMorph = 1 - morphT;
+    // Mobile morph phases (all zero on desktop since morphProgress stays 0).
+    //   transformT: cluster → helix corkscrew
+    //   dropT:      helix swirls and translates down
+    //   fadeT:      opacity fade-out
+    const transformT = smoothstep(0.0, 0.45, morphProgress);
+    const dropT      = smoothstep(0.55, 1.0, morphProgress);
+    const fadeT      = smoothstep(0.65, 1.0, morphProgress);
+    const notTransform = 1 - transformT;
 
-    // Idle rotation on the layout's natural axis:
-    //   desktop (helix) → X-axis (spine)
-    //   mobile (cluster) → Y-axis (turntable)
-    // On desktop, scroll velocity feeds into rotation so helix spins during scroll.
-    // During morph, rotation damps to zero so the W forms in a stable orientation.
+    // Rotation: idle spin + swirl boost during morph.
+    // Mobile rotates on Y (vertical spine of the helix), desktop on X.
     if (!drag.active) {
-      graph.rotation[ROT_AXIS] += idleRotSpeed * dt * notMorph;
+      const swirlBoost = 1 + transformT * 5 + dropT * 10;
+      graph.rotation[ROT_AXIS] += idleRotSpeed * dt * swirlBoost;
       if (isInteractive) {
         graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;
       }
       graph.rotation[ROT_AXIS] += drag.velX * 0.92;
       drag.velX *= 0.92;
       drag.velY *= 0.92;
-      if (morphT > 0) {
-        graph.rotation[ROT_AXIS] += (0 - graph.rotation[ROT_AXIS]) * morphT * 0.12;
-      }
     } else {
       graph.rotation[ROT_AXIS] = drag.rotX;
     }
+
+    // Drop: helix translates downward off-screen during dropT.
+    graph.position.y = -dropT * 14;
     // Consume scroll velocity with exponential decay so it bleeds off when user stops scrolling
     scrollVelocity *= 0.85;
 
@@ -483,31 +475,48 @@ function init() {
       camera.position.y += (mouse.y * 0.3 - camera.position.y) * 0.04;
     }
 
-    // Node position: bob around finalPos, then blend toward the W shape on mobile morph.
-    nodeMeshes.forEach((m) => {
+    // Node position: bob around cluster finalPos, then blend toward the helix
+    // shape via a mid-flight corkscrew (peaks at transformT = 0.5).
+    nodeMeshes.forEach((m, i) => {
       const base = m.userData.finalPos;
       const off = m.userData.bobOffset;
-      const bobY = Math.sin(t * 0.9 + off) * 0.06 * notMorph;
-      const w = m.userData.wPos;
-      const tx = w ? base.x + (w.x - base.x) * morphT : base.x;
-      const ty = w ? (base.y + bobY) + (w.y - (base.y + bobY)) * morphT : base.y + bobY;
-      const tz = w ? base.z + (w.z - base.z) * morphT : base.z;
-      m.position.x += (tx - m.position.x) * 0.15;
-      m.position.y += (ty - m.position.y) * 0.15;
-      m.position.z += (tz - m.position.z) * 0.15;
+      const bobY = Math.sin(t * 0.9 + off) * 0.06 * notTransform;
+      const helix = m.userData.helixPos;
+
+      let tx, ty, tz;
+      if (helix) {
+        // Linear cluster → helix blend
+        const bx = base.x + (helix.x - base.x) * transformT;
+        const by = (base.y + bobY) + (helix.y - (base.y + bobY)) * transformT;
+        const bz = base.z + (helix.z - base.z) * transformT;
+        // Corkscrew offset in the XZ plane — rotates around Y spine, peaks mid-flight
+        const spiralAmp = Math.sin(Math.PI * transformT) * 0.65;
+        const spiralAngle = transformT * Math.PI * 3.5 + i * 0.37;
+        tx = bx + Math.sin(spiralAngle) * spiralAmp;
+        ty = by;
+        tz = bz + Math.cos(spiralAngle) * spiralAmp;
+      } else {
+        tx = base.x;
+        ty = base.y + bobY;
+        tz = base.z;
+      }
+
+      const lerpK = 0.15 + transformT * 0.15; // snappier during active morph
+      m.position.x += (tx - m.position.x) * lerpK;
+      m.position.y += (ty - m.position.y) * lerpK;
+      m.position.z += (tz - m.position.z) * lerpK;
       glowSprites[m.userData.index].position.copy(m.position);
       labelObjs[m.userData.index].position.copy(m.position);
     });
 
-    // Fade edges, labels, glow, and the whole graph as the W forms then vanishes.
-    // Only overrides opacity once morph has been engaged, so the entrance animation
-    // isn't fought on initial page load.
+    // Fade edges, labels, glow, and the whole graph as the transform progresses.
+    // Gated on morphEngaged so the initial entrance animation isn't fought.
     if (isMobile && morphEngaged) {
-      const edgeOpacity = 0.22 * notMorph;
+      const edgeOpacity = 0.22 * notTransform;
       for (let i = 0; i < edgeLines.length; i++) edgeLines[i].material.opacity = edgeOpacity;
-      const glowOp = 0.55 * (1 - morphT * 0.4);
+      const glowOp = 0.55 * (1 - transformT * 0.3);
       for (let i = 0; i < glowSprites.length; i++) glowSprites[i].material.opacity = glowOp;
-      const labelOp = String(notMorph);
+      const labelOp = String(notTransform);
       for (let i = 0; i < labelObjs.length; i++) labelObjs[i].userData.el.style.opacity = labelOp;
       const groupOp = String(1 - fadeT);
       mount.style.opacity = groupOp;
@@ -533,8 +542,9 @@ function init() {
         hoveredIndex = newHover;
       }
     }
-    // Smooth scale toward baseScale; morph shrinks nodes so the W fits the screen.
-    const morphScale = 1 - morphT * 0.55;
+    // Smooth scale toward baseScale; nodes shrink slightly during the drop
+    // so the helix reads as receding into the distance.
+    const morphScale = 1 - dropT * 0.35;
     nodeMeshes.forEach((m) => {
       const target = m.userData.baseScale * morphScale;
       const s = m.scale.x + (target - m.scale.x) * 0.15;
@@ -581,6 +591,7 @@ function init() {
       morphProgress = Math.min(1, Math.max(0, p));
       if (morphProgress > 0) morphEngaged = true;
     },
+    getMorphProgress: () => morphProgress,
   };
 
   // Return destroy hook — tears down scene + listeners for hot-swap on viewport change

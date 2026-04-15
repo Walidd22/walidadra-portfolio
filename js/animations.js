@@ -47,24 +47,6 @@ function initAnimations() {
     }
   }
 
-  // Mobile-only: scroll through the hero morphs the tech-stack graph into a W,
-  // then fades it out. Desktop keeps the DNA helix untouched.
-  function animateHeroGraphMorph() {
-    if (!window.matchMedia('(max-width: 899px)').matches) return;
-    const heroEl = document.getElementById('hero');
-    if (!heroEl) return;
-    ScrollTrigger.create({
-      trigger: heroEl,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 0.3,
-      onUpdate: (self) => {
-        const g = window.__heroGraph;
-        if (g && g.setMorphProgress) g.setMorphProgress(self.progress);
-      },
-    });
-  }
-
   // ---- SECTION HEADERS ----
   function animateSectionHeaders() {
     document.querySelectorAll('.section__header.gs-reveal').forEach(header => {
@@ -227,7 +209,6 @@ function initAnimations() {
 
   // ---- INIT ALL ----
   animateHero();
-  animateHeroGraphMorph();
   animateSectionHeaders();
   animateAbout();
   animateProjects();
