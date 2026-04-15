@@ -449,8 +449,9 @@ function init() {
 
     // Rotation: idle spin + swirl boost during morph.
     // Mobile rotates on Y (vertical spine of the helix), desktop on X.
+    // Drop phase gets a heavy swirl multiplier so the helix spins fast while falling.
     if (!drag.active) {
-      const swirlBoost = 1 + transformT * 5 + dropT * 10;
+      const swirlBoost = 1 + transformT * 5 + dropT * 22;
       graph.rotation[ROT_AXIS] += idleRotSpeed * dt * swirlBoost;
       if (isInteractive) {
         graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;
