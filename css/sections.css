@@ -195,6 +195,7 @@
     border-color: rgba(77, 148, 255, 0.45);
     text-shadow: none;
   }
+  .hero__divider { display: none; }
   /* Mobile + tablet: hero info as a centered glass card over the constellation */
   .hero__info {
     position: relative;
