@@ -179,9 +179,9 @@
     white-space: nowrap;
     pointer-events: none;
   }
+  .hero__content { text-align: center; }
   .hero__label {
     display: inline-block;
-    align-self: center;
     padding: 4px 10px;
     margin: var(--space-3) auto;
     background: rgba(8, 8, 12, 0.55);
@@ -195,7 +195,6 @@
     border-color: rgba(77, 148, 255, 0.45);
     text-shadow: none;
   }
-  .hero__divider { display: none; }
   /* Mobile + tablet: hero info as a centered glass card over the constellation */
   .hero__info {
     position: relative;
