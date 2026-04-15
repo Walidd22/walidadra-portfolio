@@ -482,39 +482,50 @@ function init() {
       camera.position.y += (mouse.y * 0.3 - camera.position.y) * 0.04;
     }
 
-    // Node position: bob around cluster finalPos, then blend toward the helix
-    // shape via a mid-flight corkscrew (peaks at transformT = 0.5).
-    nodeMeshes.forEach((m, i) => {
-      const base = m.userData.finalPos;
-      const off = m.userData.bobOffset;
-      const bobY = Math.sin(t * 0.9 + off) * 0.06 * notTransform;
-      const helix = m.userData.helixPos;
+    // Node position update.
+    // Idle (no morph): only bob Y, leaving X/Z to the GSAP entrance tween so
+    // its power3.out easing isn't overwritten by a per-frame linear lerp.
+    // During morph (transformT > 0): full 3D lerp with cluster→helix corkscrew.
+    if (transformT > 0) {
+      nodeMeshes.forEach((m, i) => {
+        const base = m.userData.finalPos;
+        const off = m.userData.bobOffset;
+        const bobY = Math.sin(t * 0.9 + off) * 0.06 * notTransform;
+        const helix = m.userData.helixPos;
 
-      let tx, ty, tz;
-      if (helix) {
-        // Linear cluster → helix blend
-        const bx = base.x + (helix.x - base.x) * transformT;
-        const by = (base.y + bobY) + (helix.y - (base.y + bobY)) * transformT;
-        const bz = base.z + (helix.z - base.z) * transformT;
-        // Corkscrew offset in the XZ plane — rotates around Y spine, peaks mid-flight
-        const spiralAmp = Math.sin(Math.PI * transformT) * 0.65;
-        const spiralAngle = transformT * Math.PI * 3.5 + i * 0.37;
-        tx = bx + Math.sin(spiralAngle) * spiralAmp;
-        ty = by;
-        tz = bz + Math.cos(spiralAngle) * spiralAmp;
-      } else {
-        tx = base.x;
-        ty = base.y + bobY;
-        tz = base.z;
-      }
+        let tx, ty, tz;
+        if (helix) {
+          const bx = base.x + (helix.x - base.x) * transformT;
+          const by = (base.y + bobY) + (helix.y - (base.y + bobY)) * transformT;
+          const bz = base.z + (helix.z - base.z) * transformT;
+          const spiralAmp = Math.sin(Math.PI * transformT) * 0.65;
+          const spiralAngle = transformT * Math.PI * 3.5 + i * 0.37;
+          tx = bx + Math.sin(spiralAngle) * spiralAmp;
+          ty = by;
+          tz = bz + Math.cos(spiralAngle) * spiralAmp;
+        } else {
+          tx = base.x;
+          ty = base.y + bobY;
+          tz = base.z;
+        }
 
-      const lerpK = 0.15 + transformT * 0.15; // snappier during active morph
-      m.position.x += (tx - m.position.x) * lerpK;
-      m.position.y += (ty - m.position.y) * lerpK;
-      m.position.z += (tz - m.position.z) * lerpK;
-      glowSprites[m.userData.index].position.copy(m.position);
-      labelObjs[m.userData.index].position.copy(m.position);
-    });
+        const lerpK = 0.15 + transformT * 0.15;
+        m.position.x += (tx - m.position.x) * lerpK;
+        m.position.y += (ty - m.position.y) * lerpK;
+        m.position.z += (tz - m.position.z) * lerpK;
+        glowSprites[m.userData.index].position.copy(m.position);
+        labelObjs[m.userData.index].position.copy(m.position);
+      });
+    } else {
+      nodeMeshes.forEach((m) => {
+        const base = m.userData.finalPos;
+        const off = m.userData.bobOffset;
+        const y = base.y + Math.sin(t * 0.9 + off) * 0.06;
+        m.position.y += (y - m.position.y) * 0.12;
+        glowSprites[m.userData.index].position.copy(m.position);
+        labelObjs[m.userData.index].position.copy(m.position);
+      });
+    }
 
     // Fade edges, labels, glow, and the whole graph as the transform progresses.
     // Gated on morphEngaged so the initial entrance animation isn't fought.

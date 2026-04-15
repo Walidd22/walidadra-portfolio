@@ -188,7 +188,11 @@ a:hover {
   background: #FAFAFA;
 }
 [data-theme="light"] .cursor {
-  border-color: var(--white);
+  border-color: #1A1A1A;
+  mix-blend-mode: normal;
+}
+[data-theme="light"] .cursor.is-active {
+  background: rgba(0, 0, 0, 0.06);
 }
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: #F0F0F0;
