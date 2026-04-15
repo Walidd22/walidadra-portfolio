@@ -136,6 +136,43 @@ const CLUSTER_EDGES = [
 const MOBILE_MQL = window.matchMedia('(max-width: 899px)');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+function smoothstep(edge0, edge1, x) {
+  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Sample `count` points evenly along the 4-stroke path of a capital W,
+ * centered at origin in XY, z=0. Uses cumulative arc-length so nodes
+ * distribute proportionally across strokes of unequal length.
+ */
+function buildWPath(count, w, h) {
+  const P = [
+    [-w / 2,  h / 2, 0],
+    [-w / 4, -h / 2, 0],
+    [ 0,      h / 4, 0],
+    [ w / 4, -h / 2, 0],
+    [ w / 2,  h / 2, 0],
+  ];
+  const segLens = [];
+  let total = 0;
+  for (let i = 0; i < 4; i++) {
+    const d = Math.hypot(P[i + 1][0] - P[i][0], P[i + 1][1] - P[i][1]);
+    segLens.push(d);
+    total += d;
+  }
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    const target = (i / (count - 1)) * total;
+    let seg = 0, acc = 0;
+    while (seg < 3 && acc + segLens[seg] < target) { acc += segLens[seg]; seg++; }
+    const lt = segLens[seg] > 0 ? (target - acc) / segLens[seg] : 0;
+    const a = P[seg], b = P[seg + 1];
+    out.push([a[0] + (b[0] - a[0]) * lt, a[1] + (b[1] - a[1]) * lt, 0]);
+  }
+  return out;
+}
+
 function init() {
   const mount = document.getElementById('heroGraph');
   const labelMount = document.getElementById('heroGraphLabels');
@@ -231,6 +268,15 @@ function init() {
     labelObjs.push(labelObj);
   });
 
+  // Mobile-only: pre-compute W-shape target positions (one per node)
+  // Used by the scroll-driven morph effect. Desktop layout has no wPos.
+  if (isMobile) {
+    const wPoints = buildWPath(nodeMeshes.length, 3.0, 2.4);
+    nodeMeshes.forEach((m, i) => {
+      m.userData.wPos = new THREE.Vector3(...wPoints[i]);
+    });
+  }
+
   // Edges — thin lines with gradient color at endpoints
   const edgeLines = [];
   EDGES.forEach(([a, b]) => {
@@ -266,6 +312,8 @@ function init() {
   };
   let idleRotSpeed = 0.05; // rad/s, scaled by scroll
   let hoveredIndex = -1;
+  let morphProgress = 0;   // 0..1, driven by ScrollTrigger on mobile
+  let morphEngaged = false; // true once morphProgress has ever been > 0; gates opacity overrides
   const mouse = new THREE.Vector2(0, 0);
   const raycaster = new THREE.Raycaster();
 
@@ -398,18 +446,27 @@ function init() {
     const dt = Math.min(0.05, timer.getDelta());
     const t = timer.getElapsed();
 
+    // Morph easing curves (mobile-only; both zero on desktop since morphProgress stays 0)
+    const morphT = smoothstep(0.5, 0.85, morphProgress);
+    const fadeT  = smoothstep(0.85, 1.0, morphProgress);
+    const notMorph = 1 - morphT;
+
     // Idle rotation on the layout's natural axis:
     //   desktop (helix) → X-axis (spine)
     //   mobile (cluster) → Y-axis (turntable)
     // On desktop, scroll velocity feeds into rotation so helix spins during scroll.
+    // During morph, rotation damps to zero so the W forms in a stable orientation.
     if (!drag.active) {
-      graph.rotation[ROT_AXIS] += idleRotSpeed * dt;
+      graph.rotation[ROT_AXIS] += idleRotSpeed * dt * notMorph;
       if (isInteractive) {
         graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;
       }
       graph.rotation[ROT_AXIS] += drag.velX * 0.92;
       drag.velX *= 0.92;
       drag.velY *= 0.92;
+      if (morphT > 0) {
+        graph.rotation[ROT_AXIS] += (0 - graph.rotation[ROT_AXIS]) * morphT * 0.12;
+      }
     } else {
       graph.rotation[ROT_AXIS] = drag.rotX;
     }
@@ -426,15 +483,36 @@ function init() {
       camera.position.y += (mouse.y * 0.3 - camera.position.y) * 0.04;
     }
 
-    // Node bob
+    // Node position: bob around finalPos, then blend toward the W shape on mobile morph.
     nodeMeshes.forEach((m) => {
       const base = m.userData.finalPos;
       const off = m.userData.bobOffset;
-      const y = base.y + Math.sin(t * 0.9 + off) * 0.06;
-      m.position.y += (y - m.position.y) * 0.12;
+      const bobY = Math.sin(t * 0.9 + off) * 0.06 * notMorph;
+      const w = m.userData.wPos;
+      const tx = w ? base.x + (w.x - base.x) * morphT : base.x;
+      const ty = w ? (base.y + bobY) + (w.y - (base.y + bobY)) * morphT : base.y + bobY;
+      const tz = w ? base.z + (w.z - base.z) * morphT : base.z;
+      m.position.x += (tx - m.position.x) * 0.15;
+      m.position.y += (ty - m.position.y) * 0.15;
+      m.position.z += (tz - m.position.z) * 0.15;
       glowSprites[m.userData.index].position.copy(m.position);
       labelObjs[m.userData.index].position.copy(m.position);
     });
+
+    // Fade edges, labels, glow, and the whole graph as the W forms then vanishes.
+    // Only overrides opacity once morph has been engaged, so the entrance animation
+    // isn't fought on initial page load.
+    if (isMobile && morphEngaged) {
+      const edgeOpacity = 0.22 * notMorph;
+      for (let i = 0; i < edgeLines.length; i++) edgeLines[i].material.opacity = edgeOpacity;
+      const glowOp = 0.55 * (1 - morphT * 0.4);
+      for (let i = 0; i < glowSprites.length; i++) glowSprites[i].material.opacity = glowOp;
+      const labelOp = String(notMorph);
+      for (let i = 0; i < labelObjs.length; i++) labelObjs[i].userData.el.style.opacity = labelOp;
+      const groupOp = String(1 - fadeT);
+      mount.style.opacity = groupOp;
+      labelMount.style.opacity = groupOp;
+    }
 
     updateEdgePositions();
 
@@ -455,9 +533,11 @@ function init() {
         hoveredIndex = newHover;
       }
     }
-    // Smooth scale toward baseScale
+    // Smooth scale toward baseScale; morph shrinks nodes so the W fits the screen.
+    const morphScale = 1 - morphT * 0.55;
     nodeMeshes.forEach((m) => {
-      const s = m.scale.x + (m.userData.baseScale - m.scale.x) * 0.15;
+      const target = m.userData.baseScale * morphScale;
+      const s = m.scale.x + (target - m.scale.x) * 0.15;
       m.scale.setScalar(s);
     });
 
@@ -492,7 +572,16 @@ function init() {
   addListener(window, 'resize', onResize, { passive: true });
 
   // Expose a tiny handle for debugging / verify scripts
-  window.__heroGraph = { scene, renderer, camera, nodes: nodeMeshes, edges: edgeLines, layout: isMobile ? 'cluster' : 'helix' };
+  window.__heroGraph = {
+    scene, renderer, camera,
+    nodes: nodeMeshes,
+    edges: edgeLines,
+    layout: isMobile ? 'cluster' : 'helix',
+    setMorphProgress: (p) => {
+      morphProgress = Math.min(1, Math.max(0, p));
+      if (morphProgress > 0) morphEngaged = true;
+    },
+  };
 
   // Return destroy hook — tears down scene + listeners for hot-swap on viewport change
   return () => {
@@ -510,6 +599,10 @@ function init() {
 
     // Defensive: clear anything left behind in labelMount
     while (labelMount.firstChild) labelMount.removeChild(labelMount.firstChild);
+
+    // Reset any opacity the morph applied so a rebuilt scene is fully visible
+    mount.style.opacity = '';
+    labelMount.style.opacity = '';
 
     // Dispose Three.js resources
     nodeMeshes.forEach(m => m.material.dispose());
