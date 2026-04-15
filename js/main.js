@@ -39,28 +39,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- THEME TOGGLE ----
   (function initTheme() {
-    const toggle = document.getElementById('themeToggle');
-    const icon = document.getElementById('themeIcon');
-    if (!toggle) return;
+    const toggles = document.querySelectorAll('.theme-toggle');
+    const icons = document.querySelectorAll('[data-theme-icon]');
+    if (!toggles.length) return;
 
-    // Check saved preference or system preference
+    const setIcons = (char) => icons.forEach((el) => { el.textContent = char; });
+
     const saved = localStorage.getItem('theme');
     if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
       document.documentElement.setAttribute('data-theme', 'light');
-      if (icon) icon.textContent = '☀';
+      setIcons('☀');
     }
 
-    toggle.addEventListener('click', () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (isLight) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'dark');
-        if (icon) icon.textContent = '☽';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        if (icon) icon.textContent = '☀';
-      }
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+          setIcons('☽');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+          setIcons('☀');
+        }
+      });
     });
   })();
 

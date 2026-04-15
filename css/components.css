@@ -153,6 +153,14 @@
   color: var(--white);
 }
 
+.theme-toggle--mobile {
+  width: 56px;
+  height: 56px;
+  font-size: var(--text-xl);
+  margin-top: var(--space-4);
+  border-radius: 50%;
+}
+
 @media (max-width: 768px) {
   .nav__links { display: none; }
   .nav__toggle { display: flex; }
