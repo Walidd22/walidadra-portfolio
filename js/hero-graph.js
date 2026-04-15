@@ -453,7 +453,7 @@ function init() {
     //   spin:       ramps up hard while the helix sits in place (anticipation)
     //   drop:       carries the high rotation down with the falling group
     if (!drag.active) {
-      const swirlBoost = 1 + transformT * 4 + spinT * 14 + dropT * 10;
+      const swirlBoost = 1 + transformT * 4 + spinT * 20 + dropT * 14;
       graph.rotation[ROT_AXIS] += idleRotSpeed * dt * swirlBoost;
       if (isInteractive) {
         graph.rotation[ROT_AXIS] += scrollVelocity * 0.0018;

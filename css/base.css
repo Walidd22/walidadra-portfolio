@@ -6,6 +6,20 @@ html {
   background: var(--bg);
 }
 
+/* Disable text selection + iOS long-press callout site-wide.
+   Form fields re-enable selection via the rule below so inputs stay usable. */
+html, body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);

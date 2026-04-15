@@ -37,6 +37,15 @@ async function postSubscribe(payload) {
 document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = prefersReducedMotion();
 
+  // Block copy/cut clipboard events except inside form fields.
+  ['copy', 'cut'].forEach((ev) => {
+    document.addEventListener(ev, (e) => {
+      const t = e.target;
+      if (t && t.matches && t.matches('input, textarea, [contenteditable]')) return;
+      e.preventDefault();
+    });
+  });
+
   // ---- THEME TOGGLE ----
   (function initTheme() {
     const toggles = document.querySelectorAll('.theme-toggle');
@@ -226,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const remaining = 1 - state.v;
       morphTween = window.gsap.to(state, {
         v: 1,
-        duration: Math.max(0.3, 5.5 * remaining),
+        duration: Math.max(0.3, 4.6 * remaining),
         ease: 'power1.out',
         onUpdate: () => g.setMorphProgress(state.v),
       });
