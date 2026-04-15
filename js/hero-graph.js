@@ -259,9 +259,10 @@ function init() {
   });
 
   // Mobile-only: pre-compute vertical DNA helix target positions (one per node).
-  // Used by the press-and-hold transformer effect on the hero section.
+  // Proportions (ySpan / radius / turns) are the desktop helix scaled to 0.4×
+  // so the shape reads as the same DNA, just rotated vertical to fit portrait.
   if (isMobile) {
-    const hPoints = buildVerticalHelix(nodeMeshes.length, 3.6, 0.85, 2.0);
+    const hPoints = buildVerticalHelix(nodeMeshes.length, 3.2, 0.48, 1.5);
     nodeMeshes.forEach((m, i) => {
       m.userData.helixPos = new THREE.Vector3(...hPoints[i]);
     });
@@ -438,11 +439,12 @@ function init() {
 
     // Mobile morph phases (all zero on desktop since morphProgress stays 0).
     //   transformT: cluster → helix corkscrew
-    //   dropT:      helix swirls and translates down
+    //   dropT:      helix swirls and translates down (spread across 65% of progress
+    //               so the fall reads as deliberate, not abrupt)
     //   fadeT:      opacity fade-out
-    const transformT = smoothstep(0.0, 0.45, morphProgress);
-    const dropT      = smoothstep(0.55, 1.0, morphProgress);
-    const fadeT      = smoothstep(0.65, 1.0, morphProgress);
+    const transformT = smoothstep(0.0, 0.4, morphProgress);
+    const dropT      = smoothstep(0.35, 1.0, morphProgress);
+    const fadeT      = smoothstep(0.7, 1.0, morphProgress);
     const notTransform = 1 - transformT;
 
     // Rotation: idle spin + swirl boost during morph.
@@ -461,7 +463,9 @@ function init() {
     }
 
     // Drop: helix translates downward off-screen during dropT.
-    graph.position.y = -dropT * 14;
+    // 10 units is enough to clear the viewport given the camera is at z=11
+    // with a 45° FOV (~9 units of vertical world-space visible at z=0).
+    graph.position.y = -dropT * 10;
     // Consume scroll velocity with exponential decay so it bleeds off when user stops scrolling
     scrollVelocity *= 0.85;
 
