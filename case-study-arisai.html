@@ -408,7 +408,7 @@
         </div>
 
         <div class="cs-article__text">
-          <p class="gs-reveal">ArisAI needed to be a full ecosystem for retail traders, not just another charting tool. The requirements list was long: real-time trading dashboards with live WebSocket data, an AI chat assistant powered by Claude with streaming responses, signal rooms where providers broadcast live trade calls, a marketplace with Stripe subscriptions, live video streaming for podcasts, a mobile app with feature parity, multi-strategy authentication (Google, Apple, Discord, email, phone, wallet), gamification with tournaments and leaderboards, and dual-currency support for both fiat and platform coins.</p>
+          <p class="gs-reveal">ArisAI needed to be a full ecosystem for retail traders, not just another charting tool. The requirements list was long: real-time trading dashboards with live WebSocket data, an AI chat assistant powered by Claude with streaming responses, signal rooms where providers broadcast live trade calls, a marketplace with Stripe subscriptions, live video streaming for podcasts, a mobile app with feature parity, multi-strategy authentication (Google, Apple, Instagram, Twitter, Telegram, and email, plus two-factor), gamification with tournaments and leaderboards, and a Stripe-powered subscription marketplace.</p>
 
           <p class="gs-reveal">Each of these would be a significant feature in isolation. We needed all of them working together in a monorepo, with shared types between web and mobile, consistent real-time state, and a backend that could handle concurrent WebSocket connections across signal rooms, chat, and live trading data.</p>
 
@@ -501,7 +501,7 @@
           <div class="cs-decision gs-reveal">
             <div class="cs-decision__vs">Auth strategy</div>
             <div class="cs-decision__title">Passport with 6 strategies</div>
-            <div class="cs-decision__reason">Our users needed to sign in with Google, Apple, Discord, email/password, phone OTP, and crypto wallet. Passport gave us a consistent interface across all six. Each strategy was a NestJS guard, and we composed them with decorators. The complexity was in the account linking -- making sure a user who signs up with Google and later tries Discord gets merged, not duplicated.</div>
+            <div class="cs-decision__reason">Our users needed to sign in with Google, Apple, Instagram, Twitter, Telegram, and email/password, with two-factor on top. Passport gave us a consistent interface across all six. Each was a NestJS guard, and we composed them with decorators. The complexity was in the account linking -- making sure a user who signs up with Google and later tries another provider gets merged, not duplicated.</div>
           </div>
         </div>
       </div>
@@ -531,8 +531,8 @@
             <div class="cs-problem__desc">No library for this. Tournaments, leaderboards, XP systems, achievement badges, and ranking tiers all had to be designed and built from zero. The leaderboard needed to update in real-time during active tournaments without hammering the database. We used Redis sorted sets for live rankings and PostgreSQL for persistence.</div>
           </div>
           <div class="cs-problem gs-reveal">
-            <div class="cs-problem__title">Dual-currency system</div>
-            <div class="cs-problem__desc">Users pay with real money (Stripe) and earn platform coins for engagement. Both currencies needed to work in the marketplace, with different pricing rules, conversion logic, and transaction history. Every payment flow had to handle both paths without duplicating the entire checkout UI.</div>
+            <div class="cs-problem__title">Real money vs. practice balances</div>
+            <div class="cs-problem__desc">Users pay real money through Stripe for subscriptions and marketplace access, while tournaments and practice trading run on virtual, USD-denominated balances. The two had to stay strictly separated -- real billing never touching simulated funds -- each with its own rules and transaction history, without duplicating the checkout UI.</div>
           </div>
           <div class="cs-problem gs-reveal">
             <div class="cs-problem__title">Expo mobile parity</div>
