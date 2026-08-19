@@ -483,10 +483,13 @@ function init() {
     }
 
     // Node position update.
-    // Idle (no morph): only bob Y, leaving X/Z to the GSAP entrance tween so
-    // its power3.out easing isn't overwritten by a per-frame linear lerp.
-    // During morph (transformT > 0): full 3D lerp with cluster→helix corkscrew.
-    if (transformT > 0) {
+    // Before any morph has run: only bob Y, leaving X/Z to the GSAP entrance
+    // tween so its power3.out easing isn't overwritten by a per-frame linear lerp.
+    // Once a morph has been engaged (mobile only, entrance long finished): full
+    // 3D lerp with cluster→helix corkscrew. Staying on the 3D path at
+    // transformT === 0 is what lets a completed morph rewind — the helix math
+    // collapses to the base position, so X/Z travel home instead of sticking.
+    if (transformT > 0 || morphEngaged) {
       nodeMeshes.forEach((m, i) => {
         const base = m.userData.finalPos;
         const off = m.userData.bobOffset;

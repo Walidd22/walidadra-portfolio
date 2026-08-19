@@ -335,6 +335,23 @@
   color: #fff;
 }
 
+/* Mobile: the CTA holds a lit state while the hero graph plays out before the
+   jump to the work, so the wait reads as intentional rather than as a dead tap. */
+.hero__subscribe.is-playing {
+  background: var(--accent-hover);
+  box-shadow: var(--glow);
+  animation: heroCtaPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes heroCtaPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.62; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__subscribe.is-playing { animation: none; }
+}
+
 .hero__agency {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -457,8 +474,94 @@
 
 
 /* === PROJECTS ("What I've Built") === */
+/* === WHAT I BUILD (capabilities) === */
+.section--caps {
+  border-top: var(--border-hair);
+  padding-block: clamp(4rem, 3rem + 6vw, 8rem);
+}
+
+.caps__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  margin-top: var(--space-10);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+[data-theme="light"] .caps__grid {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Hairline gaps let the cards read as one block rather than four floating boxes. */
+@media (min-width: 720px) {
+  .caps__grid { grid-template-columns: 1fr 1fr; }
+}
+
+.cap-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--bg-card);
+  transition: background 400ms ease;
+}
+
+.cap-card:hover {
+  background: hsla(var(--accent-hue), 100%, 55%, 0.04);
+}
+
+.cap-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.cap-card__body {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--text-dim);
+  opacity: 0.85;
+}
+
 .projects {
   border-top: var(--border-hair);
+}
+
+/* Sits under the work grid — the NDA line reads as demand, so give it room. */
+.projects__note {
+  margin-top: var(--space-8);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.projects__note a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 250ms ease;
+}
+
+.projects__note a:hover { border-bottom-color: var(--accent); }
+
+/* State chip — says what the thing actually is before the title makes a claim. */
+.project-card__state {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.5rem;
+  color: var(--accent);
+  border: 1px solid hsla(var(--accent-hue), 100%, 55%, 0.35);
+  background: hsla(var(--accent-hue), 100%, 55%, 0.07);
 }
 
 .projects__grid {

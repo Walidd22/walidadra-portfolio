@@ -41,11 +41,9 @@
     <div class="container nav__inner">
       <a href="../" class="nav__logo">WA<span>.</span></a>
       <div class="nav__links">
-        <a href="../#story" class="nav__link" data-cursor="expand">Story</a>
-        <a href="../#projects" class="nav__link" data-cursor="expand">Projects</a>
-        <a href="../#tutorials" class="nav__link" data-cursor="expand">Tutorials</a>
-        <a href="../#youtube" class="nav__link" data-cursor="expand">YouTube</a>
-        <a href="../#connect" class="nav__link" data-cursor="expand">Connect</a>
+        <a href="../#capabilities" class="nav__link" data-cursor="expand">What I Build</a>
+        <a href="../#projects" class="nav__link" data-cursor="expand">Work</a>
+        <a href="../#connect" class="nav__link" data-cursor="expand">Contact</a>
       </div>
       <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
         <span></span><span></span><span></span>
@@ -54,11 +52,9 @@
   </nav>
 
   <div class="nav__mobile" id="navMobile">
-    <a href="../#story" class="nav__mobile-link" data-cursor="expand">Story</a>
-    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
-    <a href="../#tutorials" class="nav__mobile-link" data-cursor="expand">Tutorials</a>
-    <a href="../#youtube" class="nav__mobile-link" data-cursor="expand">YouTube</a>
-    <a href="../#connect" class="nav__mobile-link" data-cursor="expand">Connect</a>
+    <a href="../#capabilities" class="nav__mobile-link" data-cursor="expand">What I Build</a>
+    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Work</a>
+    <a href="../#connect" class="nav__mobile-link" data-cursor="expand">Contact</a>
   </div>
 
   <main>
@@ -100,54 +96,48 @@
     </section>
 
 
-    <section class="case-img">
-      <div class="container">
-        <div class="case-img__wrap gs-reveal">
-          <div class="case-img__placeholder" style="background: #050508;">
-            <img src="../assets/projects/webrift/full-page.png" alt="WebRift Website" loading="lazy">
-          </div>
-        </div>
-      </div>
-    </section>
-
-
     <section class="case-overview">
       <div class="container">
         <div class="section__header gs-reveal">
           <span class="section__number">01</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Overview</h2>
+          <h2 class="section__title">The Build</h2>
         </div>
 
         <div class="case-overview__text">
-          <p class="gs-reveal">WebRift is my web development agency. The site needed to communicate one thing clearly: I build professional, high-quality digital products. No template could do that — the site itself had to be the proof.</p>
+          <p class="gs-reveal">The site for my own studio, so it had to do two jobs at once: sell the work, and be the work. A brochure built on a framework I would have to keep upgrading proves nothing.</p>
 
-          <p class="gs-reveal">I designed the entire visual identity: a dark, minimal aesthetic with electric blue accents, brutalist typography using Syne for display and Space Mono for labels, and a hand-crafted design system with CSS custom properties for every token — colors, typography scale, spacing, borders, and effects.</p>
-
-          <p class="gs-reveal">Every animation is intentional. GSAP ScrollTrigger reveals sections as you scroll, a custom cursor tracks mouse movement with lerp smoothing, Lenis provides buttery-smooth scroll physics, and a tech marquee runs on an infinite GSAP timeline. No animation library beyond GSAP — every interaction is hand-wired.</p>
+          <p class="gs-reveal">Roughly 500 lines of JavaScript and 2,300 of CSS, hand-written. Three scripts from a CDN. No bundler, no framework, no <code>package.json</code>.</p>
         </div>
-      </div>
-    </section>
 
+        <div class="arch gs-reveal">
+          <div class="arch__tier">
+            <span class="arch__tier-label">Source</span>
+            <div class="arch__nodes">
+              <div class="arch__node"><b>Hand-written HTML</b>one file per page, no templating</div>
+              <div class="arch__node"><b>CSS</b>custom properties, layered by concern</div>
+              <div class="arch__node"><b>JavaScript</b>~500 lines, no modules to bundle</div>
+            </div>
+          </div>
 
-    <section class="case-highlights">
-      <div class="container">
-        <div class="case-highlights__grid gs-reveal">
-          <div class="case-highlight">
-            <div class="case-highlight__number">0</div>
-            <div class="case-highlight__label">Frameworks Used</div>
+          <div class="arch__link" aria-hidden="true"><span>&#9660;</span></div>
+
+          <div class="arch__tier">
+            <span class="arch__tier-label">Runtime</span>
+            <div class="arch__nodes">
+              <div class="arch__node arch__node--accent"><b>One rAF clock</b>GSAP ticker drives Lenis, Lenis updates ScrollTrigger</div>
+            </div>
           </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">1</div>
-            <div class="case-highlight__label">CSS File (1,100+ lines)</div>
-          </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">100%</div>
-            <div class="case-highlight__label">Hand-Written</div>
-          </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">90+</div>
-            <div class="case-highlight__label">Lighthouse Score</div>
+
+          <div class="arch__link" aria-hidden="true"><span>&#9660;</span></div>
+
+          <div class="arch__tier">
+            <span class="arch__tier-label">Deploy</span>
+            <div class="arch__nodes">
+              <div class="arch__node"><b>Static files</b>nothing to compile, nothing to install</div>
+              <div class="arch__node"><b>3 CDN scripts</b>GSAP, ScrollTrigger, Lenis</div>
+              <div class="arch__node"><b>Zero build step</b>push the folder, it is live</div>
+            </div>
           </div>
         </div>
       </div>
@@ -159,49 +149,62 @@
         <div class="section__header gs-reveal">
           <span class="section__number">02</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Details</h2>
+          <h2 class="section__title">Engineering Decisions</h2>
         </div>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: #050508;">
-              <img src="../assets/projects/webrift/hero.png" alt="WebRift Hero Section" loading="lazy">
-            </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">01</div>
-            <h3 class="case-feature__title">Custom Design System</h3>
-            <p class="case-feature__desc">Built a complete design token system with CSS custom properties — a 9-level gray scale, semantic color aliases, fluid typography with clamp(), a spacing scale, border tokens, and effect tokens (shadows, glows, noise). Everything is consistent and maintainable without a framework.</p>
-            <div class="case-feature__tech">CSS custom properties, fluid clamp() typography, BEM methodology</div>
-          </div>
-        </div>
+        <div class="decisions">
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #060610 0%, #0d0d1a 100%);">
-              <span class="case-feature__img-text">Photos coming soon</span>
+          <article class="decision gs-reveal">
+            <span class="decision__index">01</span>
+            <h3 class="decision__title">No build step, on purpose</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">A studio site I alone maintain, and will still be editing years from now between client projects.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">02</div>
-            <h3 class="case-feature__title">GSAP Animation System</h3>
-            <p class="case-feature__desc">Every section animates on scroll using GSAP ScrollTrigger. Hero lines slide in with staggered power4 easing, service cards fade up with delay offsets, stats count up when visible, and the about photo has parallax. All animations respect prefers-reduced-motion.</p>
-            <div class="case-feature__tech">GSAP, ScrollTrigger, requestAnimationFrame, prefers-reduced-motion</div>
-          </div>
-        </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">Hand-written HTML, CSS and JavaScript with no bundler and no framework. What is in the repository is exactly what the browser runs.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">No module system and no type checking, so structure has to be enforced by discipline rather than by a compiler. In exchange there is no dependency graph to rot &mdash; nothing to reinstall, nothing to migrate, and no build that breaks because a transitive dependency shifted.</p>
+            </div>
+          </article>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #080812 0%, #10101e 100%);">
-              <span class="case-feature__img-text">Photos coming soon</span>
+          <article class="decision gs-reveal">
+            <span class="decision__index">02</span>
+            <h3 class="decision__title">Motion that gets out of the way</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">The site is scroll-driven throughout. For anyone with vestibular sensitivity that is not a flourish, it is a reason to close the tab.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">03</div>
-            <h3 class="case-feature__title">Custom Cursor & Smooth Scroll</h3>
-            <p class="case-feature__desc">A lerp-based custom cursor that expands on interactive elements using mix-blend-mode for a subtle inversion effect. Lenis smooth scroll integrated with the GSAP ticker for frame-perfect sync. Auto-hidden on touch devices. Character stagger on the hero name with a glitch effect.</p>
-            <div class="case-feature__tech">Custom cursor with lerp, Lenis, GSAP ticker sync, touch detection</div>
-          </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">Every animation sits behind a reduced-motion check in both the stylesheet and the script. Those users land on the finished state immediately rather than on a half-played animation.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">Two paths to keep in step, and it is genuinely easy to add an effect and forget the guard. The alternative is a site that excludes people, which is not a trade I was willing to make.</p>
+            </div>
+          </article>
+
+          <article class="decision gs-reveal">
+            <span class="decision__index">03</span>
+            <h3 class="decision__title">One clock for scroll and animation</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">Smooth scrolling takes ownership of the scroll position, while the animation library reads that position to drive timelines. Left alone, they disagree.</p>
+            </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">A single animation frame loop: the GSAP ticker drives Lenis, and Lenis reports back to ScrollTrigger. One source of timing for the whole page.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">The two libraries are now coupled, so upgrading either means re-testing the handshake. Two independent frame loops produce drift that only shows up on slow devices and is miserable to debug.</p>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -257,7 +260,7 @@
       <div class="container">
         <p class="case-next__label gs-reveal">Next Project</p>
         <h2 class="case-next__title gs-reveal">
-          <a href="aris-ai.html" data-cursor="expand">ArisAI — AI Trading Platform →</a>
+          <a href="my-pizza.html" data-cursor="expand">Ordering &amp; Delivery Platform →</a>
         </h2>
       </div>
     </section>

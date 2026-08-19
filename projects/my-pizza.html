@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MyPizza — Restaurant Ordering Platform | Walid Adra</title>
+  <title>Ordering &amp; Delivery Platform — Full-Stack Build | Walid Adra</title>
   <meta name="description" content="My first full-stack product, built entirely solo. A complete restaurant ordering platform with gamification, admin dashboards, push notifications, and PWA.">
   <meta name="author" content="Walid Adra">
 
-  <meta property="og:title" content="MyPizza — Restaurant Platform | Walid Adra">
+  <meta property="og:title" content="Ordering &amp; Delivery Platform | Walid Adra">
   <meta property="og:description" content="Built entirely solo — full-stack restaurant platform with 10+ integrated systems.">
   <meta property="og:type" content="website">
 
@@ -41,11 +41,9 @@
     <div class="container nav__inner">
       <a href="../" class="nav__logo">WA<span>.</span></a>
       <div class="nav__links">
-        <a href="../#story" class="nav__link" data-cursor="expand">Story</a>
-        <a href="../#projects" class="nav__link" data-cursor="expand">Projects</a>
-        <a href="../#tutorials" class="nav__link" data-cursor="expand">Tutorials</a>
-        <a href="../#youtube" class="nav__link" data-cursor="expand">YouTube</a>
-        <a href="../#connect" class="nav__link" data-cursor="expand">Connect</a>
+        <a href="../#capabilities" class="nav__link" data-cursor="expand">What I Build</a>
+        <a href="../#projects" class="nav__link" data-cursor="expand">Work</a>
+        <a href="../#connect" class="nav__link" data-cursor="expand">Contact</a>
       </div>
       <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
         <span></span><span></span><span></span>
@@ -54,11 +52,9 @@
   </nav>
 
   <div class="nav__mobile" id="navMobile">
-    <a href="../#story" class="nav__mobile-link" data-cursor="expand">Story</a>
-    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Projects</a>
-    <a href="../#tutorials" class="nav__mobile-link" data-cursor="expand">Tutorials</a>
-    <a href="../#youtube" class="nav__mobile-link" data-cursor="expand">YouTube</a>
-    <a href="../#connect" class="nav__mobile-link" data-cursor="expand">Connect</a>
+    <a href="../#capabilities" class="nav__mobile-link" data-cursor="expand">What I Build</a>
+    <a href="../#projects" class="nav__mobile-link" data-cursor="expand">Work</a>
+    <a href="../#connect" class="nav__mobile-link" data-cursor="expand">Contact</a>
   </div>
 
   <main>
@@ -74,17 +70,17 @@
           <span>Solo Build</span>
         </div>
 
-        <h1 class="case-hero__title gs-reveal">MyPizza</h1>
-        <p class="case-hero__tagline gs-reveal">My first full-stack product, built entirely solo. I handled everything — database schema, API routes, frontend UI, admin dashboard, gamification systems, push notifications, and PWA setup. From zero to a production restaurant platform.</p>
+        <h1 class="case-hero__title gs-reveal">Ordering &amp; Delivery Platform</h1>
+        <p class="case-hero__tagline gs-reveal">A complete ordering and delivery system, built solo end-to-end — database schema, API routes, customer front end, admin dashboard, staff portal, loyalty mechanics, push notifications, and PWA setup. Commissioned by a restaurant client; delivered and deployed, now running as a public demo.</p>
 
         <div class="case-hero__facts gs-reveal">
           <div>
             <div class="case-hero__fact-label">My Role</div>
-            <div class="case-hero__fact-value">Everything</div>
+            <div class="case-hero__fact-value">Full-stack, solo</div>
           </div>
           <div>
             <div class="case-hero__fact-label">Team</div>
-            <div class="case-hero__fact-value">Just Me</div>
+            <div class="case-hero__fact-value">Solo</div>
           </div>
           <div>
             <div class="case-hero__fact-label">Portals</div>
@@ -95,18 +91,7 @@
             <div class="case-hero__fact-value">10+</div>
           </div>
         </div>
-        <a href="https://myypizza.com" class="case-hero__live-link gs-reveal" target="_blank" rel="noopener" data-cursor="expand">View Live Site →</a>
-      </div>
-    </section>
-
-
-    <section class="case-img">
-      <div class="container">
-        <div class="case-img__wrap gs-reveal">
-          <div class="case-img__placeholder" style="background: #1a0a0a;">
-            <img src="../assets/projects/my-pizza/full-page.png" alt="MyPizza Homepage" loading="lazy">
-          </div>
-        </div>
+        <a href="https://myypizza.com" class="case-hero__live-link gs-reveal" target="_blank" rel="noopener" data-cursor="expand">View live demo →</a>
       </div>
     </section>
 
@@ -116,39 +101,50 @@
         <div class="section__header gs-reveal">
           <span class="section__number">01</span>
           <span class="section__line"></span>
-          <h2 class="section__title">Overview</h2>
+          <h2 class="section__title">The Build</h2>
         </div>
 
         <div class="case-overview__text">
-          <p class="gs-reveal">This was my proving ground as a full-stack developer. MyPizza is a production restaurant ordering platform I built for a wood-fired pizza place in Tripoli, Lebanon. Not a tutorial project — a real system with real users, handling real orders.</p>
+          <p class="gs-reveal">A restaurant client needed ordering, delivery dispatch, and back-office management as one system. I took it solo from an empty repository to a deployed product: schema, API, three separate front ends, and the infrastructure underneath.</p>
 
-          <p class="gs-reveal">I designed the database schema in Supabase, wrote every API route, built the entire frontend with Next.js 16 and React 19, created a full admin dashboard with 7 management tabs, built a separate staff portal for kitchen and delivery teams, implemented a gamification layer with a spin wheel and loyalty points, and set up push notifications and PWA support.</p>
-
-          <p class="gs-reveal">Building this solo forced me to think about every layer of a product — not just the UI, but database design, authentication flows, notification infrastructure, analytics, and the business logic that connects it all. It's the project that made me a full-stack developer, not just a frontend developer.</p>
+          <p class="gs-reveal">The interesting problem was never the ordering form. It was that three different people &mdash; a customer, a kitchen, and an owner &mdash; act on the same order at the same time, and all three have to be looking at the truth.</p>
         </div>
-      </div>
-    </section>
 
+        <div class="arch gs-reveal">
+          <div class="arch__tier">
+            <span class="arch__tier-label">Clients</span>
+            <div class="arch__nodes">
+              <div class="arch__node"><b>Customer PWA</b>menu, cart, checkout, order tracking</div>
+              <div class="arch__node"><b>Staff portal</b>kitchen queue, delivery dispatch</div>
+              <div class="arch__node"><b>Admin dashboard</b>menu CRUD, inventory, analytics</div>
+            </div>
+          </div>
 
-    <section class="case-highlights">
-      <div class="container">
-        <div class="case-highlights__grid gs-reveal">
-          <div class="case-highlight">
-            <div class="case-highlight__number">10+</div>
-            <div class="case-highlight__label">Core Systems</div>
+          <div class="arch__link" aria-hidden="true"><span>&#9660;</span></div>
+
+          <div class="arch__tier">
+            <span class="arch__tier-label">Application</span>
+            <div class="arch__nodes">
+              <div class="arch__node arch__node--accent"><b>Next.js route handlers</b>auth middleware &middot; server actions &middot; validation</div>
+            </div>
           </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">1</div>
-            <div class="case-highlight__label">Developer (Me)</div>
+
+          <div class="arch__link" aria-hidden="true"><span>&#9660;</span></div>
+
+          <div class="arch__tier">
+            <span class="arch__tier-label">Data &amp; infrastructure</span>
+            <div class="arch__nodes">
+              <div class="arch__node"><b>Postgres</b>row-level security on 14 tables</div>
+              <div class="arch__node"><b>Redis</b>menu cache, invalidated on write</div>
+              <div class="arch__node"><b>Web Push</b>order status, cart recovery</div>
+            </div>
           </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">3</div>
-            <div class="case-highlight__label">User Portals</div>
-          </div>
-          <div class="case-highlight">
-            <div class="case-highlight__number">2</div>
-            <div class="case-highlight__label">Currencies</div>
-          </div>
+
+          <p class="arch__feedback">
+            <b>&#8634; Realtime channel</b>
+            Postgres change events on the <code>orders</code> table stream straight back to all three
+            clients. No polling, and no screen showing a status the database has already moved past.
+          </p>
         </div>
       </div>
     </section>
@@ -159,77 +155,79 @@
         <div class="section__header gs-reveal">
           <span class="section__number">02</span>
           <span class="section__line"></span>
-          <h2 class="section__title">What I Built</h2>
+          <h2 class="section__title">Engineering Decisions</h2>
         </div>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: #1a0f0f;">
-              <img src="../assets/projects/my-pizza/menu.png" alt="MyPizza Menu" loading="lazy">
-            </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">01</div>
-            <h3 class="case-feature__title">Menu, Cart & Checkout</h3>
-            <p class="case-feature__desc">Dynamic menu fetched from Supabase with category filtering. Customization modals with presets and paid extras. Persistent localStorage cart. Multi-step checkout with dual currency (USD/LBP), promo code validation, and loyalty point redemption. WhatsApp fallback ordering.</p>
-            <div class="case-feature__tech">Supabase, React Context, localStorage, Framer Motion transitions</div>
-          </div>
-        </div>
+        <div class="decisions">
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #15100a 0%, #2a1f10 100%);">
-              <span class="case-feature__img-text">Photos coming soon</span>
+          <article class="decision gs-reveal">
+            <span class="decision__index">01</span>
+            <h3 class="decision__title">One source of truth for an order, three clients watching it</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">A customer tracks an order while the kitchen advances it and the owner watches the queue. A stale status means food cooked twice, or not at all.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">02</div>
-            <h3 class="case-feature__title">Gamification — Spin Wheel & Loyalty</h3>
-            <p class="case-feature__desc">This was the most fun to build. A canvas-rendered spin wheel with weighted probability — customers spend loyalty points to spin for discounts, free delivery, or free items. Real promo codes generated on win. Plus a loyalty system that tracks lifetime points and a flash promo engine for time-limited deals.</p>
-            <div class="case-feature__tech">Canvas API, probability engine, auto promo code generation, Supabase ledger</div>
-          </div>
-        </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">One orders table as the only source of truth, with Postgres change events pushed to every connected client. No client computes status locally, and none of them poll.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">Every open client holds a live subscription, so reconnection and out-of-order events had to be handled deliberately rather than assumed away. That cost bought the disappearance of an entire class of &ldquo;my screen says something different&rdquo; bugs.</p>
+            </div>
+          </article>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: #0a0f15;">
-              <img src="../assets/projects/my-pizza/admin.png" alt="MyPizza Admin Dashboard" loading="lazy">
+          <article class="decision gs-reveal">
+            <span class="decision__index">02</span>
+            <h3 class="decision__title">Authorization in the database, not in the route handler</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">Three portals with sharply different permissions, built by one developer who cannot hand-audit every new endpoint before shipping it.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">03</div>
-            <h3 class="case-feature__title">Admin Dashboard (7 Tabs)</h3>
-            <p class="case-feature__desc">The most complex part of the app. Real-time order management with a status pipeline. Analytics dashboard with KPIs (revenue, users, engagement). Menu CRUD with image uploads. Inventory tracking. Shift scheduling. Employee management. Gamification settings. All in one interface.</p>
-            <div class="case-feature__tech">Supabase real-time, multi-tab state, image uploads, analytics aggregation</div>
-          </div>
-        </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">Row-level security across all 14 tables, so the policy travels with the data. A handler cannot leak a table by forgetting to guard it, because the guard is not in the handler.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">Policies are meaningfully harder to debug than a conditional in a handler, and the first week went into paying that down. In return, every surface added afterwards cost almost nothing to review.</p>
+            </div>
+          </article>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: linear-gradient(135deg, #0f0a15 0%, #1d152a 100%);">
-              <span class="case-feature__img-text">Photos coming soon</span>
+          <article class="decision gs-reveal">
+            <span class="decision__index">03</span>
+            <h3 class="decision__title">Caching a menu that has to be correct the moment it changes</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">The menu is read on nearly every request and edited a few times a week &mdash; but when the owner changes a price, the next customer has to see it, not the next cache window.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">04</div>
-            <h3 class="case-feature__title">PWA, Push Notifications & Analytics</h3>
-            <p class="case-feature__desc">Set up the full PWA infrastructure — manifest, service worker, install prompts. Web Push for order status updates and cart abandonment reminders (30-min timeout). PostHog for product analytics and Google Analytics for traffic. Every user interaction tracked.</p>
-            <div class="case-feature__tech">Web Push API, Service Worker, PostHog, Google Analytics, cart abandonment</div>
-          </div>
-        </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">Redis in front of Postgres for menu reads, with the admin write path explicitly invalidating the cache rather than waiting for a TTL to lapse.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">Writes became slower and carry real risk: a missed invalidation shows a wrong price. A TTL alone would have been simpler, but it forces a choice between stale prices and no cache at all &mdash; and neither was acceptable here.</p>
+            </div>
+          </article>
 
-        <div class="case-feature gs-reveal">
-          <div class="case-feature__img">
-            <div class="case-feature__img-placeholder" style="background: #120a0a;">
-              <img src="../assets/projects/my-pizza/taste-quiz.png" alt="MyPizza Taste Quiz" loading="lazy">
+          <article class="decision gs-reveal">
+            <span class="decision__index">04</span>
+            <h3 class="decision__title">Checkout without touching card data</h3>
+            <div class="decision__row">
+              <span class="decision__key">Constraint</span>
+              <p class="decision__val">The business ran on cash on delivery and WhatsApp confirmation. No card processor was in scope, and the country runs on two currencies at a rate that moves.</p>
             </div>
-          </div>
-          <div class="case-feature__content">
-            <div class="case-feature__number">05</div>
-            <h3 class="case-feature__title">Taste Quiz & Personalization</h3>
-            <p class="case-feature__desc">A 5-question quiz that builds a taste profile — spice preference, protein type, cheese level, sweet pizzas, adventurousness. Stored in Supabase, it powers a "Recommended for You" section on the menu page using tag-based matching against menu items.</p>
-            <div class="case-feature__tech">Multi-step form, tag-based scoring, Supabase profiles, recommendation engine</div>
-          </div>
+            <div class="decision__row">
+              <span class="decision__key">Decision</span>
+              <p class="decision__val">Money stays out of the application. Orders carry totals in both currencies against a rate the owner controls, and confirmation hands off to the channel customers already used.</p>
+            </div>
+            <div class="decision__row decision__row--tradeoff">
+              <span class="decision__key">Trade-off</span>
+              <p class="decision__val">No automated reconciliation &mdash; the owner does that by hand. In exchange there is no card data anywhere in the system, no gateway dependency, and a flow that matches how the business already worked instead of fighting it.</p>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>

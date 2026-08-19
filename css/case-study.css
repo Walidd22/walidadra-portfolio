@@ -396,3 +396,166 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
+/* ========================================
+   ARCHITECTURE DIAGRAM
+   Plain HTML tiers rather than an SVG: the boxes reflow at 360px and the
+   labels stay readable, where a scaled-down SVG turns into illegible mush.
+   ======================================== */
+.arch {
+  margin-top: var(--space-10);
+}
+
+.arch__tier {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.arch__tier-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
+.arch__nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+
+.arch__node {
+  padding: var(--space-4);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+[data-theme="light"] .arch__node {
+  border-color: rgba(0, 0, 0, 0.10);
+}
+
+.arch__node b {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.arch__node--accent {
+  border-color: hsla(var(--accent-hue), 100%, 55%, 0.38);
+  background: hsla(var(--accent-hue), 100%, 55%, 0.06);
+}
+
+.arch__node--accent b { color: var(--accent); }
+
+/* Connector between tiers — decorative, hidden from assistive tech. */
+.arch__link {
+  height: var(--space-6);
+  margin-left: 1.25rem;
+  border-left: 1px dashed rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="light"] .arch__link {
+  border-left-color: rgba(0, 0, 0, 0.22);
+}
+
+.arch__link span {
+  position: relative;
+  top: 100%;
+  left: -0.42rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.arch__feedback {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  border: 1px dashed hsla(var(--accent-hue), 100%, 55%, 0.32);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.arch__feedback b { color: var(--accent); font-weight: 600; }
+
+
+/* ========================================
+   DECISION RECORDS
+   Constraint → decision → trade-off. The trade-off row is the point: it is
+   what separates an engineer from a feature list.
+   ======================================== */
+.decisions {
+  display: grid;
+  gap: 1px;
+  margin-top: var(--space-10);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .decisions {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.decision {
+  padding: var(--space-6);
+  background: var(--bg-card);
+}
+
+.decision__index {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+
+.decision__title {
+  margin: var(--space-2) 0 var(--space-5);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.decision__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+  padding: var(--space-3) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .decision__row {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 700px) {
+  .decision__row { grid-template-columns: 8.5rem 1fr; gap: var(--space-4); }
+}
+
+.decision__key {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  padding-top: 0.2rem;
+}
+
+.decision__val {
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+/* The trade-off is the row worth reading twice. */
+.decision__row--tradeoff .decision__key { color: var(--accent); }

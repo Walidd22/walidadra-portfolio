@@ -126,31 +126,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     gsap.ticker.lagSmoothing(0);
+  }
 
-    document.querySelectorAll('a[href^="#"]:not([href="#"]):not([href=""])').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href'));
-        if (!target) return;
-        closeMobileMenu();
-        requestAnimationFrame(() => {
-          lenis.scrollTo(target, { offset: -60 });
-        });
-      });
-    });
-  } else {
-    document.querySelectorAll('a[href^="#"]:not([href="#"]):not([href=""])').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href'));
-        if (!target) return;
-        closeMobileMenu();
-        requestAnimationFrame(() => {
-          target.scrollIntoView({ behavior: 'smooth' });
-        });
-      });
+  // Single scroll entry point — Lenis when it's running, native smooth otherwise.
+  // The hero CTA opts out of the generic binding below and calls this itself,
+  // once its graph animation has finished playing.
+  function smoothScrollTo(target) {
+    if (!target) return;
+    closeMobileMenu();
+    requestAnimationFrame(() => {
+      if (lenis) lenis.scrollTo(target, { offset: -60 });
+      else target.scrollIntoView({ behavior: 'smooth' });
     });
   }
+
+  document.querySelectorAll('a[href^="#"]:not([href="#"]):not([href=""]):not([data-hero-cta])').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      smoothScrollTo(document.querySelector(anchor.getAttribute('href')));
+    });
+  });
 
   // ---- NAV SCROLL EFFECT ----
   const nav = document.getElementById('nav');
@@ -213,53 +208,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // ---- MOBILE: press-and-hold the hero graph to morph into a vertical DNA helix
-  //              that swirls and drops away. Releasing reverses it back to the cluster.
-  if (heroSection && window.matchMedia('(max-width: 899px)').matches) {
-    let morphTween = null;
-    let isPressed = false;
+  // ---- MOBILE: the hero CTA plays the graph animation through, then travels
+  //              to the work. Desktop keeps a plain smooth scroll. Tapping a
+  //              second time mid-animation means "skip" — it jumps straight there.
+  const heroCta = document.querySelector('[data-hero-cta]');
+  if (heroCta) {
+    let ctaTimeline = null;
 
     const getGraph = () => {
       const g = window.__heroGraph;
       return g && g.setMorphProgress && g.getMorphProgress ? g : null;
     };
 
-    function startMorph(e) {
-      // Ignore taps on the info card, CTA, name-link, nav — they have their own UI.
-      if (e.target.closest && e.target.closest('.hero__info, .hero__content, .nav')) return;
-      const g = getGraph();
-      if (!g) return;
-      if (morphTween) morphTween.kill();
-      isPressed = true;
-      const state = { v: g.getMorphProgress() };
-      const remaining = 1 - state.v;
-      morphTween = window.gsap.to(state, {
-        v: 1,
-        duration: Math.max(0.3, 4.6 * remaining),
-        ease: 'power1.out',
-        onUpdate: () => g.setMorphProgress(state.v),
-      });
-    }
+    function goToWork() {
+      heroCta.classList.remove('is-playing');
+      smoothScrollTo(document.querySelector(heroCta.getAttribute('href')));
 
-    function endMorph() {
-      if (!isPressed) return;
-      isPressed = false;
+      // Rewind the graph once the hero is off-screen, so scrolling back up
+      // finds the constellation intact rather than an empty sky.
       const g = getGraph();
-      if (!g) return;
-      if (morphTween) morphTween.kill();
+      if (!g || !window.gsap) return;
       const state = { v: g.getMorphProgress() };
-      morphTween = window.gsap.to(state, {
+      window.gsap.to(state, {
         v: 0,
-        duration: Math.max(0.25, 1.4 * state.v),
-        ease: 'power2.out',
+        duration: 0.9,
+        delay: 1.2,
+        ease: 'power2.inOut',
         onUpdate: () => g.setMorphProgress(state.v),
       });
     }
 
-    heroSection.addEventListener('pointerdown', startMorph, { passive: true });
-    // Release can happen anywhere — bind on window to catch fingers that slide off.
-    window.addEventListener('pointerup', endMorph, { passive: true });
-    window.addEventListener('pointercancel', endMorph, { passive: true });
+    heroCta.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = () => document.querySelector(heroCta.getAttribute('href'));
+      const g = getGraph();
+      const canPlay = window.matchMedia('(max-width: 899px)').matches &&
+                      !reducedMotion && window.gsap && g;
+
+      if (!canPlay) { smoothScrollTo(target()); return; }
+
+      if (ctaTimeline) {
+        ctaTimeline.kill();
+        ctaTimeline = null;
+        g.setMorphProgress(1);
+        goToWork();
+        return;
+      }
+
+      heroCta.classList.add('is-playing');
+      const state = { v: g.getMorphProgress() };
+      const apply = () => g.setMorphProgress(state.v);
+
+      ctaTimeline = window.gsap.timeline({
+        onComplete: () => { ctaTimeline = null; goToWork(); },
+      })
+        // Cluster corkscrews into the helix, which then winds up in place.
+        .to(state, { v: 0.6, duration: 1.05, ease: 'power2.out', onUpdate: apply })
+        // Wound-up helix spirals down and out of frame.
+        .to(state, { v: 1, duration: 0.7, ease: 'power2.in', onUpdate: apply });
+    });
   }
 
   // ---- INIT ANIMATIONS ----
