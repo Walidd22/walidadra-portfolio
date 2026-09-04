@@ -38,11 +38,13 @@
   inset: 0;
   z-index: 1;
   pointer-events: auto;
-  cursor: grab;
+  /* Not `grab`: a native cursor here renders on top of the custom one, so the
+     graph showed two pointers at once. The state moves to .cursor.is-grab. */
+  cursor: none;
 }
 
 .hero__graph:active {
-  cursor: grabbing;
+  cursor: none;
 }
 
 .hero__graph canvas {

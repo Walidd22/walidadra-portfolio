@@ -161,6 +161,47 @@ a:hover {
   transform: translate(-50%, -50%) scale(0.5);
 }
 
+/* Grab states for the hero graph. The graph used to set a native `grab`
+   cursor, which overrides the `cursor: none` on body and draws a second
+   pointer on top of this one — two cursors at once. Grabbability is expressed
+   here instead, so there is still only ever one. */
+.cursor.is-grab {
+  width: 36px;
+  height: 36px;
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.cursor.is-grabbing {
+  width: 22px;
+  height: 22px;
+  border-color: var(--accent);
+  border-width: 2px;
+  background: hsla(var(--accent-hue), 100%, 55%, 0.22);
+}
+
+/* A text field is the one place the native cursor is worth more than this one:
+   the I-beam shows where the caret will land. So this one stands down rather
+   than doubling up. */
+.cursor.is-text {
+  opacity: 0;
+}
+
+/* The custom cursor is the only pointer on fine-pointer devices. The UA
+   stylesheet gives every <a> and <summary> a native `pointer`, which draws a
+   second cursor on top of the custom one — so it is cleared here once rather
+   than class by class, which is how several links slipped through before.
+   Text fields deliberately keep their native I-beam (it shows where the caret
+   lands); .cursor.is-text hides the custom dot over those instead. */
+@media (hover: hover) and (pointer: fine) {
+  a, summary, label, select, [role="button"] { cursor: none; }
+}
+
+
+[data-theme="light"] .cursor.is-grabbing {
+  background: hsla(var(--accent-hue), 100%, 55%, 0.18);
+}
+
 /* Hide custom cursor on touch */
 @media (hover: none), (pointer: coarse) {
   .cursor { display: none !important; }
