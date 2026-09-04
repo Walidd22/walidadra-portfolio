@@ -5,8 +5,8 @@
    Turns tall vertical card stacks into decks you move through
    sideways, so a section costs one screen instead of five.
 
-     engineering.html  #systems       swipe deck on touch, grid on desktop
-     index.html        #capabilities  swipe deck on touch, grid on desktop
+     engineering.html  #systems       pinned + scrubbed on touch, grid on desktop
+     index.html        #capabilities  pinned + scrubbed on touch, grid on desktop
 
    index.html #projects is NOT here: Selected Work uses the sticky
    accumulating stack (css/sections.css) at every viewport.
@@ -106,14 +106,20 @@
     d.hint.textContent = 'scroll';
     d.deck.classList.add('is-pinned');
     d.cards[0].classList.add('is-current');
+    // travel is exactly the overflow: what the track is, minus what shows.
     const distance = () => Math.max(d.track.scrollWidth - d.deck.clientWidth, 1);
+    // pin BELOW the fixed nav, or the top of every card sits behind it
+    const navGap = () => {
+      const nav = document.querySelector('.nav');
+      return nav ? Math.round(nav.getBoundingClientRect().height) + 12 : 80;
+    };
 
     gsap.to(d.track, {
       x: () => -distance(),
       ease: 'none',
       scrollTrigger: {
         trigger: d.deck, pin: true, scrub: 0.6, anticipatePin: 1,
-        start: 'top top', end: () => '+=' + distance(),
+        start: () => 'top ' + navGap(), end: () => '+=' + distance(),
         invalidateOnRefresh: true,
         snap: { snapTo: 1 / (d.cards.length - 1), duration: { min: 0.15, max: 0.35 }, ease: 'power1.inOut' },
         onUpdate: self => {
@@ -123,23 +129,6 @@
         }
       }
     });
-  }
-
-  function deckSwipe(d) {
-    d.hint.textContent = 'swipe';
-    d.deck.classList.add('is-swipe');
-    d.cards[0].classList.add('is-current');
-    let raf = 0;
-    d.track.addEventListener('scroll', () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const w = d.track.scrollWidth - d.track.clientWidth;
-        const i = Math.round((w > 0 ? d.track.scrollLeft / w : 0) * (d.cards.length - 1));
-        d.countEl.textContent = pad(i + 1);
-        d.cards.forEach((c, n) => c.classList.toggle('is-current', n === i));
-      });
-    }, { passive: true });
   }
 
   /* ---------- go ---------- */
@@ -157,10 +146,10 @@
       const d = buildDeck(cfg);
       if (!d) return;
       if (cfg.desktop === 'pin') {
-        ScrollTrigger.matchMedia({ [DESKTOP]: () => deckPinned(d), [TOUCH]: () => deckSwipe(d) });
+        ScrollTrigger.matchMedia({ [DESKTOP]: () => deckPinned(d), [TOUCH]: () => deckPinned(d) });
       } else {
         d.deck.classList.add('is-grid-desktop');
-        ScrollTrigger.matchMedia({ [TOUCH]: () => deckSwipe(d) });
+        ScrollTrigger.matchMedia({ [TOUCH]: () => deckPinned(d) });
       }
     });
 

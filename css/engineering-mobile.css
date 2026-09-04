@@ -1,6 +1,6 @@
 /* ============================================================
    engineering.html — mobile density
-   Loaded last. Everything below 760px only; desktop untouched.
+   Loaded last. Everything below 900px only; desktop untouched.
    Pairs with js/engineering-mobile.js.
 
    The JS never moves existing nodes — it adds a class and inserts
@@ -13,7 +13,10 @@
 .eng-toggle,
 .eng-chip-more { display: none; }
 
-@media (max-width: 760px) {
+/* 900px, not 760: this has to cover the whole range the deck runs in.
+   At 768 the bullets stayed expanded and a system card measured 1200px
+   against 952px of room — too tall to pin without stranding its bottom. */
+@media (max-width: 900px) {
 
   /* ---------- the toggle ---------- */
   .eng-toggle {
