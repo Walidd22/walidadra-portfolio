@@ -375,6 +375,13 @@
     font-size: var(--text-3xl);
   }
 
+  /* The reset allows mid-word breaks, so at --text-3xl the longest word here
+     ("ENGINEERING") split across two lines. Step the type down until the word
+     fits instead; the global break-word stays as the last-resort fallback. */
+  .case-next__title {
+    font-size: var(--text-2xl);
+  }
+
   .case-hero__facts {
     gap: 1.5rem;
   }
@@ -384,6 +391,10 @@
     padding-bottom: 3rem;
     margin-bottom: 3rem;
   }
+}
+
+@media (max-width: 480px) {
+  .case-next__title { font-size: var(--text-xl); }
 }
 
 @media (max-width: 599px) {

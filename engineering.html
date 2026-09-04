@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Engineering Notes — Walid Adra</title>
+  <meta name="description" content="How I build production systems: architecture, access models, data residency, infrastructure and the constraints I hold every system to. Written for engineers, with client names withheld.">
+  <meta name="keywords" content="Walid Adra, platform engineer, system architecture, Postgres RLS, data residency, multi-tenant, LangGraph, FastAPI, Next.js, Terraform, security">
+  <meta name="author" content="Walid Adra">
+
+  <meta property="og:title" content="Engineering Notes — Walid Adra">
+  <meta property="og:description" content="What I build, and what I refuse to let it do. Architecture, access models, infrastructure and constraints from production systems.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://walidadra.dev/assets/images/og-image.jpg">
+  <meta property="og:url" content="https://walidadra.dev/engineering.html">
+  <meta property="og:site_name" content="Walid Adra">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Engineering Notes — Walid Adra">
+  <meta name="twitter:description" content="What I build, and what I refuse to let it do.">
+  <meta name="twitter:image" content="https://walidadra.dev/assets/images/og-image.jpg">
+
+  <link rel="canonical" href="https://walidadra.dev/engineering.html">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;500&family=Space+Mono&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css"
+        integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/engineering.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#systems">Skip to content</a>
+
+  <div class="page-loader" id="pageLoader">
+    <span class="page-loader__text">loading</span>
+  </div>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav class="nav is-scrolled" id="nav">
+    <div class="container nav__inner">
+      <a href="./" class="nav__logo" data-text="WALID ADRA">WALID ADRA</a>
+      <div class="nav__links">
+        <a href="./#capabilities" class="nav__link" data-cursor="expand">What I Build</a>
+        <a href="./#projects" class="nav__link" data-cursor="expand">Work</a>
+        <a href="engineering.html" class="nav__link" data-cursor="expand">Engineering</a>
+        <a href="./#connect" class="nav__link" data-cursor="expand">Contact</a>
+        <button class="theme-toggle" id="themeToggle" data-cursor="expand" aria-label="Toggle theme">
+          <span id="themeIcon" data-theme-icon>☽</span>
+        </button>
+      </div>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" data-cursor="expand">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" id="navMobile">
+    <a href="./#capabilities" class="nav__mobile-link" data-cursor="expand">What I Build</a>
+    <a href="./#projects" class="nav__mobile-link" data-cursor="expand">Work</a>
+    <a href="engineering.html" class="nav__mobile-link" data-cursor="expand">Engineering</a>
+    <a href="./#connect" class="nav__mobile-link" data-cursor="expand">Contact</a>
+    <button class="theme-toggle theme-toggle--mobile" id="themeToggleMobile" data-cursor="expand" aria-label="Toggle theme">
+      <span data-theme-icon>☽</span>
+    </button>
+  </div>
+
+  <main class="eng">
+    <div class="eng__wrap">
+
+      <!-- ===== SPEC HEADER ===== -->
+      <header class="eng-head">
+        <div class="eng-head__rule gs-reveal">
+          <span>Engineering notes</span>
+          <span><b>Rev.</b> 2026-09-04</span>
+          <span><b>Scope</b> Production systems, Apr–Sep 2026</span>
+          <span><a href="./" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2)">← Portfolio</a></span>
+        </div>
+
+        <h1 class="eng-head__title gs-reveal">What I build, and what I refuse to let it do.</h1>
+
+        <p class="eng-head__lede gs-reveal">
+          Most of what I shipped this year is under NDA. I can't name the clients, the products
+          or the markets — so this page shows you the systems underneath instead: how they are
+          structured, what holds them up, and the rules I hold every one of them to.
+        </p>
+        <p class="eng-head__lede gs-reveal">
+          All of it comes from code I wrote and can walk you through line by line. Where a system
+          isn't finished, it says so.
+        </p>
+
+        <p class="eng-head__note gs-reveal">
+          <strong>On naming.</strong> Mahramji appears by name because the site is public and the
+          client is happy to be credited. Every other system here is described without its client,
+          product name or market. Figures are counted from the repositories on 2026-09-04.
+        </p>
+
+        <div class="eng-count gs-reveal">
+          <div class="eng-count__cell">
+            <span class="eng-count__n">2,042</span>
+            <span class="eng-count__l">Commits authored<br>Apr–Sep 2026</span>
+          </div>
+          <div class="eng-count__cell">
+            <span class="eng-count__n">7</span>
+            <span class="eng-count__l">Production<br>repositories</span>
+          </div>
+          <div class="eng-count__cell">
+            <span class="eng-count__n">4</span>
+            <span class="eng-count__l">Languages shipped<br>TS · Python · SQL · HCL</span>
+          </div>
+          <div class="eng-count__cell">
+            <span class="eng-count__n">2</span>
+            <span class="eng-count__l">Data-protection regimes<br>designed against</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ===== 01 · SYSTEMS ===== -->
+      <section class="eng-sec" id="systems">
+        <div class="eng-sec__head gs-reveal">
+          <span class="eng-sec__n">01</span>
+          <h2 class="eng-sec__t">Systems</h2>
+          <span class="eng-sec__sub">Five builds · client names withheld</span>
+        </div>
+
+        <p class="eng-sec__intro gs-reveal">
+          Ordered by how much of the stack I owned. Each entry states what the system does, the
+          parts that were genuinely hard, and where it stands today — including the ones that
+          aren't deployed.
+        </p>
+
+        <!-- 1 — AI marketing intelligence platform -->
+        <article class="eng-sys gs-reveal" data-state="live">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Live · one client</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Full-stack &amp; platform</dd>
+              <dt>Period</dt><dd>May – Aug 2026</dd>
+              <dt>Team</dt><dd>Three</dd>
+              <dt>Authored</dt><dd>1,053 commits</dd>
+              <dt>Hosting</dt><dd>In-region, by requirement</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">AI marketing-intelligence platform</h3>
+            <p class="eng-sys__body">
+              A platform that reads a client's analytics and commerce accounts, proposes campaigns
+              against what it finds, and manages them on the ad accounts the client connects. I
+              worked across the whole repository — the Python decisioning service, the web console,
+              the mobile viewer, the schemas, the infrastructure and the deploy path.
+            </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>Nothing reaches a live ad account without two separate human approvals: one on the campaign idea, one on the finished creative. The code on that path is held to a higher review bar than the rest of the repository.</li>
+              <li>Data residency is enforced at the call site rather than by where the box happens to sit, so the guarantee survives a migration between cloud providers instead of being re-argued.</li>
+              <li>Around a dozen platform connectors — ads, analytics, commerce, social — each with its own token custody, refresh path and failure mode.</li>
+              <li>Cities and sub-sectors come from closed registries. Free text there silently files a client under the wrong benchmark, and nobody finds out for a quarter.</li>
+              <li>A seasonal calendar anchored to the Hijri year, so campaign timing is computed rather than hand-maintained every year.</li>
+              <li>Nine CI/CD workflows and eleven architecture decision records, across two target clouds — one live, one staged for the cutover.</li>
+            </ul>
+            <ul class="eng-sys__stack">
+              <li>Python 3.13</li><li>FastAPI</li><li>LangGraph</li><li>PostgreSQL 16</li><li>pgvector</li>
+              <li>BigQuery</li><li>dbt</li><li>Cube</li><li>React 19</li><li>Vite</li><li>Motion</li>
+              <li>Expo</li><li>Terraform</li><li>Docker</li><li>GitHub Actions</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 2 — AI voice interview engine -->
+        <article class="eng-sys gs-reveal" data-state="build">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Built end to end · not deployed</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Solo, full stack</dd>
+              <dt>Period</dt><dd>Aug – Sep 2026</dd>
+              <dt>Authored</dt><dd>501 commits</dd>
+              <dt>Counted</dt><dd>29 screens · 13 API routes · 23 migrations · 72 test suites</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">Bilingual AI voice-interview engine</h3>
+            <p class="eng-sys__body">
+              An HR engine that conducts real voice interviews in Arabic and English and produces
+              evidence-cited assessments — a candidate journey from application through a live
+              interview room to a scorecard, plus a thirteen-screen operator console. It is built
+              end to end and it is not deployed; nobody has yet sat an interview against a live
+              model, and the project says so on its own front page.
+            </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>A real-time voice pipeline: speech in, speech out, and a viseme-driven face that moves with what is being said.</li>
+              <li>Every conversational turn commits before the next is spoken, and position is derived from the transcript rather than a stored cursor — so a process killed mid-interview resumes exactly where it was.</li>
+              <li>Row-level security on every organisation-scoped table, and CI runs the whole suite a second time with the superuser bypass removed. A policy that only passes as superuser proves nothing.</li>
+              <li>Audit tables are append-only, enforced by trigger. Access is a capability grant checked server-side, not a URL somebody could guess.</li>
+              <li>Full right-to-left Arabic — a mirrored interface, not a translated string file — with bilingual PDF reports out the other end.</li>
+              <li>Bias monitoring by role family and interview language, a right of reply for anyone assessed, and a retention policy spoken aloud in the consent rather than buried in a footer.</li>
+            </ul>
+            <ul class="eng-sys__stack">
+              <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Drizzle</li><li>PostgreSQL</li>
+              <li>pgvector</li><li>better-auth</li><li>next-intl</li><li>Python</li><li>Pipecat</li>
+              <li>Recharts</li><li>Docker</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 3 — Ordering & delivery platform -->
+        <article class="eng-sys gs-reveal" data-state="live">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Live demo</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Solo, schema to deploy</dd>
+              <dt>Period</dt><dd>Apr – Aug 2026</dd>
+              <dt>Authored</dt><dd>114 commits</dd>
+              <dt>Counted</dt><dd>13 screens · 22 API routes</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">
+              Ordering &amp; delivery platform
+            </h3>
+            <p class="eng-sys__body">
+              A restaurant ordering platform built end to end for a client: customer storefront,
+              staff back-office, and the operational plumbing between them. Checkout hands off to
+              WhatsApp and cash on delivery, because that is how the market it was built for
+              actually pays — there is no card gateway, and pretending otherwise would have been
+              the easier claim to make.
+            </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>A staff back-office with per-tab permissions carried in a signed token, so a floor account cannot reach the books.</li>
+              <li>Redis in front of the menu: the read path is hot and constant, the write path is one person editing prices once a week.</li>
+              <li>Web push and an installable PWA, so a phone propped on a counter behaves like a point-of-sale terminal.</li>
+              <li>Loyalty mechanics and a taste quiz that personalises the menu — the parts that make a second visit more likely than the first.</li>
+            </ul>
+            <ul class="eng-sys__stack">
+              <li>Next.js 16</li><li>React 19</li><li>Supabase</li><li>PostgreSQL</li><li>Redis</li>
+              <li>Web Push</li><li>JOSE</li><li>Resend</li><li>PostHog</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 4 — Mahramji (named) -->
+        <article class="eng-sys gs-reveal" data-state="live">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Live · client domain</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Solo, design &amp; build</dd>
+              <dt>Period</dt><dd>Aug 2026</dd>
+              <dt>Authored</dt><dd>172 commits</dd>
+              <dt>Counted</dt><dd>67 dishes · 9 migrations · 90 tests</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">
+              Mahramji — Sea Food &amp; Fish
+              <a href="https://almahramji.com" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:0.55em;letter-spacing:0.06em;margin-left:0.6em;white-space:nowrap;" data-cursor="expand">almahramji.com →</a>
+            </h3>
+            <p class="eng-sys__body">
+              A seafood restaurant on the Mina corniche in Tripoli. Guests scan a QR code at the
+              table and read the menu in English or Arabic, priced in dollars or lira. A waiter
+              still takes the order — that is how the restaurant works, and the software had no
+              business changing it. The owner runs the whole site from a dashboard: menu, prices,
+              photographs, hours, hero video, without me.
+            </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>Two currencies and two languages, with right-to-left treated as a first-class layout rather than a flipped stylesheet.</li>
+              <li>Time-based two-factor on the admin login, row-level security on every table, scoped storage policies, and a scheduled prune of login attempts.</li>
+              <li>Nine ordered migrations applied through the management API — no pasting SQL into a console, so the schema in the repository is the schema in production.</li>
+              <li>QR cards, print PDFs and app icons generated from the client's vector logo by script, so a logo revision is a re-run rather than an afternoon.</li>
+              <li>Ninety tests and a build that has to pass before anything ships.</li>
+            </ul>
+            <ul class="eng-sys__stack">
+              <li>Next.js 16</li><li>React 19</li><li>Supabase</li><li>PostgreSQL</li><li>RLS</li>
+              <li>TOTP 2FA</li><li>Web Push</li><li>Vercel</li><li>Python</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 5 — trading platform -->
+        <article class="eng-sys gs-reveal" data-state="closed">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Role closed · handed over</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Lead frontend</dd>
+              <dt>Period</dt><dd>Earlier engagement</dd>
+              <dt>Team</dt><dd>Founding, two engineers</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">Real-time AI trading platform</h3>
+            <p class="eng-sys__body">
+              My first engineering role: leading the frontend of an AI trading platform through its
+              early production build. A monorepo spanning web, mobile and rendered video; six OAuth
+              sign-in strategies behind two-factor; payments; and market surfaces that had to stay
+              correct while the data never stopped moving. The company handed the repository on
+              when I left, so I can describe the work but not point you at a commit history — which
+              is exactly why the rest of this page is written the way it is.
+            </p>
+            <ul class="eng-sys__stack">
+              <li>React</li><li>Next.js</li><li>TypeScript</li><li>Expo</li><li>Remotion</li><li>Stripe</li><li>WebSockets</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== 02 · CONSTRAINT LEDGER ===== -->
+      <section class="eng-sec" id="constraints">
+        <div class="eng-sec__head gs-reveal">
+          <span class="eng-sec__n">02</span>
+          <h2 class="eng-sec__t">The constraint ledger</h2>
+          <span class="eng-sec__sub">Eight rules · enforced, not intended</span>
+        </div>
+
+        <p class="eng-sec__intro gs-reveal">
+          A marketing platform, an interview engine and a restaurant menu have almost nothing in
+          common. What they share is this list. Each rule is a thing the system is not allowed to
+          do, and each one names the mechanism that stops it — because a rule enforced by good
+          intentions is a rule you find out about in an incident report.
+        </p>
+
+        <div class="eng-ledger">
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-01</span>
+            <div>
+              <p class="eng-clause__rule">No automated system spends a client's money on its own.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Two human gates on the path to a live ad account — one approves the idea, one approves the finished creative. Neither can be skipped, and the code on that path carries a higher review bar than the rest of the repository.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-02</span>
+            <div>
+              <p class="eng-clause__rule">Regulated data does not leave the jurisdiction it was collected in.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>A residency check at the call site rather than at the host. Moving the deployment between cloud providers cannot move the data, because the gate never depended on where the box was.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-03</span>
+            <div>
+              <p class="eng-clause__rule">Row-level security nobody has attacked is a comment, not a control.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>A policy on every organisation-scoped table, and a CI job that runs the entire suite a second time with the superuser bypass removed. Tests that only pass as superuser prove nothing about what a tenant can reach.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-04</span>
+            <div>
+              <p class="eng-clause__rule">History is append-only.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Audit writes go through database triggers rather than application code. Nothing that records what happened is able to revise it afterwards, including me.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-05</span>
+            <div>
+              <p class="eng-clause__rule">Access is a grant, never a URL somebody could guess.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Capability records checked server-side on every read, and per-scope permission claims inside signed sessions. Knowing an identifier is not the same as being allowed to see what it points at.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-06</span>
+            <div>
+              <p class="eng-clause__rule">A value that maps to money or to a benchmark comes from a closed registry.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Enumerated cities, sectors and sub-sectors instead of free text. A typo in a free-text field files a record against the wrong comparison and reports it confidently for a quarter before anyone notices.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-07</span>
+            <div>
+              <p class="eng-clause__rule">Long-running state is derived, never remembered.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Each step commits before the next begins, and position is recomputed from what was written. A process killed mid-session resumes exactly where it stopped, because there was never a cursor to lose.</span></p>
+            </div>
+          </div>
+
+          <div class="eng-clause gs-reveal" tabindex="0">
+            <span class="eng-clause__id">C-08</span>
+            <div>
+              <p class="eng-clause__rule">What isn't built is visibly absent, never simulated.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>No placeholder that looks finished. Every project carries a written "what is not built, or not proven" section, and its status file is generated from a single source of truth by a CI job that fails when the two drift apart.</span></p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===== 03 · STACK ===== -->
+      <section class="eng-sec" id="stack">
+        <div class="eng-sec__head gs-reveal">
+          <span class="eng-sec__n">03</span>
+          <h2 class="eng-sec__t">Stack, by layer</h2>
+          <span class="eng-sec__sub">Shipped, not sampled</span>
+        </div>
+
+        <p class="eng-sec__intro gs-reveal">
+          Listed only where I have run it in something real, and each line says what it actually
+          did. A tool with nothing next to it doesn't belong on a page like this.
+        </p>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Interface</div>
+          <ul class="eng-layer__items">
+            <li><b>React 19 · TypeScript</b> every frontend here — 315 components in the largest console alone</li>
+            <li><b>Next.js 16</b> App Router, server actions and server components across four of the systems above</li>
+            <li><b>Vite</b> the build for the console that isn't on Next</li>
+            <li><b>Motion · GSAP · Lenis</b> interface motion, including the page you're reading</li>
+            <li><b>Base UI · Radix · shadcn</b> headless primitives styled into an existing design system rather than replacing it</li>
+            <li><b>Recharts</b> data-dense operator dashboards</li>
+            <li><b>Expo</b> the read-only mobile viewer on the marketing platform</li>
+            <li><b>Three.js · React Three Fiber</b> the 3D and generative work</li>
+            <li><b>next-intl</b> bilingual English/Arabic with full right-to-left</li>
+            <li><b>PWA · Web Push</b> installable storefronts, notifications to a phone on a counter</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Runtime &amp; services</div>
+          <ul class="eng-layer__items">
+            <li><b>Node.js 22</b> API routes, server actions, background work</li>
+            <li><b>Python 3.13 · FastAPI</b> the decisioning service — 346 modules behind one contract</li>
+            <li><b>LangGraph</b> agent graphs where a decision needs steps, state and a place to stop</li>
+            <li><b>Pipecat</b> the real-time voice pipeline — transport-agnostic by design so the vendor can change</li>
+            <li><b>NestJS · Prisma</b> service structure on earlier platform work</li>
+            <li><b>REST · OpenAPI · JSON Schema</b> contracts kept in their own package so the client and the service can't drift</li>
+            <li><b>WebSockets · Server-Sent Events</b> live surfaces that stay correct while the data moves</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Data</div>
+          <ul class="eng-layer__items">
+            <li><b>PostgreSQL 16</b> the default — row-level security, triggers, ordered migrations, nothing typed into a console</li>
+            <li><b>pgvector</b> retrieval sitting beside the relational data instead of in a second system</li>
+            <li><b>Drizzle · Supabase · Prisma</b> schema and access, chosen per project rather than by habit</li>
+            <li><b>Redis</b> read-path caching where reads dwarf writes, and rate limiting where they don't</li>
+            <li><b>Neo4j</b> graph retrieval where the relationships are the query</li>
+            <li><b>BigQuery · dbt · Cube</b> the analytics side — staging models, marts and a semantic layer over them</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">AI &amp; agents</div>
+          <ul class="eng-layer__items">
+            <li><b>Claude SDK</b> the model layer across the AI work, with token spend metered per tenant</li>
+            <li><b>Retrieval</b> vector where meaning matters, graph where structure does, SQL where neither is needed</li>
+            <li><b>Human-in-the-loop</b> approval gates, evidence citation, and a right of reply for the person being assessed</li>
+            <li><b>Evaluation</b> rubric-scored outputs and calibration that feeds the next cycle rather than a vibe check</li>
+            <li><b>n8n</b> scheduled and event-driven automation around the model, not through it</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Infrastructure</div>
+          <ul class="eng-layer__items">
+            <li><b>Docker · Compose</b> every service runs locally the way it runs in production</li>
+            <li><b>Terraform</b> infrastructure as code, separate dev and prod environments, reviewed like application code</li>
+            <li><b>GCP · Oracle Cloud · Vercel · Supabase</b> picked for data residency and running cost, not familiarity</li>
+            <li><b>GitHub Actions</b> nine workflows on the largest repository, third-party actions pinned to a commit SHA</li>
+            <li><b>Cloud Run jobs</b> six scheduled ingestion jobs feeding the warehouse</li>
+            <li><b>DNS · TLS · environment config</b> the unglamorous half of a launch, which is still mine</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Security &amp; compliance</div>
+          <ul class="eng-layer__items">
+            <li><b>Access model</b> row-level security, append-only audit, capability grants, per-scope claims in signed sessions</li>
+            <li><b>Authentication</b> TOTP two-factor, JOSE-signed sessions, OAuth across a dozen third-party platforms with token custody and refresh</li>
+            <li><b>Gitleaks</b> secret scanning across the entire git history on every push, not just the diff</li>
+            <li><b>Semgrep</b> static analysis as a CI gate</li>
+            <li><b>Dependency floors</b> vulnerable ranges pinned out explicitly, with the advisory ID written next to the pin so the next person knows why</li>
+            <li><b>Data protection</b> residency gates, consent ledger, data-subject requests, pseudonymisation and redaction as code paths rather than policy documents</li>
+          </ul>
+        </div>
+
+        <div class="eng-layer gs-reveal">
+          <div class="eng-layer__name">Quality</div>
+          <ul class="eng-layer__items">
+            <li><b>Pytest · Vitest</b> 667 Python test modules and 72 TypeScript suites across the two largest systems</li>
+            <li><b>Typecheck · lint · test · build</b> all four gate every merge; nothing lands red</li>
+            <li><b>pnpm workspaces · Turborepo</b> monorepos that stay navigable past the first ten packages</li>
+            <li><b>Architecture decision records</b> eleven on the largest repository — the reasoning outlives the argument</li>
+            <li><b>Generated documentation</b> status written from one source of truth, with a CI job that fails when it drifts</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===== 04 · PRACTICE ===== -->
+      <section class="eng-sec" id="practice">
+        <div class="eng-sec__head gs-reveal">
+          <span class="eng-sec__n">04</span>
+          <h2 class="eng-sec__t">How the work runs</h2>
+          <span class="eng-sec__sub">What you get, beyond the code</span>
+        </div>
+
+        <div class="eng-prac gs-reveal">
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">Decisions are written down</p>
+            <p class="eng-prac__b">Anything that would be expensive to reverse becomes an architecture decision record: the options, the trade-off, the call. Six months later the reasoning is still there, which is the only reason a team can revisit a decision instead of re-litigating it.</p>
+          </div>
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">The spec doesn't drift</p>
+            <p class="eng-prac__b">The agreed scope is fingerprinted and checked in CI. When the code and the specification disagree, that's a conversation before a merge — not a discovery at handover.</p>
+          </div>
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">Documentation can't go stale</p>
+            <p class="eng-prac__b">Status, phases and blockers are generated from a single state file on every commit. There is no README anyone has to remember to update, because remembering is not a control.</p>
+          </div>
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">The supply chain is pinned</p>
+            <p class="eng-prac__b">Third-party CI actions pinned to commit SHAs, dependency versions floored above known advisories, tool installers checksum-verified. A build that can change under you isn't reproducible.</p>
+          </div>
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">You're told what isn't done</p>
+            <p class="eng-prac__b">Every project I run carries a written list of what is unbuilt or unproven, kept beside the list of what works. A stub that looks finished costs more than a gap that's labelled.</p>
+          </div>
+          <div class="eng-prac__cell">
+            <p class="eng-prac__t">Handover is the deliverable</p>
+            <p class="eng-prac__b">Migrations in order, secrets documented, environments reproducible, the local setup a single command. Restaurant owners run their own dashboards. The measure of the work is whether it survives me leaving.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CLOSING ===== -->
+      <section class="eng-end" id="hire">
+        <h2 class="eng-end__t gs-reveal">If this is the kind of engineering you need, I have room for it.</h2>
+        <p class="eng-end__b gs-reveal">
+          Contract and freelance, remote, EMEA-friendly hours. I take the systems where being wrong
+          has a cost — money, personal data, a hiring decision — and I stay with them after launch.
+          Happy to walk through any of the above in a call, at whatever depth your team wants.
+        </p>
+        <div class="eng-end__acts gs-reveal">
+          <a href="./#connect" data-cursor="expand">Get in touch →</a>
+          <a href="https://webrift.dev" target="_blank" rel="noopener" data-cursor="expand">Hire via WebRift →</a>
+          <a href="https://github.com/Walidd22" target="_blank" rel="noopener" data-cursor="expand">GitHub →</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__copy">&copy; 2026 Walid Adra / <span>WebRift</span></span>
+      <a href="#" class="footer__top" data-cursor="expand">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"
+          integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"
+          integrity="sha384-pEQB1h4Zmn9xhS6jotzltHSIQq6N0Oh3BXkCNOH5LKI81R2NRbb9efarAJYw9gTY" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"
+          integrity="sha384-TgZ1GoXcDnrw/czNfaiSZSFV1zgIRv8aQOevBA8ppS4SkNONmzYfjARpXsDfdnUE" crossorigin="anonymous"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

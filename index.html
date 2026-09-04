@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Walid Adra — Full-stack TypeScript engineer</title>
-  <meta name="description" content="Walid Adra — Full-stack TypeScript engineer. Real-time systems, AI-integrated products, and full-stack platform delivery. Available for contract work, remote.">
-  <meta name="keywords" content="Walid Adra, full-stack engineer, TypeScript, JavaScript, React, Next.js, Node.js, real-time systems, contract developer">
+  <title>Walid Adra — Full-stack &amp; platform engineer</title>
+  <meta name="description" content="Walid Adra — full-stack and platform engineer. AI-integrated production systems, multi-tenant access models, and the infrastructure under them. Available for contract work, remote.">
+  <meta name="keywords" content="Walid Adra, full-stack engineer, platform engineer, TypeScript, Python, React, Next.js, FastAPI, PostgreSQL, Terraform, AI systems, contract developer">
   <meta name="author" content="Walid Adra">
 
-  <meta property="og:title" content="Walid Adra — Full-stack TypeScript engineer">
-  <meta property="og:description" content="Real-time systems, AI-integrated products, and full-stack platform delivery.">
+  <meta property="og:title" content="Walid Adra — Full-stack &amp; platform engineer">
+  <meta property="og:description" content="AI-integrated production systems, multi-tenant access models, and the infrastructure under them.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://walidadra.dev/assets/images/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -21,8 +21,8 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://walidadra.dev/assets/images/og-image.jpg">
-  <meta name="twitter:description" content="Real-time systems, AI-integrated products, and the platforms around them.">
-  <meta name="twitter:title" content="Walid Adra — Full-stack TypeScript engineer">
+  <meta name="twitter:description" content="AI-integrated production systems, and the infrastructure under them.">
+  <meta name="twitter:title" content="Walid Adra — Full-stack &amp; platform engineer">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -44,7 +44,8 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Outfit:wght@300;500&family=Space+Mono&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Outfit:wght@300;500&family=Space+Mono&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css"
+        integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
@@ -73,6 +74,7 @@
       <div class="nav__links">
         <a href="#capabilities" class="nav__link" data-cursor="expand">What I Build</a>
         <a href="#projects" class="nav__link" data-cursor="expand">Work</a>
+        <a href="engineering.html" class="nav__link" data-cursor="expand">Engineering</a>
         <a href="#connect" class="nav__link" data-cursor="expand">Contact</a>
         <a href="https://webrift.dev" class="nav__link" data-cursor="expand" target="_blank" rel="noopener">Hire Me</a>
         <button class="theme-toggle" id="themeToggle" data-cursor="expand" aria-label="Toggle theme">
@@ -89,6 +91,7 @@
   <div class="nav__mobile" id="navMobile">
     <a href="#capabilities" class="nav__mobile-link" data-cursor="expand">What I Build</a>
     <a href="#projects" class="nav__mobile-link" data-cursor="expand">Work</a>
+    <a href="engineering.html" class="nav__mobile-link" data-cursor="expand">Engineering</a>
     <a href="#connect" class="nav__mobile-link" data-cursor="expand">Contact</a>
     <a href="https://webrift.dev" class="nav__mobile-link" data-cursor="expand" target="_blank" rel="noopener">Hire Me</a>
     <button class="theme-toggle theme-toggle--mobile" id="themeToggleMobile" data-cursor="expand" aria-label="Toggle theme">
@@ -110,9 +113,10 @@
         <div class="hero__divider gs-reveal"></div>
       </div>
       <div class="hero__info gs-reveal">
-        <p class="hero__title">Full-stack TypeScript &amp; JavaScript engineer.<br>Real-time systems, AI-integrated products, and the platforms around them.</p>
+        <p class="hero__title">Full-stack &amp; platform engineer.<br>AI-integrated production systems, the infrastructure under them, and the guardrails that keep them honest.</p>
         <div class="hero__cta-group">
           <a href="#projects" class="hero__subscribe" data-hero-cta data-cursor="expand">View My Work →</a>
+          <a href="engineering.html" class="hero__subscribe hero__subscribe--ghost" data-cursor="expand">Engineering notes →</a>
         </div>
       </div>
       <div class="hero__scroll gs-reveal">
@@ -131,61 +135,67 @@
         </div>
 
         <p class="story__lede gs-reveal">
-          Full-stack TypeScript engineer. I take systems from schema to production and
-          stay with them after launch — real-time infrastructure, AI-integrated products,
-          and the interfaces that sit on top of them.
+          I take systems from schema to production and stay with them after launch. Most of
+          this year went into two AI platforms under NDA — one live, one built end to end —
+          so the work is described here by what it does, not by whose logo is on it.
+          <a href="engineering.html" data-cursor="expand">The engineering is written up in full →</a>
         </p>
 
         <div class="caps__grid">
 
           <article class="cap-card gs-reveal">
-            <h3 class="cap-card__title">Real-time systems</h3>
+            <h3 class="cap-card__title">Multi-tenant &amp; regulated systems</h3>
             <p class="cap-card__body">
-              WebSocket architecture, live data surfaces, presence, and streaming state.
-              Interfaces that stay correct when the data never stops moving.
+              Row-level security on every tenant-scoped table, append-only audit, capability
+              grants instead of guessable URLs, and residency gates that survive a change of
+              cloud. The work that decides whether a platform can safely hold someone else's
+              customers.
             </p>
             <ul class="project-card__tags">
-              <li>Socket.io</li>
-              <li>Node.js</li>
-              <li>Redis</li>
+              <li>PostgreSQL</li>
+              <li>RLS</li>
+              <li>Audit triggers</li>
             </ul>
           </article>
 
           <article class="cap-card gs-reveal">
             <h3 class="cap-card__title">AI-integrated products</h3>
             <p class="cap-card__body">
-              LLM pipelines, agentic workflows, retrieval across graph and relational
-              stores, and human-in-the-loop review where the output has to be right.
+              Agent graphs, retrieval across vector and graph stores, real-time voice, and
+              human approval gates on anything the model isn't allowed to get wrong. Metered
+              per tenant, evaluated against rubrics rather than a vibe check.
             </p>
             <ul class="project-card__tags">
               <li>Claude SDK</li>
-              <li>Neo4j</li>
-              <li>Postgres</li>
+              <li>LangGraph</li>
+              <li>pgvector</li>
             </ul>
           </article>
 
           <article class="cap-card gs-reveal">
-            <h3 class="cap-card__title">Full-stack delivery</h3>
+            <h3 class="cap-card__title">Platform &amp; infrastructure</h3>
             <p class="cap-card__body">
-              Auth and roles, payments, background jobs, caching, integrations, deploys.
-              I own the vertical slice when owning it is what ships fastest.
+              Containers, infrastructure as code, and CI that gates a merge on typecheck, lint,
+              tests, secret scanning and static analysis. I own the path from a commit to a
+              running service, including the unglamorous half of a launch.
             </p>
             <ul class="project-card__tags">
-              <li>NestJS</li>
-              <li>Prisma</li>
+              <li>Terraform</li>
               <li>Docker</li>
+              <li>GitHub Actions</li>
             </ul>
           </article>
 
           <article class="cap-card gs-reveal">
-            <h3 class="cap-card__title">Frontend at scale</h3>
+            <h3 class="cap-card__title">Interfaces that hold up</h3>
             <p class="cap-card__body">
-              Design systems, data-dense dashboards, motion and 3D, PWA and mobile.
-              Built to stay readable for whoever picks it up next.
+              Data-dense operator consoles, bilingual English/Arabic with genuine right-to-left,
+              installable PWAs, motion and 3D. Built to stay readable for whoever picks it up
+              after me.
             </p>
             <ul class="project-card__tags">
-              <li>React</li>
-              <li>Next.js</li>
+              <li>React 19</li>
+              <li>Next.js 16</li>
               <li>TypeScript</li>
             </ul>
           </article>
@@ -203,7 +213,65 @@
           <h2 class="section__title">Selected Work</h2>
         </div>
 
+        <p class="story__lede gs-reveal" style="margin-bottom: 3rem;">
+          Two of these are under NDA and appear without their client, product name or market.
+          Everything else links to something you can open.
+        </p>
+
         <div class="projects__grid">
+
+          <!-- AI marketing-intelligence platform (NDA) -->
+          <a href="engineering.html#systems" class="project-card gs-reveal" data-cursor="expand">
+            <div class="project-card__img">
+              <div class="project-card__img-placeholder" style="background: #060d14;">
+                <div class="project-card__coming-soon">
+                  <span class="project-card__coming-soon-label">Under NDA</span>
+                  <span class="project-card__coming-soon-text">1,053 commits authored</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-card__body">
+              <span class="project-card__state">Live · one client</span>
+              <h3 class="project-card__title">AI Marketing-Intelligence Platform</h3>
+              <p class="project-card__desc">Reads a client's analytics and commerce accounts, proposes campaigns against what it finds, and manages them on connected ad accounts — behind two human approval gates, because nothing automated gets to spend a client's money on its own.</p>
+              <div class="project-card__role">Full-stack &amp; platform — service, console, mobile, infra</div>
+              <ul class="project-card__tags">
+                <li>Python</li>
+                <li>FastAPI</li>
+                <li>LangGraph</li>
+                <li>PostgreSQL</li>
+                <li>React 19</li>
+                <li>Terraform</li>
+              </ul>
+              <span class="project-card__link">Read the engineering <span class="project-card__arrow">→</span></span>
+            </div>
+          </a>
+
+          <!-- Voice interview engine (NDA) -->
+          <a href="engineering.html#systems" class="project-card gs-reveal" data-cursor="expand">
+            <div class="project-card__img">
+              <div class="project-card__img-placeholder" style="background: #0d0a14;">
+                <div class="project-card__coming-soon">
+                  <span class="project-card__coming-soon-label">Under NDA</span>
+                  <span class="project-card__coming-soon-text">29 screens · 72 test suites</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-card__body">
+              <span class="project-card__state">Built end to end</span>
+              <h3 class="project-card__title">Bilingual AI Voice-Interview Engine</h3>
+              <p class="project-card__desc">Conducts real voice interviews in Arabic and English and returns evidence-cited assessments. Row-level security on every table, append-only audit, full right-to-left, and a right of reply for anyone assessed. Built end to end; not yet deployed, and it says so.</p>
+              <div class="project-card__role">Solo — full stack, schema to interview room</div>
+              <ul class="project-card__tags">
+                <li>Next.js 16</li>
+                <li>Drizzle</li>
+                <li>PostgreSQL</li>
+                <li>Python</li>
+                <li>Pipecat</li>
+              </ul>
+              <span class="project-card__link">Read the engineering <span class="project-card__arrow">→</span></span>
+            </div>
+          </a>
 
           <!-- WebRift -->
           <a href="projects/webrift.html" class="project-card gs-reveal" data-cursor="expand">
@@ -215,6 +283,7 @@
             <div class="project-card__body">
               <span class="project-card__state">Live</span>
               <h3 class="project-card__title">WebRift — Agency Brand &amp; Website</h3>
+              <p class="project-card__desc">My own studio's site, hand-written rather than assembled: no framework, no template, no page builder. Brand, copy, motion and build are all mine.</p>
               <div class="project-card__role">Solo — design &amp; development</div>
               <ul class="project-card__tags">
                 <li>JavaScript</li>
@@ -227,15 +296,19 @@
           </a>
 
           <!-- Ordering & delivery platform -->
-          <a href="projects/my-pizza.html" class="project-card gs-reveal" data-cursor="expand">
+          <a href="engineering.html#systems" class="project-card gs-reveal" data-cursor="expand">
             <div class="project-card__img">
-              <div class="project-card__img-placeholder" style="background: #1a0a0a;">
-                <img src="assets/projects/my-pizza/hero.png" alt="Ordering and delivery platform" width="1440" height="900" loading="lazy" decoding="async">
+              <div class="project-card__img-placeholder" style="background: #14090c;">
+                <div class="project-card__coming-soon">
+                  <span class="project-card__coming-soon-label">Client name withheld</span>
+                  <span class="project-card__coming-soon-text">13 screens · 22 API routes</span>
+                </div>
               </div>
             </div>
             <div class="project-card__body">
               <span class="project-card__state">Live demo</span>
               <h3 class="project-card__title">Ordering &amp; Delivery Platform</h3>
+              <p class="project-card__desc">Storefront, staff back-office and the plumbing between them. Per-tab permissions in a signed token, Redis in front of a hot menu, web push to a phone on the counter, and checkout that hands off to WhatsApp because that is how this market pays.</p>
               <div class="project-card__role">Solo — end-to-end, schema to deploy</div>
               <ul class="project-card__tags">
                 <li>Next.js</li>
@@ -244,7 +317,7 @@
                 <li>Postgres</li>
                 <li>Redis</li>
               </ul>
-              <span class="project-card__link">View project <span class="project-card__arrow">→</span></span>
+              <span class="project-card__link">Read the engineering <span class="project-card__arrow">→</span></span>
             </div>
           </a>
 
@@ -272,34 +345,12 @@
             </div>
           </a>
 
-          <!-- AI fashion-photoshoot studio -->
-          <a href="#connect" class="project-card gs-reveal" data-cursor="expand">
-            <div class="project-card__img">
-              <div class="project-card__img-placeholder" style="background: #120a16;">
-                <div class="project-card__coming-soon">
-                  <span class="project-card__coming-soon-label">Client build</span>
-                  <span class="project-card__coming-soon-text">Under wraps</span>
-                </div>
-              </div>
-            </div>
-            <div class="project-card__body">
-              <span class="project-card__state">Front-end prototype</span>
-              <h3 class="project-card__title">AI Fashion-Photoshoot Studio</h3>
-              <div class="project-card__role">Solo — front-end architecture</div>
-              <ul class="project-card__tags">
-                <li>Next.js</li>
-                <li>React</li>
-                <li>Tailwind</li>
-                <li>Server Actions</li>
-              </ul>
-              <span class="project-card__link">Ask me about it <span class="project-card__arrow">→</span></span>
-            </div>
-          </a>
-
         </div>
 
         <p class="projects__note gs-reveal">
-          Current client work is under NDA until launch. Ongoing output is public on
+          2,042 commits authored across seven production repositories, April–September 2026.
+          The architecture, access models and infrastructure behind all of it are written up in the
+          <a href="engineering.html">engineering notes</a> — or see
           <a href="https://github.com/Walidd22" target="_blank" rel="noopener">GitHub</a>.
         </p>
       </div>
@@ -319,8 +370,9 @@
         </h3>
 
         <p class="story__lede gs-reveal" style="max-width: 720px; margin-bottom: 3rem;">
-          Remote, EMEA-friendly hours. If you have a system to ship, a platform to build,
-          or a team that needs a senior pair of hands on the full stack — let's talk.
+          Remote, EMEA-friendly hours. I take on the systems where being wrong has a cost —
+          money moving, personal data, a decision about a person — and I stay with them after
+          launch. If that is what you are building, let's talk.
         </p>
 
         <div class="connect__grid">
@@ -384,12 +436,20 @@
       "imports": {
         "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
         "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      },
+      "integrity": {
+        "https://unpkg.com/three@0.160.0/build/three.module.js": "sha384-61S/Nu32S3E5+n+KpCOTb2eRYps6fVKm+9Gz1QBvSePFthb46f063Aa/qe/lykFZ",
+        "https://unpkg.com/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js": "sha384-oxPlnJSeUCYU9W3RMQswb4S/vFd4Bhxuy1Ffx0V2KJakWeb6n1gaqUtSE9Ic/F72",
+        "https://unpkg.com/three@0.160.0/examples/jsm/misc/Timer.js": "sha384-rVQXeGSb0vKNG12RRAIINNOMJK8bcJ6kSVGq6/r41SmtTfEcOEhyNtI2FX3fzNgb"
       }
     }
   </script>
-  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"
+          integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"
+          integrity="sha384-pEQB1h4Zmn9xhS6jotzltHSIQq6N0Oh3BXkCNOH5LKI81R2NRbb9efarAJYw9gTY" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"
+          integrity="sha384-TgZ1GoXcDnrw/czNfaiSZSFV1zgIRv8aQOevBA8ppS4SkNONmzYfjARpXsDfdnUE" crossorigin="anonymous"></script>
   <script src="js/utils.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/animations.js"></script>

@@ -1154,3 +1154,35 @@
     left: 0.4rem;
   }
 }
+
+/* Secondary hero CTA — outlined, so the primary action stays the loud one. */
+.hero__subscribe--ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.hero__subscribe--ghost:hover {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+[data-theme="light"] .hero__subscribe--ghost {
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+/* Inline links inside lede copy */
+.story__lede a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-muted);
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.story__lede a:hover,
+.story__lede a:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
