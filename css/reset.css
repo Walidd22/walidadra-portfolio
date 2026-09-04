@@ -13,7 +13,12 @@ html {
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
   scroll-behavior: auto; /* Lenis handles smooth scroll */
+  /* `clip` rather than `hidden`: both stop sideways overflow, but `hidden`
+     makes the element a scroll container, which becomes the containing block
+     for every descendant sticky and strands the Selected Work stack. The
+     `hidden` line stays first as the fallback for engines without `clip`. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {

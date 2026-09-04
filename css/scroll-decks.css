@@ -3,81 +3,14 @@
    Pairs with js/scroll-decks.js. Load LAST.
 
    A deck is a horizontal track of the cards that used to stack
-   vertically. On desktop #systems is pinned and scrubbed; the
-   index decks keep their existing grid. On touch every deck is a
-   native scroll-snap carousel — no scroll hijacking, momentum and
-   overscroll stay the browser's.
+   vertically. On touch every deck is a native scroll-snap carousel —
+   no scroll hijacking, momentum and overscroll stay the browser's.
+   On desktop the decks dissolve and the original grid is untouched.
+
+   The progress bar and section rail that used to live here are gone:
+   they were never asked for, and the rail rendered a raw section id
+   as its first label.
    ============================================================ */
-
-/* ---------- progress bar ---------- */
-.sd-progress {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 2px;
-  z-index: 120;
-  pointer-events: none;
-  /* Was a flat rgba(255,255,255,.06): white on the light theme's near-white
-     ground, so the track was invisible there. */
-  background: rgba(255, 255, 255, 0.06);
-}
-[data-theme="light"] .sd-progress { background: rgba(0, 0, 0, 0.10); }
-.sd-progress i {
-  display: block;
-  height: 100%;
-  transform: scaleX(0);
-  transform-origin: left center;
-  background: var(--accent, #0055FF);
-}
-
-/* ---------- section rail ---------- */
-.sd-rail {
-  position: fixed;
-  right: clamp(0.75rem, 1.5vw, 1.5rem);
-  top: 50%;
-  translate: 0 -50%;
-  z-index: 110;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-.sd-rail.is-vis { opacity: 1; pointer-events: auto; }
-.sd-rail a {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.6rem;
-  padding: 0.3rem 0;
-  text-decoration: none;
-  color: var(--text-muted, #545456);
-}
-.sd-rail__t {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0;
-  translate: 6px 0;
-  transition: opacity 0.25s ease, translate 0.25s ease;
-  white-space: nowrap;
-}
-.sd-rail__dot {
-  width: 18px;
-  height: 2px;
-  background: currentColor;
-  transition: width 0.25s ease, background 0.25s ease;
-  flex: 0 0 auto;
-}
-.sd-rail a:hover .sd-rail__t,
-.sd-rail a:focus-visible .sd-rail__t { opacity: 1; translate: 0 0; }
-.sd-rail a.is-on { color: var(--text, #EDEDED); }
-.sd-rail a.is-on .sd-rail__dot { width: 30px; background: var(--accent, #0055FF); }
-.sd-rail a.is-on .sd-rail__t { opacity: 1; translate: 0 0; }
-.sd-rail a:focus-visible { outline: 2px solid var(--accent, #0055FF); outline-offset: 3px; }
-
-@media (max-width: 900px) { .sd-rail { display: none; } }
 
 /* ---------- deck: shared ---------- */
 .sd-deck { position: relative; }
@@ -196,8 +129,6 @@
 /* Nothing moves for anyone who asked for that. */
 @media (prefers-reduced-motion: reduce) {
   .sd-deck__track { scroll-behavior: auto; }
-  .sd-deck .sd-card,
-  .sd-rail__t,
-  .sd-rail__dot { transition: none; }
+  .sd-deck .sd-card { transition: none; }
   .sd-deck .sd-card { opacity: 1; }
 }

@@ -572,6 +572,35 @@
   gap: 2rem;
 }
 
+/* Selected Work stacks: each card pins below the nav and the next slides up
+   over it, matching webrift.dev. It needs an opaque card background (there is
+   one), no gap so a covered card shows no seam, and no ancestor carrying a
+   transform — a transform would become the containing block and strand the
+   sticky.
+
+   Gated on height as well as width: a pinned card whose bottom falls below the
+   viewport has that bottom stranded, since the page is pinned and there is no
+   scroll left to reach it. Cards measure 364-388px here, so 560px of viewport
+   is a comfortable floor.
+
+   Applies at every width. Selected Work is not a swipe deck — the stack is its
+   one treatment, so the two can never both claim the same cards. Only the pin
+   offset differs, because the nav is shorter on a phone. Where the viewport is
+   too short for a card to fit, the query simply does not match and the section
+   scrolls normally, which is the correct degradation. */
+@media (min-width: 901px) and (min-height: 560px) {
+  .projects__grid { gap: 0; }
+  .project-card { position: sticky; top: 5.5rem; }
+  /* collapse the doubled hairline where two card borders meet */
+  .project-card + .project-card { margin-top: -1px; }
+}
+
+@media (max-width: 900px) and (min-height: 800px) {
+  .projects__grid { gap: 0; }
+  .project-card { position: sticky; top: 4.5rem; }
+  .project-card + .project-card { margin-top: -1px; }
+}
+
 .project-card {
   display: grid;
   grid-template-columns: 1fr;
