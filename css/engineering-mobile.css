@@ -1,0 +1,151 @@
+/* ============================================================
+   engineering.html — mobile density
+   Loaded last. Everything below 760px only; desktop untouched.
+   Pairs with js/engineering-mobile.js.
+
+   The JS never moves existing nodes — it adds a class and inserts
+   one <button> sibling. Above the breakpoint those buttons are
+   display:none and nothing is collapsed, so desktop is byte-for-
+   byte the layout it is today.
+   ============================================================ */
+
+/* Desktop: the injected controls do not exist visually. */
+.eng-toggle,
+.eng-chip-more { display: none; }
+
+@media (max-width: 760px) {
+
+  /* ---------- the toggle ---------- */
+  .eng-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    min-height: 44px;                       /* tap target */
+    padding: 0.7rem 0;
+    margin: 0.35rem 0 0;
+    background: none;
+    border: 0;
+    /* token, not hardcoded white: this hairline separates all 19 collapsible
+       rows and disappeared entirely in light mode. */
+    border-top: var(--border-hair, 1px solid rgba(255, 255, 255, 0.06));
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .eng-toggle:focus-visible {
+    outline: 2px solid var(--accent, #0055FF);
+    outline-offset: 3px;
+  }
+  .eng-toggle__label {
+    flex: 1;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-dim, #A1A1A6);
+  }
+  .eng-toggle__hint {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--text-muted, #545456);
+  }
+  .eng-toggle__chev {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 1.5px solid var(--text-muted, #545456);
+    border-bottom: 1.5px solid var(--text-muted, #545456);
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.2s ease;
+    flex: 0 0 auto;
+  }
+  .eng-toggle[aria-expanded="true"] .eng-toggle__chev { transform: rotate(225deg) translateY(-2px); }
+  .eng-toggle[aria-expanded="true"] .eng-toggle__label { color: var(--text, #EDEDED); }
+
+  /* ---------- what collapses ---------- */
+  .eng-collapse { display: none; }
+  .eng-collapse.is-open { display: revert; }
+
+  /* the original inline label is replaced by the toggle */
+  .eng-label-dupe { display: none; }
+
+  /* ---------- 1. systems ---------- */
+  .eng-sys { margin-bottom: 2rem; }
+  .eng-sys__title { margin-bottom: 0.45rem; }
+
+  /* meta: five stacked rows -> two dense columns */
+  .eng-sys__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem 0.85rem;
+    margin: 0;
+  }
+  .eng-sys__meta dt {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin: 0;
+  }
+  .eng-sys__meta dd { margin: 0; font-size: 0.8rem; line-height: 1.35; }
+
+  .eng-sys__list { margin-top: 0.5rem; padding-left: 1.05rem; }
+  .eng-sys__list li + li { margin-top: 0.55rem; }
+  .eng-sys__stack { margin-top: 0.75rem; }
+
+  /* ---------- 2. capped chips ---------- */
+  .eng-sys__stack .is-extra { display: none; }
+  .eng-sys__stack.is-open .is-extra { display: revert; }
+  .eng-chip-more { display: inline-block; list-style: none; }
+  .eng-chip-more button {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    color: var(--accent, #0055FF);
+    background: none;
+    border: 1px dashed rgba(0, 85, 255, 0.45);
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+    min-height: 30px;
+  }
+  .eng-chip-more button:focus-visible {
+    outline: 2px solid var(--accent, #0055FF);
+    outline-offset: 2px;
+  }
+
+  /* ---------- 3. constraints ---------- */
+  .eng-clause { margin-bottom: 1.1rem; }
+  .eng-clause__rule { margin-bottom: 0; }
+  .eng-clause .eng-toggle { margin-top: 0.2rem; }
+
+  /* ---------- 4. stack, by layer ---------- */
+  .eng-layer { margin-bottom: 0; }
+  .eng-layer .eng-toggle { margin: 0; }
+  .eng-layer .eng-toggle__label {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--text, #EDEDED);
+  }
+  .eng-layer__items { padding-bottom: 0.7rem; }
+
+  /* ---------- 5. container chrome ----------
+     The base layout gives each block generous padding for desktop
+     reading. Collapsed on a phone that padding is most of the page,
+     so it is reduced here only. */
+  .eng-layer  { padding-top: 0.3rem; padding-bottom: 0.3rem; row-gap: 0; }
+  .eng-clause { padding-top: 0.6rem; padding-bottom: 0.6rem; margin-bottom: 0.5rem; row-gap: 0.5rem; }
+  .eng-sys    { padding-bottom: 1.25rem; margin-bottom: 1.25rem; row-gap: 1rem; }
+
+  /* ---------- 6. section rhythm ---------- */
+  .eng-sec { padding-top: clamp(3rem, 2rem + 5vw, 5rem); }
+  .eng-sec__head { margin-bottom: 0.9rem; }
+  .eng-sec__intro { margin-bottom: 1.35rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eng-toggle__chev { transition: none; }
+}
