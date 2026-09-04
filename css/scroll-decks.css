@@ -48,52 +48,111 @@
 
 /* ---------- pinned deck ----------
    The page scroll drives the track sideways: the section pins, and vertical
-   scroll is translated into horizontal movement. Replaces the swipe carousel.
+   scroll is translated into horizontal movement.
 
-   The one hard constraint is height. A pinned card whose bottom falls below
-   the viewport has that bottom stranded, because the page is pinned and there
-   is no vertical scroll left to reach it. That is why the density rules above
-   run to 900px — they keep a system card inside the viewport across the whole
-   range this pin covers. */
+   The deck fills the viewport left below the nav. It has to: ScrollTrigger's
+   pin reserves a full-viewport spacer, so a deck only as tall as its tallest
+   card leaves the remainder of the screen empty for the whole pin. The
+   capability cards are 229px of content — that was ~500px of dead black under
+   a small box.
+
+   So each card becomes a full-height panel instead, and its content is
+   distributed rather than bunched at the top: label and title lead, the body
+   sits under them, the chips are pushed to the floor by margin-top:auto. A
+   sparse card then reads as a composed panel rather than a half-empty one. */
 @media (max-width: 900px) {
-  .sd-deck.is-pinned { overflow: hidden; }
+  /* the host grid's own chrome is for a grid, not a deck — see sd-host in the JS */
+  .sd-host {
+    background: none;
+    border: 0;
+    gap: 0;
+    padding: 0;
+  }
+
+  .sd-deck.is-pinned {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    /* svh, not vh: on mobile vh is the tallest-possible viewport, which would
+       push the deck under the browser chrome and strand its bottom. */
+    height: calc(100svh - var(--sd-pin-top, 80px) - 1.25rem);
+  }
 
   .sd-deck.is-pinned .sd-deck__track {
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
-    align-items: stretch;
-    /* one gap value everywhere, so the rhythm between cards never changes */
-    gap: clamp(0.9rem, 3.5vw, 1.75rem);
+    /* centre, not stretch. Stretching a 229px card to a 714px panel only moves
+       the emptiness inside the card, where it reads as a hollow box however it
+       is distributed. Left at its natural height and centred, the same card is
+       a slide: the space around it is page, not card. */
+    align-items: center;
+    /* one clamp, so the rhythm scales instead of stepping */
+    gap: clamp(0.75rem, 3vw, 1.5rem);
     will-change: transform;
-    /* the negative bleed the swipe track needed is wrong here: a translated
-       track must start flush inside the container or the first card sits
-       off-centre and the travel distance is miscomputed */
     margin-inline: 0;
     padding-inline: 0;
     overflow: visible;
   }
 
   .sd-deck.is-pinned .sd-card {
-    /* one card per screen, with the next just breaking the edge so the
-       sideways movement is legible before it starts */
-    flex: 0 0 min(84vw, 26rem);
+    /* one panel holds the screen; the next breaks the edge so the sideways
+       movement is legible before it starts */
+    flex: 0 0 min(88vw, 30rem);
     margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    /* never taller than the panel; shorter is fine and expected */
+    max-height: 100%;
+    padding: clamp(1.35rem, 5.5vw, 2rem);
     border: var(--border-subtle, 1px solid rgba(255, 255, 255, 0.1));
-    padding: clamp(1rem, 3vw, 1.35rem);
     background: var(--bg-card, #121216);
-    opacity: 0.45;
+    opacity: 0.4;
     transition: opacity 0.35s ease;
+    /* a safety valve only — the density rules keep content inside the panel,
+       but a long word or a large font setting must not be unreachable */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
   }
+  .sd-deck.is-pinned .sd-card::-webkit-scrollbar { display: none; }
   .sd-deck.is-pinned .sd-card.is-current { opacity: 1; }
 
-  /* stacks that were grids are columns inside a deck */
-  .sd-deck .eng-sys,
-  .sd-deck .cap-card {
+  /* stacks that were grids are columns inside a panel */
+  .sd-deck.is-pinned .eng-sys,
+  .sd-deck.is-pinned .cap-card {
     display: flex;
     flex-direction: column;
     height: auto;
   }
 
-  .sd-deck__meta { justify-content: flex-start; }
+  /* the card is content-height now, so nothing needs pushing to an edge */
+  .sd-deck.is-pinned .cap-card .project-card__tags,
+  .sd-deck.is-pinned .eng-sys__stack { margin-top: 0; padding-top: 0.85rem; }
+
+  /* The two densest system cards ran 18px and 54px past the panel and fell back
+     to scrolling inside themselves. A nested scroll inside a pinned deck is a
+     wart, and the fix is a few px of internal rhythm rather than a smaller
+     card or truncated content. */
+  .sd-deck.is-pinned .eng-sys__list li + li { margin-top: 0.38rem; }
+  .sd-deck.is-pinned .eng-sys__body { margin-bottom: 0.6rem; }
+  .sd-deck.is-pinned .eng-sys__hard { margin-bottom: 0.55rem; }
+  .sd-deck.is-pinned .eng-sys__title { margin-bottom: 0.35rem; }
+
+  /* a full-height panel carries more type than a 229px box could */
+  .sd-deck.is-pinned .cap-card__title {
+    font-size: clamp(1.5rem, 6.4vw, 2.15rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.85rem;
+  }
+  .sd-deck.is-pinned .cap-card__body {
+    font-size: clamp(1rem, 4vw, 1.15rem);
+    line-height: 1.62;
+  }
+
+  .sd-deck__meta { flex: 0 0 auto; justify-content: flex-start; margin-top: 0; }
   .sd-deck.is-grid-desktop .sd-deck__meta { display: flex; }
 }
 

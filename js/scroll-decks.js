@@ -80,6 +80,12 @@
     release(sec);
 
     const parent = cards[0].parentNode;
+    // The host grid usually draws its own chrome — .caps__grid paints a
+    // background and 1px gaps so hairlines show between cards in a 2x2. Inside
+    // a deck that trick has nothing to separate, and the pin-spacer stretches
+    // it to ~1800px, so it renders as a large lit rectangle with one small card
+    // in it. Marking it lets the deck styles switch that chrome off.
+    parent.classList.add('sd-host');
     const deck = document.createElement('div');
     deck.className = 'sd-deck';
     const track = document.createElement('div');
@@ -113,6 +119,24 @@
       const nav = document.querySelector('.nav');
       return nav ? Math.round(nav.getBoundingClientRect().height) + 12 : 80;
     };
+    // hand the offset to CSS so the deck can fill exactly the space left below
+    // the nav. Without it the deck is only as tall as its tallest card, and a
+    // short card leaves the rest of the pinned viewport empty.
+    const setPinVar = () => d.deck.style.setProperty('--sd-pin-top', navGap() + 'px');
+
+    // Cards are centred at their natural height, so left alone they differ —
+    // 309, 336 and 362px in the capability deck — and the panel visibly grows
+    // and shrinks as you scroll sideways. Levelling them to the tallest keeps
+    // one steady frame while the content moves through it.
+    const levelCards = () => {
+      d.cards.forEach(c => { c.style.minHeight = ''; });
+      const tallest = Math.max(...d.cards.map(c => c.offsetHeight));
+      d.cards.forEach(c => { c.style.minHeight = tallest + 'px'; });
+    };
+
+    const measure = () => { setPinVar(); levelCards(); };
+    measure();
+    ScrollTrigger.addEventListener('refresh', measure);
 
     gsap.to(d.track, {
       x: () => -distance(),
