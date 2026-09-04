@@ -106,12 +106,48 @@ function initAnimations() {
   }
 
   // ---- PROJECTS ----
+  // Reveal tiers, matching webrift.dev. Opacity and travel are deliberately
+  // decoupled: the fade resolves in 0.5s while the rise keeps gliding for up to
+  // 1.1s, so a block is readable well before it has finished settling. Bigger
+  // blocks travel further and take longer, which is what stops a stack of cards
+  // arriving as one flat sheet. A single tween cannot express this — the two
+  // properties need different durations against the same start.
+  const REVEAL_FADE = 0.5;
+  const REVEAL_EASE = 'power1.inOut';
+  const REVEAL_TIER = {
+    title:   { y: 16, move: 0.7 },
+    text:    { y: 24, move: 0.9 },
+    element: { y: 32, move: 1.1 }
+  };
+
+  function revealTiered(el, tier, delay, trigger) {
+    const t = REVEAL_TIER[tier];
+    gsap.timeline({
+      delay: delay || 0,
+      scrollTrigger: { trigger: trigger || el, start: 'top 85%', toggleActions: 'play none none none' }
+    })
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: REVEAL_FADE, ease: REVEAL_EASE }, 0)
+      .fromTo(el, { y: t.y },     { y: 0, duration: t.move,   ease: REVEAL_EASE }, 0);
+  }
+
+  // The card's parts are staggered by tier and triggered off the card as a
+  // whole, so they arrive together rather than one per scroll step.
+  const CARD_PARTS = [
+    ['.project-card__img',   'element', 0],
+    ['.project-card__state', 'title',   0.05],
+    ['.project-card__title', 'title',   0.10],
+    ['.project-card__desc',  'text',    0.15],
+    ['.project-card__role',  'text',    0.18],
+    ['.project-card__tags',  'text',    0.22],
+    ['.project-card__link',  'text',    0.26]
+  ];
+
   function animateProjects() {
-    document.querySelectorAll('.project-card.gs-reveal').forEach((card, i) => {
+    document.querySelectorAll('.project-card.gs-reveal').forEach(card => {
       card.style.visibility = 'visible';
-      gsap.from(card, {
-        y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: i * 0.12,
-        scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' }
+      CARD_PARTS.forEach(([sel, tier, delay]) => {
+        const part = card.querySelector(sel);
+        if (part) revealTiered(part, tier, delay, card);
       });
     });
 
