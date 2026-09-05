@@ -595,9 +595,19 @@
   .project-card + .project-card { margin-top: -1px; }
 }
 
-@media (max-width: 900px) and (min-height: 800px) {
+/* The phone gate was min-height: 800px, which no phone reaches — an iPhone 15
+   has 664px of visible viewport and a Pixel 7 has 732 — so the stack silently
+   never engaged on the device most people read this on. The floor was set that
+   high because the cards were 664px tall at 390px wide, taller than the room
+   left under a pinned nav, and a pinned card whose bottom is off-screen has no
+   scroll left to reach it.
+
+   So the cards are trimmed to fit rather than the gate being lowered to let a
+   broken layout through. The trims live in responsive.css, which loads
+   after this file and so actually wins. */
+@media (max-width: 900px) and (min-height: 620px) {
   .projects__grid { gap: 0; }
-  .project-card { position: sticky; top: 4.5rem; }
+  .project-card { position: sticky; top: 3.9rem; }
   .project-card + .project-card { margin-top: -1px; }
 }
 
