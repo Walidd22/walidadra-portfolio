@@ -34,6 +34,16 @@ async function postSubscribe(payload) {
   return data;
 }
 
+// walidadra-api is moving to double opt-in: POST /api/subscribe answers
+// { ok: true, pending: true, message } and the address is only added after the
+// mailbox owner confirms. Show the server's copy when it sends one, otherwise
+// fall back to the confirm-your-inbox wording (older API answers { ok: true }).
+const SUBSCRIBE_PENDING_FALLBACK = 'Check your inbox to confirm your subscription.';
+function subscribeSuccessMessage(data) {
+  const msg = data && typeof data.message === 'string' ? data.message.trim() : '';
+  return msg && msg.length <= 200 ? msg : SUBSCRIBE_PENDING_FALLBACK;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = prefersReducedMotion();
 
@@ -144,6 +154,15 @@ document.addEventListener('DOMContentLoaded', () => {
     anchor.addEventListener('click', (e) => {
       e.preventDefault();
       smoothScrollTo(document.querySelector(anchor.getAttribute('href')));
+    });
+  });
+
+  // "Back to top" links (replaces an inline onclick, which the CSP blocks).
+  document.querySelectorAll('[data-scroll-top]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
     });
   });
 
@@ -383,17 +402,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const interest = courseInterest ? courseInterest.value.trim() : '';
-        await postSubscribe({
+        const data = await postSubscribe({
           email,
           source: interest ? 'portfolio-course-interest' : 'portfolio',
           interest: interest || undefined,
         });
+        const successMsg = subscribeSuccessMessage(data);
 
         localStorage.setItem('wa_subscribed', 'true');
         subscribeForm.style.display = 'none';
+        const successText = subscribeSuccess.querySelector('[data-subscribe-success-text]');
+        if (successText) successText.textContent = successMsg;
         subscribeSuccess.style.display = 'flex';
         if (subscribeError) subscribeError.style.display = 'none';
-        showToast('Subscribed! Welcome aboard.', 'success');
+        showToast(successMsg, 'success');
       } catch (err) {
         if (subscribeError) subscribeError.style.display = 'flex';
         showToast('Failed to subscribe. Please try again.', 'error');
@@ -425,9 +447,9 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
       }
       try {
-        await postSubscribe({ email, source });
+        const data = await postSubscribe({ email, source });
         form.reset();
-        showToast('Subscribed! Check your inbox.', 'success');
+        showToast(subscribeSuccessMessage(data), 'success');
       } catch (err) {
         showToast('Failed to subscribe. Please try again.', 'error');
       } finally {
