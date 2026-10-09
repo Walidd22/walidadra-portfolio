@@ -147,6 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // "Back to top" links (replaces an inline onclick, which the CSP blocks).
+  document.querySelectorAll('[data-scroll-top]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+  });
+
   // ---- NAV SCROLL EFFECT ----
   const nav = document.getElementById('nav');
 
