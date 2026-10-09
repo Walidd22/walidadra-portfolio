@@ -5,8 +5,8 @@
    Turns tall vertical card stacks into decks you move through
    sideways, so a section costs one screen instead of five.
 
-     engineering.html  #systems       pinned + scrubbed on touch, grid on desktop
-     index.html        #capabilities  pinned + scrubbed on touch, grid on desktop
+     engineering.html  #systems       native swipe deck on touch, grid on desktop
+     index.html        #capabilities  native swipe deck on touch, grid on desktop
 
    index.html #projects is NOT here: Selected Work uses the sticky
    accumulating stack (css/sections.css) at every viewport.
@@ -155,13 +155,57 @@
     });
   }
 
+  /* ---------- native swipe deck (touch) ----------
+     The pinned deck hijacked vertical scroll and capped every card at the
+     viewport height, so a dense or expanded card had to be scrolled from the
+     inside while the page was frozen. On touch the deck is a plain
+     scroll-snap carousel instead: the browser owns the swipe, vertical scroll
+     stays the page's, and a card is as tall as its content. Only the counter
+     is JS. */
+  function deckSwipe(d) {
+    d.hint.textContent = 'swipe';
+    d.deck.classList.add('is-swipe');
+    d.track.setAttribute('tabindex', '0');
+    d.track.setAttribute('role', 'region');
+    d.track.setAttribute('aria-label', d.cards.length + ' cards, swipe sideways');
+    // let Lenis leave this horizontal scroller alone
+    d.track.setAttribute('data-lenis-prevent', '');
+
+    let frame = 0;
+    const current = () => {
+      frame = 0;
+      const left = d.track.getBoundingClientRect().left;
+      let best = 0, bestDist = Infinity;
+      d.cards.forEach((c, n) => {
+        const dist = Math.abs(c.getBoundingClientRect().left - left);
+        if (dist < bestDist) { bestDist = dist; best = n; }
+      });
+      d.countEl.textContent = pad(best + 1);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(current); };
+    d.track.addEventListener('scroll', onScroll, { passive: true });
+    current();
+
+    // matchMedia cleanup when leaving the touch range
+    return () => {
+      d.track.removeEventListener('scroll', onScroll);
+      d.deck.classList.remove('is-swipe');
+      ['tabindex', 'role', 'aria-label', 'data-lenis-prevent'].forEach(a => d.track.removeAttribute(a));
+    };
+  }
+
   /* ---------- go ---------- */
   function init() {
     if (reduced) {
       // decks still form so the layout is the same; nothing animates.
       DECKS.forEach(cfg => {
         const d = buildDeck(cfg);
-        if (d) d.cards.forEach(c => { c.style.visibility = 'visible'; c.style.opacity = '1'; });
+        if (!d) return;
+        d.cards.forEach(c => { c.style.visibility = 'visible'; c.style.opacity = '1'; });
+        // without this the wrapper isn't dissolved on desktop and the grid reflows
+        if (cfg.desktop !== 'pin') d.deck.classList.add('is-grid-desktop');
+        // a swipe deck doesn't animate anything, so it's fine under reduced motion
+        ScrollTrigger.matchMedia({ [TOUCH]: () => deckSwipe(d) });
       });
       return;
     }
@@ -169,11 +213,12 @@
     DECKS.forEach(cfg => {
       const d = buildDeck(cfg);
       if (!d) return;
+      // touch is always a native swipe deck; only desktop may pin
       if (cfg.desktop === 'pin') {
-        ScrollTrigger.matchMedia({ [DESKTOP]: () => deckPinned(d), [TOUCH]: () => deckPinned(d) });
+        ScrollTrigger.matchMedia({ [DESKTOP]: () => deckPinned(d), [TOUCH]: () => deckSwipe(d) });
       } else {
         d.deck.classList.add('is-grid-desktop');
-        ScrollTrigger.matchMedia({ [TOUCH]: () => deckPinned(d) });
+        ScrollTrigger.matchMedia({ [TOUCH]: () => deckSwipe(d) });
       }
     });
 

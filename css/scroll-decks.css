@@ -154,6 +154,80 @@
 
   .sd-deck__meta { flex: 0 0 auto; justify-content: flex-start; margin-top: 0; }
   .sd-deck.is-grid-desktop .sd-deck__meta { display: flex; }
+
+  /* The host is usually a grid. A grid item's min-width defaults to its content
+     width, so the deck stretched to the full width of every card laid side by
+     side (1377px on the home page) and its track had nothing left to scroll.
+     And the light theme's `[data-theme="light"] .caps__grid` background
+     outranks the plain .sd-host reset above, which left a grey box round the
+     deck. Both are settled here with a selector that wins either theme. */
+  :root .sd-host.sd-host {
+    display: block;
+    background: none;
+  }
+  .sd-deck.is-swipe {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* ---------- swipe deck (what touch actually uses) ----------
+     A native scroll-snap carousel. The browser owns the sideways swipe and
+     its momentum; vertical scroll always belongs to the page, so nothing
+     freezes and nothing needs scrolling from the inside. Cards are as tall
+     as their content — expanding "the hard parts" just makes that card
+     taller and the page scrolls on as normal. */
+  .sd-deck.is-swipe .sd-deck__track {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(0.75rem, 3vw, 1.25rem);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    overscroll-behavior-x: contain;   /* a sideways swipe never triggers browser back */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* bleed to the screen edge on the right so the next card is visibly cut,
+       which is what tells you to swipe */
+    margin-right: calc(-1 * var(--container-pad, 1.25rem));
+    padding-right: var(--container-pad, 1.25rem);
+    padding-bottom: 2px;              /* room for the focus ring */
+  }
+  .sd-deck.is-swipe .sd-deck__track::-webkit-scrollbar { display: none; }
+  .sd-deck.is-swipe .sd-deck__track:focus-visible {
+    outline: 1px solid var(--accent, #2979FF);
+    outline-offset: 4px;
+  }
+
+  .sd-deck.is-swipe .sd-card {
+    flex: 0 0 min(86vw, 30rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;         /* one card per flick, like a deck */
+    margin: 0 !important;
+    max-height: none;
+    overflow: visible;
+    opacity: 1;
+  }
+
+  /* stacks that were grids are columns inside a card */
+  .sd-deck.is-swipe .eng-sys,
+  .sd-deck.is-swipe .cap-card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .sd-deck.is-swipe .cap-card .project-card__tags,
+  .sd-deck.is-swipe .eng-sys__stack { margin-top: 0; padding-top: 0.85rem; }
+
+  /* system entries are borderless rows on desktop; side by side they need a
+     frame or you can't tell where one ends and the peeking next one begins */
+  .sd-deck.is-swipe .eng-sys {
+    padding: clamp(1.25rem, 5vw, 1.75rem);
+    border: var(--border-subtle, 1px solid rgba(255, 255, 255, 0.1));
+    background: var(--bg-card, #121216);
+  }
+
+  .sd-deck.is-swipe .sd-deck__meta { margin-top: 0.9rem; }
 }
 
 /* Nothing moves for anyone who asked for that. */
