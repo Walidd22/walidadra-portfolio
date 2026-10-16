@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---- THEME TOGGLE ----
+  // Dark is the default for everyone, whatever their device's colour setting;
+  // light is only ever the visitor's own choice. js/theme-init.js applies a
+  // saved choice in <head>, before the first paint, so there is no flash.
   (function initTheme() {
     const toggles = document.querySelectorAll('.theme-toggle');
     const icons = document.querySelectorAll('[data-theme-icon]');
@@ -54,11 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setIcons = (char) => icons.forEach((el) => { el.textContent = char; });
 
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'light');
-      setIcons('☀');
-    }
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) { /* storage blocked */ }
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    if (document.documentElement.getAttribute('data-theme') === 'light') setIcons('☀');
 
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', () => {
