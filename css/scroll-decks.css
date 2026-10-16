@@ -222,12 +222,72 @@
   /* system entries are borderless rows on desktop; side by side they need a
      frame or you can't tell where one ends and the peeking next one begins */
   .sd-deck.is-swipe .eng-sys {
-    padding: clamp(1.25rem, 5vw, 1.75rem);
+    /* a little wider than the capability cards: every line saved is height */
+    flex-basis: min(88vw, 30rem);
+    padding: clamp(0.9rem, 3.8vw, 1.5rem);
+    gap: 0.7rem;
     border: var(--border-subtle, 1px solid rgba(255, 255, 255, 0.1));
     background: var(--bg-card, #121216);
   }
 
+  /* ---------- a system card reads in one screen ----------
+     At desktop type a system card ran 665-783px on a phone, against 510-670px
+     of room under the nav, so every card had to be scrolled to be read. All the
+     words stay; the card is set tighter instead: the facts (role, period, team,
+     commits) on close rows, the summary at 14px on a tighter leading, small
+     chips with six showing (engineering-mobile.js) and the rest behind "+N". */
+  .sd-deck.is-swipe .eng-sys__state { margin-bottom: 0.5rem; }
+
+  .sd-deck.is-swipe .eng-sys__meta {
+    gap: 0.12rem 0.8rem;
+    line-height: 1.4;
+  }
+  .sd-deck.is-swipe .eng-sys__meta dt { font-size: 0.6875rem; opacity: 0.8; }
+  .sd-deck.is-swipe .eng-sys__meta dd { font-size: 0.75rem; line-height: 1.4; }
+
+  .sd-deck.is-swipe .eng-sys__title {
+    font-size: clamp(1.15rem, 0.95rem + 1.3vw, 1.4rem);
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+  .sd-deck.is-swipe .eng-sys__body {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    max-width: none;
+    margin-bottom: 0;
+  }
+  .sd-deck.is-swipe .eng-sys .eng-toggle {
+    margin-top: 0.45rem;
+    padding: 0.5rem 0;
+  }
+  .sd-deck.is-swipe .eng-sys__list li { font-size: 0.875rem; line-height: 1.55; }
+
+  .sd-deck.is-swipe .eng-sys__stack { gap: 0.3rem; padding-top: 0.55rem; }
+  .sd-deck.is-swipe .eng-sys__stack li {
+    font-size: 0.6875rem;
+    padding: 0.22em 0.55em;
+  }
+  /* the "+N" chip is a button inside a list item: one frame, not two */
+  .sd-deck.is-swipe .eng-sys__stack li.eng-chip-more { padding: 0; border: 0; }
+  .sd-deck.is-swipe .eng-chip-more button {
+    min-height: 24px;   /* WCAG 2.2 minimum target */
+    min-width: 24px;
+    padding: 0.22em 0.55em;
+    font-size: 0.6875rem;
+  }
+
   .sd-deck.is-swipe .sd-deck__meta { margin-top: 0.9rem; }
+}
+
+/* Short phones (an iPhone SE or a mini with the browser bars showing) get the
+   last few pixels from leading and padding, never from the type size. */
+@media (max-width: 900px) and (max-height: 700px) {
+  .sd-deck.is-swipe .eng-sys { padding-block: 0.8rem; gap: 0.55rem; }
+  .sd-deck.is-swipe .eng-sys__state { margin-bottom: 0.4rem; }
+  .sd-deck.is-swipe .eng-sys__body { line-height: 1.48; }
+  .sd-deck.is-swipe .eng-sys__title { margin-bottom: 0.3rem; }
+  .sd-deck.is-swipe .eng-sys .eng-toggle { margin-top: 0.3rem; }
+  .sd-deck.is-swipe .sd-deck__meta { margin-top: 0.6rem; }
 }
 
 /* Nothing moves for anyone who asked for that. */
