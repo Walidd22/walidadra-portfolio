@@ -570,3 +570,12 @@
 
 /* The trade-off is the row worth reading twice. */
 .decision__row--tradeoff .decision__key { color: var(--accent); }
+
+/* On a phone the longest record (03) ran 568px against 552px of screen under
+   the nav. A slimmer frame and a tighter leading bring every record inside one
+   screen without touching the words. */
+@media (max-width: 699px) {
+  .decision { padding: var(--space-5) var(--space-4); }
+  .decision__title { margin-bottom: var(--space-3); }
+  .decision__val { line-height: 1.55; }
+}

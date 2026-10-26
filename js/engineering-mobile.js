@@ -17,7 +17,9 @@
   // At 760 the bullets stayed expanded between 761 and 900, where the deck
   // pins — and a card too tall to fit the viewport has its bottom stranded.
   const MQ = window.matchMedia('(max-width: 900px)');
-  const CHIP_CAP = 8;
+  // six chips are two rows on a phone; the rest sit behind "+N" so a system
+  // card fits on one screen
+  const CHIP_CAP = 6;
   const groups = [];
 
   let seq = 0;
