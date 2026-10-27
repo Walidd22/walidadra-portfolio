@@ -545,13 +545,14 @@
 }
 
 .projects__note a {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 250ms ease;
+  color: var(--accent-text);
+  /* underlined, so a link inside the sentence isn't told apart by colour alone (WCAG 1.4.1) */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
-.projects__note a:hover { border-bottom-color: var(--accent); }
+.projects__note a:hover { text-decoration-thickness: 2px; }
 
 /* State chip — says what the thing actually is before the title makes a claim. */
 .project-card__state {
@@ -561,7 +562,7 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   padding: 0.2rem 0.5rem;
-  color: var(--accent);
+  color: var(--accent-text);
   border: 1px solid hsla(var(--accent-hue), 100%, 55%, 0.35);
   background: hsla(var(--accent-hue), 100%, 55%, 0.07);
 }
@@ -724,7 +725,7 @@
 .project-card__role {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--accent);
+  color: var(--accent-text);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -754,7 +755,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: var(--accent-text);
   margin-top: var(--space-2);
   transition: gap 300ms var(--ease-out-expo);
 }
@@ -914,7 +915,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-text);
   opacity: 0.7;
 }
 
@@ -934,7 +935,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 
@@ -961,7 +962,7 @@
 }
 
 .footer__copy span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .footer__top {
@@ -1055,7 +1056,7 @@
 
 .toast--info {
   border-color: hsla(var(--accent-hue, 210), 100%, 55%, 0.3);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* ========================================
@@ -1135,7 +1136,7 @@
 }
 
 .story__year {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .story__place {
@@ -1172,7 +1173,7 @@
 }
 
 .story__body a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
   border-bottom: 1px solid hsla(var(--accent-hue, 220), 100%, 55%, 0.35);
   transition: border-color 150ms ease-out, color 150ms ease-out;
@@ -1205,7 +1206,7 @@
 
 .hero__subscribe--ghost:hover {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-text);
   border-color: var(--accent);
   box-shadow: none;
 }
@@ -1224,6 +1225,6 @@
 
 .story__lede a:hover,
 .story__lede a:focus-visible {
-  color: var(--accent);
+  color: var(--accent-text);
   border-bottom-color: var(--accent);
 }

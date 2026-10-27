@@ -10,7 +10,16 @@
   --state-live:    #10B981;
   --state-staged:  #F59E0B;
   --state-build:   #2979FF;
-  --state-closed:  #7C7C80;
+  --state-closed:  #88888D;   /* the muted grey: 5:1 on the cards (#7C7C80 read 4.4:1) */
+}
+
+/* the light page: each state darkened to read at 4.5:1 or more on white and on the light cards
+   (quality pass, 2026-10-27) */
+[data-theme="light"] {
+  --state-live:    #065F46;
+  --state-staged:  #92400E;
+  --state-build:   #1D4ED8;
+  --state-closed:  #616161;
 }
 
 /* ---------- shell ---------- */
@@ -45,7 +54,7 @@
 }
 
 .eng-head__rule b {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 400;
 }
 
@@ -136,7 +145,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wider);
-  color: var(--accent);
+  color: var(--accent-text);
   flex-shrink: 0;
 }
 
@@ -216,7 +225,7 @@
 .eng-sys__meta dt {
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-500);
+  color: var(--text-muted);
 }
 
 .eng-sys__meta dd { color: var(--text-dim); margin-bottom: var(--space-4); }
@@ -256,7 +265,7 @@
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--text-muted);
   margin-bottom: var(--space-5);
 }
 
@@ -325,13 +334,13 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-500);
+  color: var(--text-muted);
   padding-top: 0.3em;
   transition: color var(--duration-normal) ease;
 }
 
 .eng-clause:hover .eng-clause__id,
-.eng-clause:focus-within .eng-clause__id { color: var(--accent); }
+.eng-clause:focus-within .eng-clause__id { color: var(--accent-text); }
 
 .eng-clause__rule {
   font-family: var(--font-body);
@@ -355,7 +364,7 @@
 }
 
 .eng-clause__how span:first-child {
-  color: var(--gray-500);
+  color: var(--text-muted);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   white-space: nowrap;
@@ -376,7 +385,7 @@
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-text);
   padding-top: 0.35em;
 }
 
@@ -420,7 +429,7 @@
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-text);
   margin-bottom: var(--space-4);
 }
 

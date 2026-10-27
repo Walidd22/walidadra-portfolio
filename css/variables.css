@@ -28,6 +28,9 @@
   --accent-hover: hsl(var(--accent-hue), 100%, 65%);
   --accent-glow:  hsl(var(--accent-hue), 100%, 75%);
   --accent-muted: hsl(var(--accent-hue), 60%, 25%);
+  /* the accent as words: a lighter step of the same cycling colour, so small text reads at 4.5:1 on
+     black through the whole cycle (55% gives 4.25:1 in blue and less in violet; quality pass, 2026-10-27) */
+  --accent-text: hsl(var(--accent-hue), 100%, 68%);
 
   /* Static blue fallback for specific uses */
   --blue:         #0055FF;
@@ -52,7 +55,8 @@
   --bg-card:      var(--gray-900);
   --text:         var(--white);
   --text-dim:     var(--gray-300);
-  --text-muted:   var(--gray-500);
+  /* muted words: 5:1 or more on the page, the cards and the raised panels (gray-500 read 2.7:1) */
+  --text-muted:   #88888D;
 
   /* Borders */
   --border-hair:   1px solid rgba(255, 255, 255, 0.06);
@@ -146,6 +150,10 @@
   --gray-400:     #666666;
   --gray-300:     #444444;
   --gray-200:     #333333;
+
+  /* the same two jobs on the light page: 5:1 or more on white and on the light cards */
+  --text-muted:   #616161;
+  --accent-text:  hsl(var(--accent-hue), 100%, 24%);
 
   --border-hair:   1px solid rgba(0, 0, 0, 0.06);
   --border-subtle: 1px solid rgba(0, 0, 0, 0.10);
