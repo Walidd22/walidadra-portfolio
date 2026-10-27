@@ -33,7 +33,7 @@
 .section__number {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--accent);
+  color: var(--accent-text);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
 }

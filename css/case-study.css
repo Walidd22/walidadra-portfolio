@@ -37,7 +37,7 @@
   transition: color 200ms ease, gap 300ms var(--ease-out-expo);
 }
 
-.case-hero__back:hover { color: var(--accent); gap: 0.75rem; }
+.case-hero__back:hover { color: var(--accent-text); gap: 0.75rem; }
 
 .case-hero__meta {
   display: flex;
@@ -254,7 +254,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: var(--accent-text);
   margin-top: 1.5rem;
   padding: 0.5rem 1rem;
   border: 1px solid var(--accent);
@@ -270,7 +270,7 @@
 .case-feature__number {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--accent);
+  color: var(--accent-text);
   letter-spacing: 0.15em;
   margin-bottom: 0.75rem;
 }
@@ -367,7 +367,7 @@
   transition: color 200ms ease;
 }
 
-.case-next__title a:hover { color: var(--accent); }
+.case-next__title a:hover { color: var(--accent-text); }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
@@ -464,7 +464,7 @@
   background: hsla(var(--accent-hue), 100%, 55%, 0.06);
 }
 
-.arch__node--accent b { color: var(--accent); }
+.arch__node--accent b { color: var(--accent-text); }
 
 /* Connector between tiers — decorative, hidden from assistive tech. */
 .arch__link {
@@ -495,7 +495,7 @@
   color: var(--text-dim);
 }
 
-.arch__feedback b { color: var(--accent); font-weight: 600; }
+.arch__feedback b { color: var(--accent-text); font-weight: 600; }
 
 
 /* ========================================
@@ -525,7 +525,7 @@
   font-family: var(--font-mono);
   font-size: 0.6rem;
   letter-spacing: 0.16em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .decision__title {
@@ -569,7 +569,7 @@
 }
 
 /* The trade-off is the row worth reading twice. */
-.decision__row--tradeoff .decision__key { color: var(--accent); }
+.decision__row--tradeoff .decision__key { color: var(--accent-text); }
 
 /* On a phone the longest record (03) ran 568px against 552px of screen under
    the nav. A slimmer frame and a tighter leading bring every record inside one

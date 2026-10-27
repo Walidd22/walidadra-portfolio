@@ -78,7 +78,7 @@
 .hero__name:hover::before,
 .hero__name.is-glitching::before {
   opacity: 0.8;
-  color: var(--accent);
+  color: var(--accent-text);
   animation: glitch-1 0.3s infinite linear alternate;
 }
 
@@ -108,7 +108,7 @@
   }
   .nav__logo.is-glitching::before {
     opacity: 0.8;
-    color: var(--accent);
+    color: var(--accent-text);
     animation: glitch-1 0.3s infinite linear alternate;
   }
   .nav__logo.is-glitching::after {

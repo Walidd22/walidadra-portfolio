@@ -35,7 +35,7 @@
 }
 
 .nav__logo span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Desktop: initial state — no visible top bar, logo hidden, links floating top-right.

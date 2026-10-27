@@ -113,7 +113,7 @@ a {
   transition: color var(--duration-fast) ease;
 }
 a:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Monospace Labels */
@@ -127,7 +127,7 @@ a:hover {
 }
 
 .label--accent {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Custom Cursor */
@@ -256,7 +256,7 @@ a:hover {
   position: absolute;
   font-family: var(--font-mono);
   font-size: clamp(0.8rem, 0.6rem + 1vw, 1.4rem);
-  color: var(--accent);
+  color: var(--accent-text);
   opacity: 0;
   animation: floatIcon 12s ease-in-out infinite;
   pointer-events: none;
@@ -289,7 +289,7 @@ a:hover {
 
 .theme-toggle:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 [data-theme="light"] .theme-toggle {

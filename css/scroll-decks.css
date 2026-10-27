@@ -242,7 +242,8 @@
     gap: 0.12rem 0.8rem;
     line-height: 1.4;
   }
-  .sd-deck.is-swipe .eng-sys__meta dt { font-size: 0.6875rem; opacity: 0.8; }
+  /* muted by --text-muted alone: a fade on top of it read 3.8:1 (quality pass, 2026-10-27) */
+  .sd-deck.is-swipe .eng-sys__meta dt { font-size: 0.6875rem; }
   .sd-deck.is-swipe .eng-sys__meta dd { font-size: 0.75rem; line-height: 1.4; }
 
   .sd-deck.is-swipe .eng-sys__title {
