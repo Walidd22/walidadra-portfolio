@@ -40,13 +40,16 @@
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Outfit:wght@300;500&family=Space+Mono&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Outfit:wght@300;500&family=Space+Mono&display=swap" rel="stylesheet">
+  <!-- Fonts are self-hosted (css/fonts-home.css): no extra connections to
+       Google before the first paint. The three faces the first screen uses
+       are preloaded so the hero can show in its real fonts. -->
+  <link rel="preload" href="assets/fonts/syne-v24-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/spacemono-v17-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/outfit-v15-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts-home.css">
 
-  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css"
-        integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
+  <link rel="stylesheet" href="js/vendor/lenis@1.3.26/lenis.css"
+        integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
@@ -279,7 +282,13 @@
           <a href="projects/webrift.html" class="project-card gs-reveal" data-cursor="expand">
             <div class="project-card__img">
               <div class="project-card__img-placeholder" style="background: #050508;">
-                <img src="assets/projects/webrift/hero.png" alt="WebRift agency website" width="1440" height="900" loading="lazy" decoding="async">
+                <picture>
+                  <source type="image/avif" sizes="(min-width: 900px) min(45vw, 620px), 100vw"
+                          srcset="assets/projects/webrift/hero-480.avif 480w, assets/projects/webrift/hero-720.avif 720w, assets/projects/webrift/hero-1080.avif 1080w, assets/projects/webrift/hero-1440.avif 1440w">
+                  <source type="image/webp" sizes="(min-width: 900px) min(45vw, 620px), 100vw"
+                          srcset="assets/projects/webrift/hero-480.webp 480w, assets/projects/webrift/hero-720.webp 720w, assets/projects/webrift/hero-1080.webp 1080w, assets/projects/webrift/hero-1440.webp 1440w">
+                  <img src="assets/projects/webrift/hero.png" alt="WebRift agency website" width="1440" height="900" loading="lazy" decoding="async">
+                </picture>
               </div>
             </div>
             <div class="project-card__body">
@@ -432,31 +441,32 @@
   <!-- Toast Notifications -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- Scripts -->
+  <!-- Scripts. Every library is served from this site (js/vendor/), pinned by
+       its integrity hash; nothing loads from a CDN. js/hero-graph.js (three.js)
+       is not loaded here: js/main.js imports it once the hero text is showing. -->
   <script type="importmap">
     {
       "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        "three": "/js/vendor/three@0.160.0/build/three.module.min.js",
+        "three/addons/": "/js/vendor/three@0.160.0/examples/jsm/"
       },
       "integrity": {
-        "https://unpkg.com/three@0.160.0/build/three.module.js": "sha384-61S/Nu32S3E5+n+KpCOTb2eRYps6fVKm+9Gz1QBvSePFthb46f063Aa/qe/lykFZ",
-        "https://unpkg.com/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js": "sha384-oxPlnJSeUCYU9W3RMQswb4S/vFd4Bhxuy1Ffx0V2KJakWeb6n1gaqUtSE9Ic/F72",
-        "https://unpkg.com/three@0.160.0/examples/jsm/misc/Timer.js": "sha384-rVQXeGSb0vKNG12RRAIINNOMJK8bcJ6kSVGq6/r41SmtTfEcOEhyNtI2FX3fzNgb"
+        "/js/vendor/three@0.160.0/build/three.module.min.js": "sha384-8/hf5tabFfIo0BPku31TKUvGIKpWGYaMwNtlSNqNyZzXgZCMd4lnOGWbJElML9dv",
+        "/js/vendor/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js": "sha384-oxPlnJSeUCYU9W3RMQswb4S/vFd4Bhxuy1Ffx0V2KJakWeb6n1gaqUtSE9Ic/F72",
+        "/js/vendor/three@0.160.0/examples/jsm/misc/Timer.js": "sha384-rVQXeGSb0vKNG12RRAIINNOMJK8bcJ6kSVGq6/r41SmtTfEcOEhyNtI2FX3fzNgb"
       }
     }
   </script>
-  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"
-          integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"
-          integrity="sha384-pEQB1h4Zmn9xhS6jotzltHSIQq6N0Oh3BXkCNOH5LKI81R2NRbb9efarAJYw9gTY" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"
-          integrity="sha384-TgZ1GoXcDnrw/czNfaiSZSFV1zgIRv8aQOevBA8ppS4SkNONmzYfjARpXsDfdnUE" crossorigin="anonymous"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/cursor.js"></script>
-  <script src="js/animations.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/vendor/lenis@1.3.26/lenis.min.js" defer
+          integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw"></script>
+  <script src="js/vendor/gsap@3.12.7/gsap.min.js" defer
+          integrity="sha384-pEQB1h4Zmn9xhS6jotzltHSIQq6N0Oh3BXkCNOH5LKI81R2NRbb9efarAJYw9gTY"></script>
+  <script src="js/vendor/gsap@3.12.7/ScrollTrigger.min.js" defer
+          integrity="sha384-TgZ1GoXcDnrw/czNfaiSZSFV1zgIRv8aQOevBA8ppS4SkNONmzYfjARpXsDfdnUE"></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/cursor.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
   <script src="js/scroll-decks.js" defer></script>
-  <script type="module" src="js/hero-graph.js"></script>
 </body>
 </html>

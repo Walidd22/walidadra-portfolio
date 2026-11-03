@@ -654,6 +654,12 @@
   object-fit: cover;
 }
 
+/* The <picture> wrapper (AVIF/WebP sources) must not become the flex item,
+   or the img's height: 100% has nothing to resolve against. */
+.project-card__img-placeholder picture {
+  display: contents;
+}
+
 .project-card__coming-soon {
   display: flex;
   flex-direction: column;

@@ -2,6 +2,9 @@
    MAIN — Entry Point & Orchestration
    ======================================== */
 
+// This file's own URL, so the hero graph module is found next to it from any page.
+const MAIN_SCRIPT_SRC = document.currentScript ? document.currentScript.src : '';
+
 // Read UTM parameters from the URL so email capture can attribute later campaigns.
 function readUtmParams() {
   try {
@@ -280,21 +283,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- HERO 3D GRAPH ----
+  // three.js is by far the heaviest file on the site. It used to load with the
+  // page and hold back the first paint; now it is fetched once the hero text is
+  // showing, and only while the hero is on or near the screen.
+  function loadHeroGraph() {
+    const mount = document.getElementById('heroGraph');
+    if (!mount) return;
+    const src = new URL('hero-graph.js', MAIN_SCRIPT_SRC || new URL('js/', document.baseURI)).href;
+    const load = () => import(src).catch((err) => console.warn('Hero graph did not load:', err));
+    if (!('IntersectionObserver' in window)) { load(); return; }
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      load();
+    }, { rootMargin: '200px 0px' });
+    io.observe(mount);
+  }
+
   // ---- INIT ANIMATIONS ----
+  // This used to wait for window "load" (every file on the page, three.js
+  // included) and then a further 0.9 s before any text showed. Now it waits
+  // only for what the first screen needs: the page and its fonts. The loader
+  // still stays up at least MIN_LOADER_MS from the start of the visit, so on a
+  // fast connection it looks as it always did.
+  const MIN_LOADER_MS = 800;
+  const FONT_WAIT_MAX_MS = 3000;
+
+  function firstScreenReady() {
+    // Laying the page out once makes the browser request every font it uses,
+    // so fonts.ready waits for them instead of resolving before they start.
+    void document.body.offsetHeight;
+    const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    const limit = new Promise((resolve) => setTimeout(resolve, FONT_WAIT_MAX_MS));
+    return Promise.race([fonts, limit]).catch(() => {});
+  }
+
   if (!reducedMotion) {
-    window.addEventListener('load', () => {
+    firstScreenReady().then(() => {
+      // js/scroll-decks.js moves cards into decks. Build them now, while the
+      // loader still covers the page, as happened when this waited for "load".
+      if (typeof window.__initScrollDecks === 'function') window.__initScrollDecks();
+      const hold = Math.max(0, MIN_LOADER_MS - performance.now());
       setTimeout(() => {
         hideLoader();
         setTimeout(() => {
           initAnimations();
+          loadHeroGraph();
         }, 100);
-      }, 800);
+      }, hold);
     });
   } else {
     document.querySelectorAll('.gs-reveal').forEach(el => {
       el.style.visibility = 'visible';
     });
     hideLoader();
+    loadHeroGraph();
 
     document.querySelectorAll('.stat__number[data-count]').forEach(stat => {
       stat.textContent = stat.getAttribute('data-count') + '+';

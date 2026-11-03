@@ -1,0 +1,9 @@
+# Third-party files are kept byte-for-byte as published: the pages pin them
+# with Subresource Integrity hashes, and some of them ship with CRLF line
+# endings, so any line-ending conversion would break those hashes.
+js/vendor/** -text
+*.woff2 binary
+*.avif binary
+*.webp binary
+*.png binary
+*.jpg binary
