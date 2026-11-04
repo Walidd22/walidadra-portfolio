@@ -230,6 +230,13 @@
     requestAnimationFrame(() => ScrollTrigger.refresh());
   }
 
-  if (document.readyState === 'complete') requestAnimationFrame(init);
-  else addEventListener('load', () => requestAnimationFrame(init));
+  // js/main.js calls this just before it lifts the page loader, so the decks
+  // are built while the loader still covers the page and before animations.js
+  // runs. "load" stays as the fallback (reduced motion, or no main.js).
+  let started = false;
+  const start = () => { if (started) return; started = true; init(); };
+  window.__initScrollDecks = start;
+
+  if (document.readyState === 'complete') requestAnimationFrame(start);
+  else addEventListener('load', () => requestAnimationFrame(start));
 })();

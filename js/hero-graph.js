@@ -1,6 +1,9 @@
 /**
- * Hero knowledge-graph scene — Three.js via ESM CDN.
+ * Hero knowledge-graph scene — Three.js, self-hosted in js/vendor/ and
+ * resolved through the import map in index.html.
  * Full-bleed behind hero text, interactive, entrance-animated.
+ * Loaded by js/main.js once the hero text is showing, not by a script tag,
+ * so the 3D library never holds back the first paint.
  */
 
 import * as THREE from 'three';
