@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
         subscribeForm.style.display = 'none';
         subscribeSuccess.style.display = 'flex';
         if (subscribeError) subscribeError.style.display = 'none';
-        showToast('Subscribed! Welcome aboard.', 'success');
+        showToast('Almost there. Check your inbox to confirm.', 'success');
       } catch (err) {
         if (subscribeError) subscribeError.style.display = 'flex';
         showToast('Failed to subscribe. Please try again.', 'error');
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await postSubscribe({ email, source });
         form.reset();
-        showToast('Subscribed! Check your inbox.', 'success');
+        showToast('Almost there. Check your inbox to confirm.', 'success');
       } catch (err) {
         showToast('Failed to subscribe. Please try again.', 'error');
       } finally {
