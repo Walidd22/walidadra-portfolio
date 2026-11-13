@@ -5,12 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>WebRift — Agency Brand & Website | Walid Adra</title>
-  <meta name="description" content="I designed and built my own agency site from scratch — no templates, no frameworks. Hand-written HTML, CSS, and vanilla JS with GSAP animations.">
+  <meta name="description" content="I designed and built my own agency site: plain HTML, CSS and JavaScript with GSAP animations, rendered by a small build script. No framework.">
   <meta name="author" content="Walid Adra">
 
   <meta property="og:title" content="WebRift — Agency Website | Walid Adra">
-  <meta property="og:description" content="Designed and hand-coded my agency website with GSAP animations and custom interactions.">
+  <meta property="og:description" content="I designed and built my agency website: plain HTML, CSS and JavaScript, GSAP animations, no framework.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.walidadra.dev/projects/webrift.html">
+  <meta property="og:image" content="https://www.walidadra.dev/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Walid Adra — full-stack and platform engineer. AI-integrated production systems.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WebRift — Agency Website | Walid Adra">
+  <meta name="twitter:description" content="I designed and built my agency website: plain HTML, CSS and JavaScript, GSAP animations, no framework.">
+  <meta name="twitter:image" content="https://www.walidadra.dev/assets/images/og-image.jpg">
+  <link rel="canonical" href="https://www.walidadra.dev/projects/webrift.html">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
@@ -73,7 +83,7 @@
         </div>
 
         <h1 class="case-hero__title gs-reveal">WebRift</h1>
-        <p class="case-hero__tagline gs-reveal">I designed both my agency site and personal portfolio from scratch — no templates, no frameworks. Hand-written HTML, CSS, and vanilla JavaScript with GSAP animations and custom interactions. Every pixel, every animation, every line of code is mine.</p>
+        <p class="case-hero__tagline gs-reveal">I designed my agency site from scratch, with no framework and no page builder. Plain HTML, CSS and vanilla JavaScript with GSAP animations and custom interactions, rendered to static pages by a small build script. The design and the code are mine.</p>
 
         <div class="case-hero__facts gs-reveal">
           <div>
@@ -109,16 +119,16 @@
         <div class="case-overview__text">
           <p class="gs-reveal">The site for my own studio, so it had to do two jobs at once: sell the work, and be the work. A brochure built on a framework I would have to keep upgrading proves nothing.</p>
 
-          <p class="gs-reveal">Roughly 500 lines of JavaScript and 2,300 of CSS, hand-written. Three scripts from a CDN. No bundler, no framework, no <code>package.json</code>.</p>
+          <p class="gs-reveal">The pages are written as JavaScript modules and rendered to static HTML by one short script, <code>scripts/build.mjs</code>. The libraries (GSAP, ScrollTrigger, Lenis, Lottie) are served from the site itself, not from a CDN. No bundler and no framework.</p>
         </div>
 
         <div class="arch gs-reveal">
           <div class="arch__tier">
             <span class="arch__tier-label">Source</span>
             <div class="arch__nodes">
-              <div class="arch__node"><b>Hand-written HTML</b>one file per page, no templating</div>
+              <div class="arch__node"><b>Page modules</b>content and layout written in JavaScript, one module per page group</div>
               <div class="arch__node"><b>CSS</b>custom properties, layered by concern</div>
-              <div class="arch__node"><b>JavaScript</b>~500 lines, no modules to bundle</div>
+              <div class="arch__node"><b>Browser JavaScript</b>plain scripts, nothing to bundle</div>
             </div>
           </div>
 
@@ -136,9 +146,9 @@
           <div class="arch__tier">
             <span class="arch__tier-label">Deploy</span>
             <div class="arch__nodes">
-              <div class="arch__node"><b>Static files</b>nothing to compile, nothing to install</div>
-              <div class="arch__node"><b>3 CDN scripts</b>GSAP, ScrollTrigger, Lenis</div>
-              <div class="arch__node"><b>Zero build step</b>push the folder, it is live</div>
+              <div class="arch__node"><b>Static files</b>the built HTML is committed and served as it is</div>
+              <div class="arch__node"><b>Self-hosted libraries</b>GSAP, ScrollTrigger, Lenis, Lottie; nothing from a CDN</div>
+              <div class="arch__node"><b>One build script</b>CI rebuilds it and fails if the committed output differs</div>
             </div>
           </div>
         </div>
@@ -158,18 +168,18 @@
 
           <article class="decision gs-reveal">
             <span class="decision__index">01</span>
-            <h3 class="decision__title">No build step, on purpose</h3>
+            <h3 class="decision__title">A small build script, not a framework</h3>
             <div class="decision__row">
               <span class="decision__key">Constraint</span>
               <p class="decision__val">A studio site I alone maintain, and will still be editing years from now between client projects.</p>
             </div>
             <div class="decision__row">
               <span class="decision__key">Decision</span>
-              <p class="decision__val">Hand-written HTML, CSS and JavaScript with no bundler and no framework. What is in the repository is exactly what the browser runs.</p>
+              <p class="decision__val">Pages are JavaScript modules in <code>src/</code>, rendered to plain HTML by one short script. The output is committed, so what is in the repository is exactly what the browser runs. No bundler, no framework.</p>
             </div>
             <div class="decision__row decision__row--tradeoff">
               <span class="decision__key">Trade-off</span>
-              <p class="decision__val">No module system and no type checking, so structure has to be enforced by discipline rather than by a compiler. In exchange there is no dependency graph to rot &mdash; nothing to reinstall, nothing to migrate, and no build that breaks because a transitive dependency shifted.</p>
+              <p class="decision__val">The build script is one more thing to keep working, and the committed HTML has to match the source. In exchange there is no framework to upgrade and no runtime dependency graph, and every library is a pinned copy served from the site.</p>
             </div>
           </article>
 
