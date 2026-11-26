@@ -6,7 +6,7 @@
   <script src="js/theme-init.js"></script>
 
   <title>Engineering Notes — Walid Adra</title>
-  <meta name="description" content="How I build production systems: checkout concurrency, edge deployments, authentication from scratch and an AI video pipeline. Written for engineers.">
+  <meta name="description" content="How I build production systems: checkout concurrency, edge deployments, authentication from scratch and the operating system that runs my agency. Written for engineers.">
   <meta name="keywords" content="Walid Adra, full-stack software engineer, Next.js, Payload CMS, PostgreSQL, Cloudflare Workers, WebAssembly, row-level security, Playwright, Claude API">
   <meta name="author" content="Walid Adra">
 
@@ -104,8 +104,8 @@
 
         <p class="eng-head__lede gs-reveal">
           This page shows the systems underneath the work: how they are structured, what was
-          genuinely hard, and the rules I hold each of them to. Two online stores, a restaurant
-          menu, my own AI video pipeline, an ordering platform and a trading platform's interface.
+          genuinely hard, and the rules I hold each of them to. Online stores, a restaurant
+          menu, WebRift OS (my agency's operating system), an ordering platform and a trading platform's interface.
         </p>
         <p class="eng-head__lede gs-reveal">
           All of it comes from code I wrote and can walk you through line by line. Where a system
@@ -223,7 +223,7 @@
           </div>
         </article>
 
-        <!-- 3 — AI Content Studio -->
+        <!-- 3 — WebRift OS -->
         <article class="eng-sys gs-reveal" data-state="build">
           <div class="eng-sys__aside">
             <span class="eng-sys__state">My own product</span>
@@ -233,9 +233,11 @@
             </dl>
           </div>
           <div class="eng-sys__main">
-            <h3 class="eng-sys__title">AI Content Studio</h3>
+            <h3 class="eng-sys__title">WebRift OS</h3>
             <p class="eng-sys__body">
-              My own product: it takes a script to a published video. Claude drafts the script,
+              The operating system that runs my agency: leads, proposals, pricing and invoicing,
+              and AI agents that route each task to a local or cloud model. Its video pipeline takes
+              a script to a published video. Claude drafts the script,
               ElevenLabs voices it, the video is assembled and cut with ffmpeg, and then it is
               published. n8n runs the automation around it.
             </p>
@@ -370,7 +372,7 @@
         </div>
 
         <p class="eng-sec__intro gs-reveal">
-          An online store, a restaurant menu and a video pipeline have almost nothing in common.
+          An online store, a restaurant menu and a business operating system have almost nothing in common.
           What they share is this list. Each rule is a thing the system is not allowed to do, and
           each one names the mechanism that stops it and the project it comes from — because a
           rule enforced by good intentions is a rule you find out about in an incident report.
@@ -430,7 +432,7 @@
             <span class="eng-clause__id">C-07</span>
             <div>
               <p class="eng-clause__rule">The server only fetches what it is meant to.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>SSRF guards on the routes that fetch a URL for the user, and CSRF checks on the routes that change state (AI Content Studio).</span></p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>SSRF guards on the routes that fetch a URL for the user, and CSRF checks on the routes that change state (WebRift OS).</span></p>
             </div>
           </div>
 
@@ -462,7 +464,7 @@
           <div class="eng-layer__name">Interface</div>
           <ul class="eng-layer__items">
             <li><b>React · TypeScript</b> every frontend here, including the visual layer of Aris AI's 220-component web app</li>
-            <li><b>Next.js 16</b> App Router, ISR and tag-based revalidation on Trendeall; the 100 pages of AI Content Studio</li>
+            <li><b>Next.js 16</b> App Router, ISR and tag-based revalidation on Trendeall; the 100 pages of WebRift OS</li>
             <li><b>CSS variables</b> the light/dark theme system on Aris AI, and on this site</li>
             <li><b>GSAP · Lenis</b> interface motion, including the Aris AI marketing site and the page you're reading</li>
             <li><b>Three.js</b> the graph behind the name on this site's home page</li>
@@ -479,7 +481,7 @@
             <li><b>Cloudflare Workers · OpenNext</b> HypeWalk in production, with Hyperdrive, D1 and Durable Objects</li>
             <li><b>AssemblyScript · WebAssembly</b> the image resize kernel that fits inside 128 MB</li>
             <li><b>ffmpeg</b> video assembly and cutting in the content pipeline</li>
-            <li><b>n8n</b> the automation around AI Content Studio</li>
+            <li><b>n8n</b> the automation around WebRift OS</li>
           </ul>
         </div>
 
@@ -488,7 +490,7 @@
           <ul class="eng-layer__items">
             <li><b>PostgreSQL</b> the default — conditional updates, row locks, row-level security, ordered migrations (42 on Trendeall)</li>
             <li><b>Neon · Supabase</b> managed Postgres, chosen per project rather than by habit</li>
-            <li><b>SQLite · Litestream</b> AI Content Studio's database: one file, continuously replicated</li>
+            <li><b>SQLite · Litestream</b> WebRift OS's database: one file, continuously replicated</li>
             <li><b>Redis</b> read-path caching in front of the ordering platform's menu, where reads dwarf writes</li>
             <li><b>Cloudflare R2</b> product images and media for both stores</li>
           </ul>
@@ -497,7 +499,7 @@
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">AI</div>
           <ul class="eng-layer__items">
-            <li><b>Claude API</b> script drafting in AI Content Studio</li>
+            <li><b>Claude API</b> script drafting in WebRift OS</li>
             <li><b>ElevenLabs</b> the voice stage of the same pipeline</li>
             <li><b>Guards</b> SSRF and CSRF protection on the routes that act for a user</li>
           </ul>
@@ -528,7 +530,7 @@
           <ul class="eng-layer__items">
             <li><b>Vitest</b> about 340 cases on Trendeall and about 500 on HypeWalk</li>
             <li><b>Playwright</b> 59 end-to-end tests on HypeWalk; 534 tests with axe-core (WCAG 2.2 AA) across webrift.dev and this site</li>
-            <li><b>CI</b> about 1,300 tests on AI Content Studio</li>
+            <li><b>CI</b> about 1,300 tests on WebRift OS</li>
             <li><b>Performance</b> mobile LCP 2.29 s on throttled Slow 4G, CLS 0</li>
           </ul>
         </div>
@@ -553,7 +555,7 @@
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">Tests are part of the build</p>
-            <p class="eng-prac__b">Counted from the repositories: about 340 Vitest cases on Trendeall, about 500 more and 59 Playwright tests on HypeWalk, and about 1,300 running in CI on AI Content Studio.</p>
+            <p class="eng-prac__b">Counted from the repositories: about 340 Vitest cases on Trendeall, about 500 more and 59 Playwright tests on HypeWalk, and about 1,300 running in CI on WebRift OS.</p>
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">The supply chain is pinned</p>
