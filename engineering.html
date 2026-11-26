@@ -129,7 +129,7 @@
             <span class="eng-count__l">Workers memory limit<br>the WASM kernel fits</span>
           </div>
           <div class="eng-count__cell">
-            <span class="eng-count__n">27→2</span>
+            <span class="eng-count__n">27→0</span>
             <span class="eng-count__l">Dependency audit findings<br>on Trendeall</span>
           </div>
           <div class="eng-count__cell">
@@ -179,7 +179,7 @@
               <li>Promo codes and receipt fingerprints are taken with <code>SELECT … FOR UPDATE</code> locks, so a code can't be spent twice and a receipt can't be reused.</li>
               <li>An outage traced to uncached catalogue reads: 5 GB of egress in 12 days. Fixed with a tag-invalidated cache and ISR, so an edit clears the pages it touches and nothing else.</li>
               <li>Nightly <code>pg_dump</code> backups, AES-256 encrypted, and restore-tested into a throwaway Postgres. A backup that has never been restored is a hope.</li>
-              <li>Dependency audit findings taken from 27 to 2, and about 340 Vitest cases.</li>
+              <li>Dependency audit findings taken from 27 to 0, and about 340 Vitest cases.</li>
             </ul>
             <ul class="eng-sys__stack">
               <li>Next.js 16</li><li>Payload 3</li><li>TypeScript</li><li>PostgreSQL</li><li>Neon</li>
@@ -521,7 +521,7 @@
             <li><b>Authentication</b> written from scratch on Mahramji: scrypt, JWT sessions, TOTP two-factor, lockout, audit log</li>
             <li><b>Row-level security</b> on all 23 of Mahramji's tables</li>
             <li><b>Content Security Policy</b> strict on this site: every script self-hosted, pinned by an integrity hash</li>
-            <li><b>Dependency audit</b> findings on Trendeall taken from 27 to 2</li>
+            <li><b>Dependency audit</b> findings on Trendeall taken from 27 to 0</li>
           </ul>
         </div>
 
@@ -559,7 +559,7 @@
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">The supply chain is pinned</p>
-            <p class="eng-prac__b">Every library on this site is self-hosted and pinned by an integrity hash; nothing loads from a CDN. On Trendeall, dependency audit findings went from 27 to 2. A build that can change under you isn't reproducible.</p>
+            <p class="eng-prac__b">Every library on this site is self-hosted and pinned by an integrity hash; nothing loads from a CDN. On Trendeall, dependency audit findings went from 27 to 0. A build that can change under you isn't reproducible.</p>
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">Running cost is a constraint</p>
