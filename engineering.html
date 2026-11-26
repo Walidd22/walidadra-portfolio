@@ -6,12 +6,12 @@
   <script src="js/theme-init.js"></script>
 
   <title>Engineering Notes — Walid Adra</title>
-  <meta name="description" content="How I build production systems: architecture, access models, data residency and infrastructure. Written for engineers, with client names withheld.">
-  <meta name="keywords" content="Walid Adra, platform engineer, system architecture, Postgres RLS, data residency, multi-tenant, LangGraph, FastAPI, Next.js, Terraform, security">
+  <meta name="description" content="How I build production systems: checkout concurrency, edge deployments, authentication from scratch and the operating system that runs my agency. Written for engineers.">
+  <meta name="keywords" content="Walid Adra, full-stack software developer, Next.js, Payload CMS, PostgreSQL, Cloudflare Workers, WebAssembly, row-level security, Playwright, Claude API">
   <meta name="author" content="Walid Adra">
 
   <meta property="og:title" content="Engineering Notes — Walid Adra">
-  <meta property="og:description" content="What I build, and what I refuse to let it do. Architecture, access models, infrastructure and constraints from production systems.">
+  <meta property="og:description" content="What I build, and what I refuse to let it do. Architecture, trade-offs and constraints from production systems.">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://www.walidadra.dev/assets/images/og-image.jpg">
   <meta property="og:url" content="https://www.walidadra.dev/engineering.html">
@@ -23,7 +23,7 @@
   <meta name="twitter:image" content="https://www.walidadra.dev/assets/images/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Walid Adra — full-stack and platform engineer. AI-integrated production systems.">
+  <meta property="og:image:alt" content="Walid Adra — full-stack software developer.">
 
   <link rel="canonical" href="https://www.walidadra.dev/engineering.html">
 
@@ -95,17 +95,17 @@
       <header class="eng-head">
         <div class="eng-head__rule gs-reveal">
           <span>Engineering notes</span>
-          <span><b>Rev.</b> 2026-09-04</span>
-          <span><b>Scope</b> Production systems, Apr–Sep 2026</span>
+          <span><b>Rev.</b> 2026-11-25</span>
+          <span><b>Scope</b> Production systems, 2025–2026</span>
           <span><a href="./" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2)">← Portfolio</a></span>
         </div>
 
         <h1 class="eng-head__title gs-reveal">What I build, and what I refuse to let it do.</h1>
 
         <p class="eng-head__lede gs-reveal">
-          Most of what I shipped this year is under NDA. I can't name the clients, the products
-          or the markets — so this page shows you the systems underneath instead: how they are
-          structured, what holds them up, and the rules I hold every one of them to.
+          This page shows the systems underneath the work: how they are structured, what was
+          genuinely hard, and the rules I hold each of them to. Online stores, a restaurant
+          menu, WebRift OS (my agency's operating system), an ordering platform and a trading platform's interface.
         </p>
         <p class="eng-head__lede gs-reveal">
           All of it comes from code I wrote and can walk you through line by line. Where a system
@@ -113,27 +113,28 @@
         </p>
 
         <p class="eng-head__note gs-reveal">
-          <strong>On naming.</strong> Mahramji appears by name because the site is public and the
-          client is happy to be credited. Every other system here is described without its client,
-          product name or market. Figures are counted from the repositories on 2026-09-04.
+          <strong>Background.</strong> Self-taught, coding since 2020, with no engineering degree yet: the work here is engineering-level, and becoming a software engineer is where I'm heading. I spent three months
+          of summer 2025 as a software developer intern at Telecloud Vision in Beirut, worked freelance
+          on Aris AI from October 2025 to April 2026, and founded WebRift in April 2026. One restaurant client is described
+          without its name; everything else is named. Figures are counted from the repositories.
         </p>
 
         <div class="eng-count gs-reveal">
           <div class="eng-count__cell">
-            <span class="eng-count__n">2,042</span>
-            <span class="eng-count__l">Commits authored<br>Apr–Sep 2026</span>
+            <span class="eng-count__n">6</span>
+            <span class="eng-count__l">Systems written up<br>five named</span>
           </div>
           <div class="eng-count__cell">
-            <span class="eng-count__n">7</span>
-            <span class="eng-count__l">Production<br>repositories</span>
+            <span class="eng-count__n">128 MB</span>
+            <span class="eng-count__l">Workers memory limit<br>the WASM kernel fits</span>
           </div>
           <div class="eng-count__cell">
-            <span class="eng-count__n">4</span>
-            <span class="eng-count__l">Languages shipped<br>TS · Python · SQL · HCL</span>
+            <span class="eng-count__n">27→0</span>
+            <span class="eng-count__l">Dependency audit findings<br>on Trendeall</span>
           </div>
           <div class="eng-count__cell">
-            <span class="eng-count__n">2</span>
-            <span class="eng-count__l">Data-protection regimes<br>designed against</span>
+            <span class="eng-count__n">534</span>
+            <span class="eng-count__l">Playwright + axe tests<br>WCAG 2.2 AA</span>
           </div>
         </div>
       </header>
@@ -143,7 +144,7 @@
         <div class="eng-sec__head gs-reveal">
           <span class="eng-sec__n">01</span>
           <h2 class="eng-sec__t">Systems</h2>
-          <span class="eng-sec__sub">Five builds · client names withheld</span>
+          <span class="eng-sec__sub">Six builds · one client name withheld</span>
         </div>
 
         <p class="eng-sec__intro gs-reveal">
@@ -152,81 +153,109 @@
           aren't deployed.
         </p>
 
-        <!-- 1 — AI marketing intelligence platform -->
+        <!-- 1 — Trendeall -->
         <article class="eng-sys gs-reveal" data-state="live">
           <div class="eng-sys__aside">
-            <span class="eng-sys__state">Live · one client</span>
+            <span class="eng-sys__state">Live</span>
             <dl class="eng-sys__meta">
-              <dt>Role</dt><dd>Full-stack &amp; platform</dd>
-              <dt>Period</dt><dd>May – Aug 2026</dd>
-              <dt>Team</dt><dd>Three</dd>
-              <dt>Authored</dt><dd>1,053 commits</dd>
-              <dt>Hosting</dt><dd>In-region, by requirement</dd>
+              <dt>Role</dt><dd>Full-stack</dd>
+              <dt>Platform</dt><dd>Next.js 16 · Payload 3 · Neon · R2</dd>
+              <dt>Counted</dt><dd>21 collections · 42 migrations · ~340 Vitest cases</dd>
             </dl>
           </div>
           <div class="eng-sys__main">
-            <h3 class="eng-sys__title">AI marketing-intelligence platform</h3>
+            <h3 class="eng-sys__title">
+              Trendeall — e-commerce platform
+              <a href="https://trendeall.com" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:0.55em;letter-spacing:0.06em;margin-left:0.6em;white-space:nowrap;" data-cursor="expand">trendeall.com →</a>
+            </h3>
             <p class="eng-sys__body">
-              A platform that reads a client's analytics and commerce accounts, proposes campaigns
-              against what it finds, and manages them on the ad accounts the client connects. I
-              worked across the whole repository — the Python decisioning service, the web console,
-              the mobile viewer, the schemas, the infrastructure and the deploy path.
+              A retail client's online store, built from scratch on Next.js 16 and Payload 3, with Neon Postgres for data and
+              Cloudflare R2 for media. I work across all of it: schema, checkout, caching, backups
+              and the deploy path. HypeWalk, below, runs on the same platform.
             </p>
             <p class="eng-sys__hard">The hard parts</p>
             <ul class="eng-sys__list">
-              <li>Nothing reaches a live ad account without two separate human approvals: one on the campaign idea, one on the finished creative. The code on that path is held to a higher review bar than the rest of the repository.</li>
-              <li>Data residency is enforced at the call site rather than by where the box happens to sit, so the guarantee survives a migration between cloud providers instead of being re-argued.</li>
-              <li>Around a dozen platform connectors — ads, analytics, commerce, social — each with its own token custody, refresh path and failure mode.</li>
-              <li>Cities and sub-sectors come from closed registries. Free text there silently files a client under the wrong benchmark, and nobody finds out for a quarter.</li>
-              <li>A seasonal calendar anchored to the Hijri year, so campaign timing is computed rather than hand-maintained every year.</li>
-              <li>Nine CI/CD workflows and eleven architecture decision records, across two target clouds — one live, one staged for the cutover.</li>
+              <li>Checkout can't oversell. Stock is decremented with a conditional update inside the same transaction as the order, so two buyers racing for the last unit can't both win.</li>
+              <li>Promo codes and receipt fingerprints are taken with <code>SELECT … FOR UPDATE</code> locks, so a code can't be spent twice and a receipt can't be reused.</li>
+              <li>An outage traced to uncached catalogue reads: 5 GB of egress in 12 days. Fixed with a tag-invalidated cache and ISR, so an edit clears the pages it touches and nothing else.</li>
+              <li>Nightly <code>pg_dump</code> backups, AES-256 encrypted, and restore-tested into a throwaway Postgres. A backup that has never been restored is a hope.</li>
+              <li>Dependency audit findings taken from 27 to 0, and about 340 Vitest cases.</li>
             </ul>
             <ul class="eng-sys__stack">
-              <li>Python 3.13</li><li>FastAPI</li><li>LangGraph</li><li>PostgreSQL 16</li><li>pgvector</li>
-              <li>BigQuery</li><li>dbt</li><li>Cube</li><li>React 19</li><li>Vite</li><li>Motion</li>
-              <li>Expo</li><li>Terraform</li><li>Docker</li><li>GitHub Actions</li>
+              <li>Next.js 16</li><li>Payload 3</li><li>TypeScript</li><li>PostgreSQL</li><li>Neon</li>
+              <li>Cloudflare R2</li><li>Vitest</li><li>pnpm</li><li>Vercel</li>
             </ul>
           </div>
         </article>
 
-        <!-- 2 — AI voice interview engine -->
+        <!-- 2 — HypeWalk -->
+        <article class="eng-sys gs-reveal" data-state="live">
+          <div class="eng-sys__aside">
+            <span class="eng-sys__state">Live · on Cloudflare Workers</span>
+            <dl class="eng-sys__meta">
+              <dt>Role</dt><dd>Full-stack, platform migration</dd>
+              <dt>Moved</dt><dd>Vercel → Cloudflare Workers</dd>
+              <dt>Counted</dt><dd>~500 Vitest cases · 59 Playwright tests</dd>
+            </dl>
+          </div>
+          <div class="eng-sys__main">
+            <h3 class="eng-sys__title">
+              HypeWalk — sneaker store at the edge
+              <a href="https://hypewalk.store" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:0.55em;letter-spacing:0.06em;margin-left:0.6em;white-space:nowrap;" data-cursor="expand">hypewalk.store →</a>
+            </h3>
+            <p class="eng-sys__body">
+              Another retail client's sneaker store, on the same platform as Trendeall, which I moved from Vercel to
+              Cloudflare Workers: OpenNext for the Next.js build, Hyperdrive in front of Postgres,
+              R2 for images, and D1 and Durable Objects alongside them.
+            </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>Under the Workers connection pool, transaction rollbacks were silently doing nothing, so a failed write could leave partial changes behind. Found and fixed.</li>
+              <li>Workers get 128 MB of memory; the old image library needed 107 MB for a single image. I wrote a resize kernel in AssemblyScript, compiled to WebAssembly, whose output is byte-identical to sharp.</li>
+              <li>Uncached page loads went from about 2.3 s to between 1.2 and 2 s after the move.</li>
+              <li>About 500 Vitest cases and 59 Playwright end-to-end tests.</li>
+            </ul>
+            <ul class="eng-sys__stack">
+              <li>Next.js</li><li>Payload 3</li><li>Cloudflare Workers</li><li>OpenNext</li><li>Hyperdrive</li>
+              <li>R2</li><li>D1</li><li>Durable Objects</li><li>AssemblyScript</li><li>WebAssembly</li>
+              <li>Vitest</li><li>Playwright</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 3 — WebRift OS -->
         <article class="eng-sys gs-reveal" data-state="build">
           <div class="eng-sys__aside">
-            <span class="eng-sys__state">Built end to end · not deployed</span>
+            <span class="eng-sys__state">My own product</span>
             <dl class="eng-sys__meta">
-              <dt>Role</dt><dd>Solo, full stack</dd>
-              <dt>Period</dt><dd>Aug – Sep 2026</dd>
-              <dt>Authored</dt><dd>501 commits</dd>
-              <dt>Counted</dt><dd>29 screens · 13 API routes · 23 migrations · 72 test suites</dd>
+              <dt>Role</dt><dd>Product, design &amp; build</dd>
+              <dt>Counted</dt><dd>100 pages · 224 API routes · ~1,300 tests in CI</dd>
             </dl>
           </div>
           <div class="eng-sys__main">
-            <h3 class="eng-sys__title">Bilingual AI voice-interview engine</h3>
+            <h3 class="eng-sys__title">WebRift OS</h3>
             <p class="eng-sys__body">
-              An HR engine that conducts real voice interviews in Arabic and English and produces
-              evidence-cited assessments — a candidate journey from application through a live
-              interview room to a scorecard, plus a thirteen-screen operator console. It is built
-              end to end and it is not deployed; nobody has yet sat an interview against a live
-              model, and the project says so on its own front page.
+              The operating system that runs my agency: leads, proposals, pricing and invoicing,
+              and AI agents that route each task to a local or cloud model. Its video pipeline takes
+              a script to a published video. Claude drafts the script,
+              ElevenLabs voices it, the video is assembled and cut with ffmpeg, and then it is
+              published. n8n runs the automation around it.
             </p>
             <p class="eng-sys__hard">The hard parts</p>
             <ul class="eng-sys__list">
-              <li>A real-time voice pipeline: speech in, speech out, and a viseme-driven face that moves with what is being said.</li>
-              <li>Every conversational turn commits before the next is spoken, and position is derived from the transcript rather than a stored cursor — so a process killed mid-interview resumes exactly where it was.</li>
-              <li>Row-level security on every organisation-scoped table, and CI runs the whole suite a second time with the superuser bypass removed. A policy that only passes as superuser proves nothing.</li>
-              <li>Audit tables are append-only, enforced by trigger. Access is a capability grant checked server-side, not a URL somebody could guess.</li>
-              <li>Full right-to-left Arabic — a mirrored interface, not a translated string file — with bilingual PDF reports out the other end.</li>
-              <li>Bias monitoring by role family and interview language, a right of reply for anyone assessed, and a retention policy spoken aloud in the consent rather than buried in a footer.</li>
+              <li>One pipeline from script to voice to video to ffmpeg to publish, inside a single Next.js 16 app of 100 pages and 224 API routes.</li>
+              <li>SQLite with Litestream replication instead of a database server: one file, continuously replicated.</li>
+              <li>SSRF guards on the routes that fetch a URL for the user, and CSRF checks on the ones that change state.</li>
+              <li>About 1,300 tests, run in CI.</li>
             </ul>
             <ul class="eng-sys__stack">
-              <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Drizzle</li><li>PostgreSQL</li>
-              <li>pgvector</li><li>better-auth</li><li>next-intl</li><li>Python</li><li>Pipecat</li>
-              <li>Recharts</li><li>Docker</li>
+              <li>Next.js 16</li><li>TypeScript</li><li>Claude API</li><li>ElevenLabs</li><li>ffmpeg</li>
+              <li>SQLite</li><li>Litestream</li><li>n8n</li>
             </ul>
           </div>
         </article>
 
-        <!-- 3 — Ordering & delivery platform -->
+        <!-- 4 — Ordering & delivery platform -->
         <article class="eng-sys gs-reveal" data-state="live">
           <div class="eng-sys__aside">
             <span class="eng-sys__state">Live demo</span>
@@ -262,15 +291,14 @@
           </div>
         </article>
 
-        <!-- 4 — Mahramji (named) -->
+        <!-- 5 — Mahramji -->
         <article class="eng-sys gs-reveal" data-state="live">
           <div class="eng-sys__aside">
             <span class="eng-sys__state">Live · client domain</span>
             <dl class="eng-sys__meta">
               <dt>Role</dt><dd>Solo, design &amp; build</dd>
               <dt>Period</dt><dd>Aug 2026</dd>
-              <dt>Authored</dt><dd>172 commits</dd>
-              <dt>Counted</dt><dd>67 dishes · 9 migrations · 90 tests</dd>
+              <dt>Counted</dt><dd>23 tables, all under row-level security</dd>
             </dl>
           </div>
           <div class="eng-sys__main">
@@ -279,7 +307,7 @@
               <a href="https://almahramji.com" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:0.55em;letter-spacing:0.06em;margin-left:0.6em;white-space:nowrap;" data-cursor="expand">almahramji.com →</a>
             </h3>
             <p class="eng-sys__body">
-              A seafood restaurant on the Mina corniche in Tripoli. Guests scan a QR code at the
+              A restaurant client's site, built end to end and maintained: a seafood restaurant on the Mina corniche in Tripoli. Guests scan a QR code at the
               table and read the menu in English or Arabic, priced in dollars or lira. A waiter
               still takes the order — that is how the restaurant works, and the software had no
               business changing it. The owner runs the whole site from a dashboard: menu, prices,
@@ -288,40 +316,48 @@
             <p class="eng-sys__hard">The hard parts</p>
             <ul class="eng-sys__list">
               <li>Two currencies and two languages, with right-to-left treated as a first-class layout rather than a flipped stylesheet.</li>
-              <li>Time-based two-factor on the admin login, row-level security on every table, scoped storage policies, and a scheduled prune of login attempts.</li>
-              <li>Nine ordered migrations applied through the management API — no pasting SQL into a console, so the schema in the repository is the schema in production.</li>
+              <li>Authentication written from scratch: scrypt password hashes, signed JWT sessions, TOTP two-factor, lockout after repeated failures, and an audit log.</li>
+              <li>Row-level security on all 23 tables, so the database enforces who can read and write what, not just the app.</li>
+              <li>The hero video cut from 13.3 MB to 2.7 MB, so the site stays inside its free-tier egress.</li>
               <li>QR cards, print PDFs and app icons generated from the client's vector logo by script, so a logo revision is a re-run rather than an afternoon.</li>
-              <li>Ninety tests and a build that has to pass before anything ships.</li>
             </ul>
             <ul class="eng-sys__stack">
               <li>Next.js 16</li><li>React 19</li><li>Supabase</li><li>PostgreSQL</li><li>RLS</li>
-              <li>TOTP 2FA</li><li>Web Push</li><li>Vercel</li><li>Python</li>
+              <li>scrypt</li><li>JWT</li><li>TOTP 2FA</li><li>Vercel</li>
             </ul>
           </div>
         </article>
 
-        <!-- 5 — trading platform -->
+        <!-- 6 — Aris AI -->
         <article class="eng-sys gs-reveal" data-state="closed">
           <div class="eng-sys__aside">
-            <span class="eng-sys__state">Role closed · handed over</span>
+            <span class="eng-sys__state">Freelance · engagement ended</span>
             <dl class="eng-sys__meta">
-              <dt>Role</dt><dd>Lead frontend</dd>
-              <dt>Period</dt><dd>Earlier engagement</dd>
-              <dt>Team</dt><dd>Founding, two engineers</dd>
+              <dt>Role</dt><dd>Front-End &amp; UI/UX Developer, freelance</dd>
+              <dt>Period</dt><dd>Oct 2025 – Apr 2026</dd>
+              <dt>Team</dt><dd>Two developers</dd>
+              <dt>Web app</dt><dd>37 routes · 220 components</dd>
             </dl>
           </div>
           <div class="eng-sys__main">
-            <h3 class="eng-sys__title">Real-time AI trading platform</h3>
+            <h3 class="eng-sys__title">
+              Aris AI — real-time AI trading platform
+              <a href="https://aristrading.ai" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:0.55em;letter-spacing:0.06em;margin-left:0.6em;white-space:nowrap;" data-cursor="expand">aristrading.ai →</a>
+            </h3>
             <p class="eng-sys__body">
-              My first engineering role: leading the frontend of an AI trading platform through its
-              early production build. A monorepo spanning web, mobile and rendered video; six OAuth
-              sign-in strategies behind two-factor; payments; and market surfaces that had to stay
-              correct while the data never stopped moving. The company handed the repository on
-              when I left, so I can describe the work but not point you at a commit history — which
-              is exactly why the rest of this page is written the way it is.
+              A trading platform built by a two-developer team. I owned the UI/UX and the visual
+              layer across the web app, and led the marketing site. The code belongs to the company,
+              so I can describe the work but not point you at the commits.
             </p>
+            <p class="eng-sys__hard">The hard parts</p>
+            <ul class="eng-sys__list">
+              <li>A light/dark theme system on CSS variables, carried across 37 routes and 220 components.</li>
+              <li>A mobile-first layer for live trading: its own layout, drawer navigation, fullscreen charts, pull-to-refresh, and the iOS Safari and Android fixes that make it behave.</li>
+              <li>The marketing site, which I led, in Next.js with GSAP.</li>
+              <li>A product-video pipeline on Remotion and Playwright, so product videos are rendered from code rather than edited by hand.</li>
+            </ul>
             <ul class="eng-sys__stack">
-              <li>React</li><li>Next.js</li><li>TypeScript</li><li>Expo</li><li>Remotion</li><li>Stripe</li><li>WebSockets</li>
+              <li>Next.js</li><li>React</li><li>TypeScript</li><li>CSS variables</li><li>GSAP</li><li>Remotion</li><li>Playwright</li>
             </ul>
           </div>
         </article>
@@ -336,10 +372,10 @@
         </div>
 
         <p class="eng-sec__intro gs-reveal">
-          A marketing platform, an interview engine and a restaurant menu have almost nothing in
-          common. What they share is this list. Each rule is a thing the system is not allowed to
-          do, and each one names the mechanism that stops it — because a rule enforced by good
-          intentions is a rule you find out about in an incident report.
+          An online store, a restaurant menu and a business operating system have almost nothing in common.
+          What they share is this list. Each rule is a thing the system is not allowed to do, and
+          each one names the mechanism that stops it and the project it comes from — because a
+          rule enforced by good intentions is a rule you find out about in an incident report.
         </p>
 
         <div class="eng-ledger">
@@ -347,64 +383,64 @@
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-01</span>
             <div>
-              <p class="eng-clause__rule">No automated system spends a client's money on its own.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>Two human gates on the path to a live ad account — one approves the idea, one approves the finished creative. Neither can be skipped, and the code on that path carries a higher review bar than the rest of the repository.</span></p>
+              <p class="eng-clause__rule">A sale never takes stock that isn't there.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>A conditional decrement inside the order's own transaction (Trendeall). The update only succeeds while the stock is still there, so two checkouts racing for the last unit can't both win.</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-02</span>
             <div>
-              <p class="eng-clause__rule">Regulated data does not leave the jurisdiction it was collected in.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>A residency check at the call site rather than at the host. Moving the deployment between cloud providers cannot move the data, because the gate never depended on where the box was.</span></p>
+              <p class="eng-clause__rule">A promo code is spent once.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span><code>SELECT … FOR UPDATE</code> on the code and on the receipt fingerprint, inside the checkout transaction (Trendeall). A second request waits for the first, then sees what it did.</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-03</span>
             <div>
-              <p class="eng-clause__rule">Row-level security nobody has attacked is a comment, not a control.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>A policy on every organisation-scoped table, and a CI job that runs the entire suite a second time with the superuser bypass removed. Tests that only pass as superuser prove nothing about what a tenant can reach.</span></p>
+              <p class="eng-clause__rule">A backup that has never been restored is not a backup.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Nightly <code>pg_dump</code>, encrypted with AES-256, and restored into a throwaway Postgres to prove it opens (Trendeall).</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-04</span>
             <div>
-              <p class="eng-clause__rule">History is append-only.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>Audit writes go through database triggers rather than application code. Nothing that records what happened is able to revise it afterwards, including me.</span></p>
+              <p class="eng-clause__rule">A rollback has to actually roll back.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Checking transaction behaviour on the runtime the code ships to. On HypeWalk's move to Workers, rollbacks under the Workers connection pool were silently doing nothing; that was found and fixed.</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-05</span>
             <div>
-              <p class="eng-clause__rule">Access is a grant, never a URL somebody could guess.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>Capability records checked server-side on every read, and per-scope permission claims inside signed sessions. Knowing an identifier is not the same as being allowed to see what it points at.</span></p>
+              <p class="eng-clause__rule">A memory limit is a design input, not a surprise.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Fitting the work to the platform, not the other way round (HypeWalk). The image library needed 107 MB per image against a 128 MB Workers limit, so it was replaced with a WebAssembly resize kernel, byte-identical to sharp.</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-06</span>
             <div>
-              <p class="eng-clause__rule">A value that maps to money or to a benchmark comes from a closed registry.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>Enumerated cities, sectors and sub-sectors instead of free text. A typo in a free-text field files a record against the wrong comparison and reports it confidently for a quarter before anyone notices.</span></p>
+              <p class="eng-clause__rule">An admin login is the front door, and it gets locked.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>Authentication written from scratch (Mahramji): scrypt hashes, signed JWT sessions, TOTP two-factor, lockout after repeated failures, an audit log, and row-level security on all 23 tables behind it.</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-07</span>
             <div>
-              <p class="eng-clause__rule">Long-running state is derived, never remembered.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>Each step commits before the next begins, and position is recomputed from what was written. A process killed mid-session resumes exactly where it stopped, because there was never a cursor to lose.</span></p>
+              <p class="eng-clause__rule">The server only fetches what it is meant to.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>SSRF guards on the routes that fetch a URL for the user, and CSRF checks on the routes that change state (WebRift OS).</span></p>
             </div>
           </div>
 
           <div class="eng-clause gs-reveal" tabindex="0">
             <span class="eng-clause__id">C-08</span>
             <div>
-              <p class="eng-clause__rule">What isn't built is visibly absent, never simulated.</p>
-              <p class="eng-clause__how"><span>Enforced by</span><span>No placeholder that looks finished. Every project carries a written "what is not built, or not proven" section, and its status file is generated from a single source of truth by a CI job that fails when the two drift apart.</span></p>
+              <p class="eng-clause__rule">A page has to work on a slow phone, and for everyone.</p>
+              <p class="eng-clause__how"><span>Enforced by</span><span>534 Playwright tests with axe-core checking WCAG 2.2 AA across webrift.dev and this site, a strict Content Security Policy, and a mobile LCP of 2.29 s on throttled Slow 4G with zero layout shift.</span></p>
             </div>
           </div>
 
@@ -427,87 +463,75 @@
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">Interface</div>
           <ul class="eng-layer__items">
-            <li><b>React 19 · TypeScript</b> every frontend here — 315 components in the largest console alone</li>
-            <li><b>Next.js 16</b> App Router, server actions and server components across four of the systems above</li>
-            <li><b>Vite</b> the build for the console that isn't on Next</li>
-            <li><b>Motion · GSAP · Lenis</b> interface motion, including the page you're reading</li>
-            <li><b>Base UI · Radix · shadcn</b> headless primitives styled into an existing design system rather than replacing it</li>
-            <li><b>Recharts</b> data-dense operator dashboards</li>
-            <li><b>Expo</b> the read-only mobile viewer on the marketing platform</li>
-            <li><b>Three.js · React Three Fiber</b> the 3D and generative work</li>
-            <li><b>next-intl</b> bilingual English/Arabic with full right-to-left</li>
-            <li><b>PWA · Web Push</b> installable storefronts, notifications to a phone on a counter</li>
+            <li><b>React · TypeScript</b> every frontend here, including the visual layer of Aris AI's 220-component web app</li>
+            <li><b>Next.js 16</b> App Router, ISR and tag-based revalidation on Trendeall; the 100 pages of WebRift OS</li>
+            <li><b>CSS variables</b> the light/dark theme system on Aris AI, and on this site</li>
+            <li><b>GSAP · Lenis</b> interface motion, including the Aris AI marketing site and the page you're reading</li>
+            <li><b>Three.js</b> the graph behind the name on this site's home page</li>
+            <li><b>Right-to-left</b> English and Arabic on Mahramji, as a mirrored layout rather than a flipped stylesheet</li>
+            <li><b>Remotion</b> the product-video pipeline on Aris AI, videos rendered from code</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">Runtime &amp; services</div>
           <ul class="eng-layer__items">
-            <li><b>Node.js 22</b> API routes, server actions, background work</li>
-            <li><b>Python 3.13 · FastAPI</b> the decisioning service — 346 modules behind one contract</li>
-            <li><b>LangGraph</b> agent graphs where a decision needs steps, state and a place to stop</li>
-            <li><b>Pipecat</b> the real-time voice pipeline — transport-agnostic by design so the vendor can change</li>
-            <li><b>NestJS · Prisma</b> service structure on earlier platform work</li>
-            <li><b>REST · OpenAPI · JSON Schema</b> contracts kept in their own package so the client and the service can't drift</li>
-            <li><b>WebSockets · Server-Sent Events</b> live surfaces that stay correct while the data moves</li>
+            <li><b>Node.js</b> API routes, server actions, background work</li>
+            <li><b>Payload 3</b> the CMS and commerce backend under Trendeall and HypeWalk — 21 collections on Trendeall</li>
+            <li><b>Cloudflare Workers · OpenNext</b> HypeWalk in production, with Hyperdrive, D1 and Durable Objects</li>
+            <li><b>AssemblyScript · WebAssembly</b> the image resize kernel that fits inside 128 MB</li>
+            <li><b>ffmpeg</b> video assembly and cutting in the content pipeline</li>
+            <li><b>n8n</b> the automation around WebRift OS</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">Data</div>
           <ul class="eng-layer__items">
-            <li><b>PostgreSQL 16</b> the default — row-level security, triggers, ordered migrations, nothing typed into a console</li>
-            <li><b>pgvector</b> retrieval sitting beside the relational data instead of in a second system</li>
-            <li><b>Drizzle · Supabase · Prisma</b> schema and access, chosen per project rather than by habit</li>
-            <li><b>Redis</b> read-path caching where reads dwarf writes, and rate limiting where they don't</li>
-            <li><b>Neo4j</b> graph retrieval where the relationships are the query</li>
-            <li><b>BigQuery · dbt · Cube</b> the analytics side — staging models, marts and a semantic layer over them</li>
+            <li><b>PostgreSQL</b> the default — conditional updates, row locks, row-level security, ordered migrations (42 on Trendeall)</li>
+            <li><b>Neon · Supabase</b> managed Postgres, chosen per project rather than by habit</li>
+            <li><b>SQLite · Litestream</b> WebRift OS's database: one file, continuously replicated</li>
+            <li><b>Redis</b> read-path caching in front of the ordering platform's menu, where reads dwarf writes</li>
+            <li><b>Cloudflare R2</b> product images and media for both stores</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
-          <div class="eng-layer__name">AI &amp; agents</div>
+          <div class="eng-layer__name">AI</div>
           <ul class="eng-layer__items">
-            <li><b>Claude SDK</b> the model layer across the AI work, with token spend metered per tenant</li>
-            <li><b>Retrieval</b> vector where meaning matters, graph where structure does, SQL where neither is needed</li>
-            <li><b>Human-in-the-loop</b> approval gates, evidence citation, and a right of reply for the person being assessed</li>
-            <li><b>Evaluation</b> rubric-scored outputs and calibration that feeds the next cycle rather than a vibe check</li>
-            <li><b>n8n</b> scheduled and event-driven automation around the model, not through it</li>
+            <li><b>Claude API</b> script drafting in WebRift OS</li>
+            <li><b>ElevenLabs</b> the voice stage of the same pipeline</li>
+            <li><b>Guards</b> SSRF and CSRF protection on the routes that act for a user</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">Infrastructure</div>
           <ul class="eng-layer__items">
-            <li><b>Docker · Compose</b> every service runs locally the way it runs in production</li>
-            <li><b>Terraform</b> infrastructure as code, separate dev and prod environments, reviewed like application code</li>
-            <li><b>GCP · Oracle Cloud · Vercel · Supabase</b> picked for data residency and running cost, not familiarity</li>
-            <li><b>GitHub Actions</b> nine workflows on the largest repository, third-party actions pinned to a commit SHA</li>
-            <li><b>Cloud Run jobs</b> six scheduled ingestion jobs feeding the warehouse</li>
+            <li><b>Vercel</b> Trendeall and this site, with ISR where the catalogue needs it</li>
+            <li><b>Cloudflare</b> Workers, R2, D1, Durable Objects and Hyperdrive for HypeWalk</li>
+            <li><b>Backups</b> nightly <code>pg_dump</code>, AES-256 encrypted, restore-tested into a throwaway Postgres</li>
             <li><b>DNS · TLS · environment config</b> the unglamorous half of a launch, which is still mine</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
-          <div class="eng-layer__name">Security &amp; compliance</div>
+          <div class="eng-layer__name">Security</div>
           <ul class="eng-layer__items">
-            <li><b>Access model</b> row-level security, append-only audit, capability grants, per-scope claims in signed sessions</li>
-            <li><b>Authentication</b> TOTP two-factor, JOSE-signed sessions, OAuth across a dozen third-party platforms with token custody and refresh</li>
-            <li><b>Gitleaks</b> secret scanning across the entire git history on every push, not just the diff</li>
-            <li><b>Semgrep</b> static analysis as a CI gate</li>
-            <li><b>Dependency floors</b> vulnerable ranges pinned out explicitly, with the advisory ID written next to the pin so the next person knows why</li>
-            <li><b>Data protection</b> residency gates, consent ledger, data-subject requests, pseudonymisation and redaction as code paths rather than policy documents</li>
+            <li><b>Authentication</b> written from scratch on Mahramji: scrypt, JWT sessions, TOTP two-factor, lockout, audit log</li>
+            <li><b>Row-level security</b> on all 23 of Mahramji's tables</li>
+            <li><b>Content Security Policy</b> strict on this site: every script self-hosted, pinned by an integrity hash</li>
+            <li><b>Dependency audit</b> findings on Trendeall taken from 27 to 0</li>
           </ul>
         </div>
 
         <div class="eng-layer gs-reveal">
           <div class="eng-layer__name">Quality</div>
           <ul class="eng-layer__items">
-            <li><b>Pytest · Vitest</b> 667 Python test modules and 72 TypeScript suites across the two largest systems</li>
-            <li><b>Typecheck · lint · test · build</b> all four gate every merge; nothing lands red</li>
-            <li><b>pnpm workspaces · Turborepo</b> monorepos that stay navigable past the first ten packages</li>
-            <li><b>Architecture decision records</b> eleven on the largest repository — the reasoning outlives the argument</li>
-            <li><b>Generated documentation</b> status written from one source of truth, with a CI job that fails when it drifts</li>
+            <li><b>Vitest</b> about 340 cases on Trendeall and about 500 on HypeWalk</li>
+            <li><b>Playwright</b> 59 end-to-end tests on HypeWalk; 534 tests with axe-core (WCAG 2.2 AA) across webrift.dev and this site</li>
+            <li><b>CI</b> about 1,300 tests on WebRift OS</li>
+            <li><b>Performance</b> mobile LCP 2.29 s on throttled Slow 4G, CLS 0</li>
           </ul>
         </div>
       </section>
@@ -522,28 +546,28 @@
 
         <div class="eng-prac gs-reveal">
           <div class="eng-prac__cell">
-            <p class="eng-prac__t">Decisions are written down</p>
-            <p class="eng-prac__b">Anything that would be expensive to reverse becomes an architecture decision record: the options, the trade-off, the call. Six months later the reasoning is still there, which is the only reason a team can revisit a decision instead of re-litigating it.</p>
+            <p class="eng-prac__t">Fixes start from evidence</p>
+            <p class="eng-prac__b">The Trendeall outage was traced to its cause, uncached catalogue reads costing 5 GB of egress in 12 days, before anything changed. The fix was a cache invalidated by tag, aimed at that cause and nothing else.</p>
           </div>
           <div class="eng-prac__cell">
-            <p class="eng-prac__t">The spec doesn't drift</p>
-            <p class="eng-prac__b">The agreed scope is fingerprinted and checked in CI. When the code and the specification disagree, that's a conversation before a merge — not a discovery at handover.</p>
+            <p class="eng-prac__t">Numbers come with conditions</p>
+            <p class="eng-prac__b">A performance claim states how it was measured: 2.29 s LCP on throttled Slow 4G, uncached loads from about 2.3 s to 1.2–2 s after a migration. A number without its test condition isn't a result.</p>
           </div>
           <div class="eng-prac__cell">
-            <p class="eng-prac__t">Documentation can't go stale</p>
-            <p class="eng-prac__b">Status, phases and blockers are generated from a single state file on every commit. There is no README anyone has to remember to update, because remembering is not a control.</p>
+            <p class="eng-prac__t">Tests are part of the build</p>
+            <p class="eng-prac__b">Counted from the repositories: about 340 Vitest cases on Trendeall, about 500 more and 59 Playwright tests on HypeWalk, and about 1,300 running in CI on WebRift OS.</p>
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">The supply chain is pinned</p>
-            <p class="eng-prac__b">Third-party CI actions pinned to commit SHAs, dependency versions floored above known advisories, tool installers checksum-verified. A build that can change under you isn't reproducible.</p>
+            <p class="eng-prac__b">Every library on this site is self-hosted and pinned by an integrity hash; nothing loads from a CDN. On Trendeall, dependency audit findings went from 27 to 0. A build that can change under you isn't reproducible.</p>
           </div>
           <div class="eng-prac__cell">
-            <p class="eng-prac__t">You're told what isn't done</p>
-            <p class="eng-prac__b">Every project I run carries a written list of what is unbuilt or unproven, kept beside the list of what works. A stub that looks finished costs more than a gap that's labelled.</p>
+            <p class="eng-prac__t">Running cost is a constraint</p>
+            <p class="eng-prac__b">For a small client the free tier is the budget. Mahramji's hero video went from 13.3 MB to 2.7 MB to stay inside its egress, and Trendeall's catalogue reads went behind a cache.</p>
           </div>
           <div class="eng-prac__cell">
             <p class="eng-prac__t">Handover is the deliverable</p>
-            <p class="eng-prac__b">Migrations in order, secrets documented, environments reproducible, the local setup a single command. Restaurant owners run their own dashboards. The measure of the work is whether it survives me leaving.</p>
+            <p class="eng-prac__b">Migrations in order and the schema in the repository matching production. Restaurant owners run their own dashboards. The measure of the work is whether it survives me leaving.</p>
           </div>
         </div>
       </section>
@@ -553,7 +577,7 @@
         <h2 class="eng-end__t gs-reveal">If this is the kind of engineering you need, I have room for it.</h2>
         <p class="eng-end__b gs-reveal">
           Contract and freelance, remote, EMEA-friendly hours. I take the systems where being wrong
-          has a cost — money, personal data, a hiring decision — and I stay with them after launch.
+          has a cost — money, stock, logins, personal data — and I stay with them after launch.
           Happy to walk through any of the above in a call, at whatever depth your team wants.
         </p>
         <div class="eng-end__acts gs-reveal">

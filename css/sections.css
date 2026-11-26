@@ -534,7 +534,7 @@
   border-top: var(--border-hair);
 }
 
-/* Sits under the work grid — the NDA line reads as demand, so give it room. */
+/* Sits under the work grid as a closing line, so give it room. */
 .projects__note {
   margin-top: var(--space-8);
   font-family: var(--font-mono);
